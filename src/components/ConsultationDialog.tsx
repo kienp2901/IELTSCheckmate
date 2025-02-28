@@ -59,6 +59,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
       onClose={onClose}
       maxWidth="md"
       fullWidth
+      scroll="paper"
       PaperProps={{
         sx: {
           borderRadius: 3,
@@ -71,7 +72,11 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
           p: 0,
           background: "linear-gradient(90deg, #9FF8E8 -5.95%, #62CDC7 100%)",
           pt: { xs: 3, md: 6 },
-          overflowY: "auto"
+          overflowY: "auto", // Cho phép cuộn
+          scrollbarWidth: "none", // Ẩn scrollbar trên Firefox
+          "&::-webkit-scrollbar": {
+            display: "none", // Ẩn scrollbar trên Chrome, Edge
+          },
         },
       }}
     >
