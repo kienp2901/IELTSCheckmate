@@ -14,6 +14,7 @@ import {
   useTheme,
   FormGroup,
   IconButton,
+  MenuItem,
 } from "@mui/material"
 import girl3d1 from "../assets/girl3d1.png"
 import Group3 from "../assets/Group3.png"
@@ -34,9 +35,25 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     phone: "",
     email: "",
     message: "",
+    timeSlot: "9h-11h", // Set default value to first option
     agreeTerms: false,
     receiveUpdates: false,
   })
+  const [errors, setErrors] = useState({
+    phone: "",
+    email: "",
+  })
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^(0|\+84)(\d{9,10})$/
+    return phoneRegex.test(phone)
+  }
+
+  const validateEmail = (email: string) => {
+    if (!email) return true // Email is optional
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target
@@ -44,10 +61,37 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     })
+
+    // Validate on change
+    if (name === "phone") {
+      setErrors({
+        ...errors,
+        phone: validatePhone(value) ? "" : "Số điện thoại không hợp lệ",
+      })
+    } else if (name === "email") {
+      setErrors({
+        ...errors,
+        email: validateEmail(value) ? "" : "Email không hợp lệ",
+      })
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+
+    // Validate all fields before submission
+    const phoneValid = validatePhone(formData.phone)
+    const emailValid = validateEmail(formData.email)
+
+    setErrors({
+      phone: phoneValid ? "" : "Số điện thoại không hợp lệ",
+      email: emailValid ? "" : "Email không hợp lệ",
+    })
+
+    if (!phoneValid || !emailValid) {
+      return // Don't submit if validation fails
+    }
+
     console.log("Form submitted:", formData)
     // Handle form submission logic here
     onClose()
@@ -233,7 +277,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                   required
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      borderRadius: 1.5,
+                      borderRadius: 5,
                     },
                   }}
                 />
@@ -255,9 +299,11 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                   variant="outlined"
                   size="small"
                   required
+                  error={!!errors.phone}
+                  helperText={errors.phone}
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      borderRadius: 1.5,
+                      borderRadius: 5,
                     },
                   }}
                 />
@@ -278,12 +324,43 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                   placeholder="Nhập địa chỉ email"
                   variant="outlined"
                   size="small"
+                  error={!!errors.email}
+                  helperText={errors.email}
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      borderRadius: 1.5,
+                      borderRadius: 5,
                     },
                   }}
                 />
+              </Box>
+
+              <Box sx={{ mb: { xs: 2, md: 3 } }}>
+                <Typography
+                  variant="subtitle1"
+                  sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                >
+                  Khung giờ nhận tư vấn (*)
+                </Typography>
+                <TextField
+                  select
+                  name="timeSlot"
+                  value={formData.timeSlot}
+                  onChange={handleChange}
+                  fullWidth
+                  placeholder="Chọn khung giờ"
+                  variant="outlined"
+                  size="small"
+                  required
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      borderRadius: 5,
+                    },
+                  }}
+                >
+                  <MenuItem value="9h-11h">9h - 11h sáng</MenuItem>
+                  <MenuItem value="14h-17h30">14h - 17h30 chiều</MenuItem>
+                  <MenuItem value="19h-21h30">19h - 21h30 tối</MenuItem>
+                </TextField>
               </Box>
 
               <Box sx={{ mb: { xs: 2, md: 3 } }}>
@@ -298,14 +375,16 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                   value={formData.message}
                   onChange={handleChange}
                   fullWidth
-                  placeholder="Nhập nội dung"
+                  placeholder="Bạn có câu hỏi gì?
+• Hãy cho Checkmate biết trình độ hiện tại của bạn?
+• Mục tiêu mong muốn"
                   variant="outlined"
                   size="small"
                   multiline
-                  rows={isSmallMobile ? 2 : 3}
+                  rows={isSmallMobile ? 7 : 8}
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      borderRadius: 1.5,
+                      borderRadius: 3,
                     },
                   }}
                 />

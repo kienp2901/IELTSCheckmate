@@ -99,9 +99,13 @@ export default function Header() {
           maxWidth: "1280px",
           width: "100%",
           margin: "0 auto",
+          // padding: {
+          //   xs: "0 16px",
+          //   sm: "0 24px",
+          // },
           padding: {
-            xs: "0 16px",
-            sm: "0 24px",
+            xs: "0 0",
+            sm: "0 0",
           },
           display: "flex",
           justifyContent: "space-between",

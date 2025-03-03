@@ -232,7 +232,7 @@ function Banner() {
             flex: "1",
             position: "relative",
             display: { xs: "flex", md: "block" },
-            textAlign: "center",
+            textAlign: "end",
             justifyContent: "center",
             mt: { xs: 2, md: 0 },
           }}
