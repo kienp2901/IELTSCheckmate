@@ -32,6 +32,7 @@ export default function IELTS_Video_Courses() {
           backgroundRepeat: "no-repeat",
           zIndex: 1,
           pointerEvents: "none",
+          display: { xs: "none", md: "block" },
           opacity: { xs: 0.5, md: 1 }, // Reduce opacity on mobile for better readability
         }}
       />

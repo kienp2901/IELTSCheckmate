@@ -7,7 +7,7 @@ Plugin Name: Ielts checkmate dashboard
 Plugin URI: https://freetuts.net
 Description: Ielts checkmate
 Author: kien
-Version: 1.0
+Version: 1.2
 Author URI: https://freetuts.net
 Text Domain:custom-form
 */
