@@ -86,9 +86,9 @@ export default function Footer() {
                 lineHeight: { xs: "20px", sm: "24px" },
               }}
             >
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-              laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-              ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel
+              ELTS Checkmate - Làm chủ kỳ thi, chinh phục band điểm.
+              <br />
+              Nền tảng học tập tiên tiến với công nghệ độc quyền, kết hợp luyện tập cùng AI đánh giá 24/7, chuẩn hóa mọi kỹ năng, giúp bạn chinh phục điểm số tối đa trong kỳ thi IELTS.
             </Typography>
           </Box>
 

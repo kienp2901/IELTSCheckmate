@@ -24,6 +24,7 @@ const TestimonialContainer = styled(motion.div)(({ theme }) => ({
   gap: "2rem",
   width: "100%",
   marginTop: "2rem",
+  willChange: "transform, opacity",
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
   },
@@ -39,6 +40,7 @@ const TestimonialCard = styled(motion.div)(({ theme }) => ({
   borderRadius: "12px",
   padding: "1.5rem",
   boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
+  willChange: "transform, opacity",
   [theme.breakpoints.down("md")]: {
     width: "100%",
     maxWidth: "400px",
@@ -77,7 +79,7 @@ const SlideIndicator = styled(Box)(() => ({
 // Animation variants
 const containerVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 1000 : -1000,
+    x: direction > 0 ? 500 : -500,
     opacity: 0,
   }),
   center: {
@@ -85,7 +87,7 @@ const containerVariants = {
     opacity: 1,
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 1000 : -1000,
+    x: direction < 0 ? 500 : -500,
     opacity: 0,
   }),
 }
@@ -93,7 +95,7 @@ const containerVariants = {
 const cardVariants = {
   initial: { scale: 0.96, opacity: 0 },
   animate: { scale: 1, opacity: 1 },
-  hover: { scale: 1.02, transition: { duration: 0.2 } },
+  hover: { scale: 1.02, transition: { duration: 0.1 } },
 }
 
 const testimonials = [
@@ -221,8 +223,8 @@ export default function TestimonialSlider() {
               animate="center"
               exit="exit"
               transition={{
-                duration: 0.5,
-                type: "spring",
+                duration: 0.3,
+                type: "tween",
                 stiffness: 300,
                 damping: 30,
               }}
@@ -236,7 +238,7 @@ export default function TestimonialSlider() {
                     initial="initial"
                     animate="animate"
                     whileHover="hover"
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: index * 0.05 }}
                   >
                     <Box sx={{ display: "flex", alignItems: "center", mb: 2.5 }}>
                       <Avatar
