@@ -57,79 +57,88 @@ export default function ContactForm() {
         pt: { xs: 4, sm: 5, md: 20 },
       }}
     >
-      {/* Background grid patterns */}
-      <Box
+      <Container
+        maxWidth="lg"
         sx={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          opacity: 0.2,
-          pointerEvents: "none",
+          position: "relative",
+          zIndex: 1,
         }}
       >
-        {/* Top grid */}
+        {/* Background grid patterns */}
         <Box
-          component="img"
-          src={BannerTop}
-          alt=""
           sx={{
             position: "absolute",
             top: 0,
             left: 0,
             width: "100%",
-            height: "auto",
+            height: "100%",
+            opacity: 0.2,
+            pointerEvents: "none",
           }}
-        />
-        {/* Bottom grid */}
-        <Box
-          component="img"
-          src={BannerBottom}
-          alt=""
-          sx={{
-            position: "absolute",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            height: "auto",
-          }}
-        />
-        {/* Right decoration */}
-        <Box
-          component="img"
-          src={BannerRight}
-          alt=""
-          sx={{
-            position: "absolute",
-            right: "5%",
-            top: "50%",
-            transform: "translateY(-50%)",
-            width: "auto",
-            height: "80%",
-            display: { xs: "none", md: "block" },
-            opacity: 0.3,
-          }}
-        />
-      </Box>
+        >
+          {/* Top grid */}
+          <Box
+            component="img"
+            src={BannerTop}
+            alt=""
+            sx={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "auto",
+            }}
+          />
+          {/* Bottom grid */}
+          <Box
+            component="img"
+            src={BannerBottom}
+            alt=""
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              left: 0,
+              width: "100%",
+              height: "auto",
+            }}
+          />
+          {/* Right decoration */}
+          <Box
+            component="img"
+            src={BannerRight}
+            alt=""
+            sx={{
+              position: "absolute",
+              right: "5%",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "auto",
+              height: "80%",
+              display: { xs: "none", md: "block" },
+              opacity: 0.3,
+            }}
+          />
+        </Box>
 
-      {/* Content container */}
-      <Box
-        sx={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          alignItems: "center",
-          gap: { xs: 4, md: 8 },
-          position: "relative",
-          zIndex: 1,
-          // backgroundImage: "linear-gradient(270deg, #002D39 0%, #176969 100.62%)"
-        }}
-      >
-        {/* Left content */}
-        <Box sx={{ flex: "1", maxWidth: { xs: "100%", md: "20%" } }}>
-          {/* <Typography
+        {/* Content container */}
+        <Box
+          sx={{
+            maxWidth: "1280px",
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            gap: { xs: 4, md: 8 },
+            position: "relative",
+            zIndex: 1,
+            // backgroundImage: "linear-gradient(270deg, #002D39 0%, #176969 100.62%)"
+          }}
+        >
+          {/* Left content */}
+          <Box sx={{ flex: "1", maxWidth: { xs: "100%", md: "5%" } }}>
+          </Box>
+          <Box sx={{ flex: "1", maxWidth: { xs: "100%", md: "55%" } }}>
+            <Typography
               sx={{
                 fontSize: { xs: "14px", md: "16px" },
                 lineHeight: 1.6,
@@ -149,70 +158,48 @@ export default function ContactForm() {
               }}
             >
               IELTS Checkmate sẽ liên hệ bạn trong thời gian sớm nhất!
-            </Typography> */}
-        </Box>
-        <Box sx={{ flex: "1", maxWidth: { xs: "100%", md: "40%" } }}>
-          <Typography
-            sx={{
-              fontSize: { xs: "14px", md: "16px" },
-              lineHeight: 1.6,
-              opacity: 0.9,
-              maxWidth: "600px",
-            }}
-          >
-            Bạn đã gửi thông tin thành công!
-          </Typography>
-          <Typography
-            sx={{
-              mb: { xs: 3, md: 4 },
-              fontSize: { xs: "14px", md: "16px" },
-              lineHeight: 1.6,
-              opacity: 0.9,
-              maxWidth: "600px",
-            }}
-          >
-            IELTS Checkmate sẽ liên hệ bạn trong thời gian sớm nhất!
-          </Typography>
-        </Box>
+            </Typography>
+          </Box>
 
-        {/* Right content - Character illustration */}
-        <Box
-          sx={{
-            flex: "1",
-            position: "relative",
-            display: { xs: "flex", md: "block" },
-            textAlign: "end",
-            justifyContent: "center",
-            mt: { xs: 2, md: 0 },
-          }}
-        >
+          {/* Right content - Character illustration */}
           <Box
-            component="img"
-            src={Group_3}
-            alt="IELTS Student"
             sx={{
-              maxWidth: { xs: "200px", md: "400px" },
-              width: "100%",
-              height: "auto",
-              position: "absolute",
-              bottom: "1%",
-              zIndex: 2,
-            }}
-          />
-          <Box
-            component="img"
-            src={model_check_mate_1}
-            alt="IELTS Student"
-            sx={{
-              maxWidth: { xs: "200px", md: "400px" },
-              width: "100%",
-              height: "auto",
+              flex: "1",
               position: "relative",
-              zIndex: 2,
+              display: { xs: "flex", md: "block" },
+              textAlign: "end",
+              justifyContent: "center",
+              mt: { xs: 2, md: 0 },
             }}
-          />
+          >
+            <Box
+              component="img"
+              src={Group_3}
+              alt="IELTS Student"
+              sx={{
+                maxWidth: { xs: "200px", md: "400px" },
+                width: "100%",
+                height: "auto",
+                position: "absolute",
+                bottom: "1%",
+                zIndex: 2,
+              }}
+            />
+            <Box
+              component="img"
+              src={model_check_mate_1}
+              alt="IELTS Student"
+              sx={{
+                maxWidth: { xs: "200px", md: "400px" },
+                width: "100%",
+                height: "auto",
+                position: "relative",
+                zIndex: 2,
+              }}
+            />
+          </Box>
         </Box>
-      </Box>
+      </Container>
     </Box>
   );
 }

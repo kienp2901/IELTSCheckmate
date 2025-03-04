@@ -148,6 +148,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
             top: 8,
             color: "grey.500",
             zIndex: 10,
+            p: 0,
             bgcolor: "rgba(255, 255, 255, 0.7)",
             "&:hover": {
               bgcolor: "rgba(255, 255, 255, 0.9)",
@@ -162,7 +163,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
           sx={{
             width: { xs: "100%", md: "40%" },
             position: "relative",
-            p: { xs: 2, sm: 3 },
+            p: { xs: 1, sm: 2 },
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
@@ -190,7 +191,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
               fontSize: { xs: "0.8rem", sm: "0.875rem" },
             }}
           >
-            Đồng hành cùng bạn trong hành trình học tập và phát triển bản thân
+            Bạn hãy để lại thông tin, Checkmate sẽ liên hệ tư vấn cho mình ngay nha
           </Typography>
 
           <Box
@@ -251,8 +252,8 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
         <Box
           sx={{
             width: { xs: "100%", md: "60%" },
-            p: { xs: 2, sm: 3 },
-            pt: { xs: 4, sm: 5, md: 3 }, // Add extra padding on top for mobile to account for image overlap
+            p: { xs: 1, sm: 2 },
+            // pt: { xs: 4, sm: 5, md: 3 }, // Add extra padding on top for mobile to account for image overlap
             position: "relative",
             zIndex: 5,
           }}
@@ -397,7 +398,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                 />
               </Box>
 
-              <FormGroup sx={{ mb: { xs: 2, md: 3 } }}>
+              {/* <FormGroup sx={{ mb: { xs: 2, md: 3 } }}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -440,7 +441,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                     </Typography>
                   }
                 />
-              </FormGroup>
+              </FormGroup> */}
 
               <Button
                 type="submit"

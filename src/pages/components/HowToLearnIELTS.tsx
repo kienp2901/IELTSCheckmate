@@ -117,7 +117,7 @@ export default function AIAssistant() {
             <Typography
               variant="h5"
               sx={{
-                color: "#1E1E1E",
+                color: "#FFF",
                 fontWeight: "bold",
                 textAlign: "center",
                 fontSize: { xs: "1.25rem", md: "1.5rem" },
@@ -126,7 +126,7 @@ export default function AIAssistant() {
               Cách học với IELTS Checkmate?
             </Typography>
           </Stack>
-          <Typography variant="subtitle1" sx={{ color: "#1E1E1E", fontSize: { xs: "0.875rem", md: "1rem" } }}>
+          <Typography variant="subtitle1" sx={{ color: "#FFF", fontSize: { xs: "0.875rem", md: "1rem" } }}>
             Đặt mục tiêu đạt điểm số trong 4 tháng?
             <br />
             Phạm vi điểm số hiện tại cao hơn là bao nhiêu
