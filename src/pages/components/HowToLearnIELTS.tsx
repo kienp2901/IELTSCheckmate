@@ -178,6 +178,37 @@ export default function AIAssistant() {
                   }}
                 >
                   <FormControlLabel
+                    value="0-3.5"
+                    control={<Radio sx={{ display: "none" }} />}
+                    label={
+                      <Box
+                        sx={{
+                          width: "100%",
+                          py: 1,
+                          px: 3,
+                          borderRadius: "100px",
+                          textAlign: "center",
+                          bgcolor: currentLevel === "0-3.5" ? "white" : "transparent",
+                          color: currentLevel === "0-3.5" ? "#0EA882" : "inherit",
+                          border: "1px solid transparent",
+                          transition: "all 0.2s",
+                          cursor: "pointer",
+                          "&:hover": {
+                            bgcolor: currentLevel === "0-3.5" ? "#E8F5E9" : "#F5F5F5",
+                          },
+                          boxShadow: currentLevel === "0-3.5" ? "0px 1px 3px 0px #525D6633" : "none",
+                        }}
+                      >
+                        Mất gốc - 3.5
+                      </Box>
+                    }
+                    sx={{
+                      "& .MuiTypography-root": {
+                        width: "100%",
+                      },
+                    }}
+                  />
+                  <FormControlLabel
                     value="4.0-5.0"
                     control={<Radio sx={{ display: "none" }} />}
                     label={
@@ -307,6 +338,37 @@ export default function AIAssistant() {
                     borderRadius: "16px",
                   }}
                 >
+                  <FormControlLabel
+                    value="0-3.5"
+                    control={<Radio sx={{ display: "none" }} />}
+                    label={
+                      <Box
+                        sx={{
+                          width: "100%",
+                          py: 1,
+                          px: 3,
+                          borderRadius: "100px",
+                          textAlign: "center",
+                          bgcolor: targetLevel === "0-3.5" ? "white" : "transparent",
+                          color: targetLevel === "0-3.5" ? "#0EA882" : "inherit",
+                          border: "1px solid transparent",
+                          transition: "all 0.2s",
+                          cursor: "pointer",
+                          "&:hover": {
+                            bgcolor: targetLevel === "0-3.5" ? "#E8F5E9" : "#F5F5F5",
+                          },
+                          boxShadow: targetLevel === "0-3.5" ? "0px 1px 3px 0px #525D6633" : "none",
+                        }}
+                      >
+                        Mất gốc - 3.5
+                      </Box>
+                    }
+                    sx={{
+                      "& .MuiTypography-root": {
+                        width: "100%",
+                      },
+                    }}
+                  />
                   <FormControlLabel
                     value="4.0-5.0"
                     control={<Radio sx={{ display: "none" }} />}
