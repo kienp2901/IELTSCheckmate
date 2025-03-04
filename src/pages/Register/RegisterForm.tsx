@@ -59,13 +59,76 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }))
 
 export default function RegisterForm() {
-  const [contactTime, setContactTime] = useState("9h - 11h sáng")
-  const [name, setName] = useState("")
-  const [phone, setPhone] = useState("")
-  const [email, setEmail] = useState("")
+
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+    timeSlot: "9h-11h", // Set default value to first option
+    agreeTerms: false,
+    receiveUpdates: false,
+  })
+
+  const [errors, setErrors] = useState({
+    phone: "",
+    email: "",
+  })
+
+  const validatePhone = (phone: string) => {
+    const phoneRegex = /^(0|\+84)(\d{9,10})$/
+    return phoneRegex.test(phone)
+  }
+
+  const validateEmail = (email: string) => {
+    if (!email) return true // Email is optional
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked, type } = e.target
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    })
+
+    // Validate on change
+    if (name === "phone") {
+      setErrors({
+        ...errors,
+        phone: validatePhone(value) ? "" : "Số điện thoại không hợp lệ",
+      })
+    } else if (name === "email") {
+      setErrors({
+        ...errors,
+        email: validateEmail(value) ? "" : "Email không hợp lệ",
+      })
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    // Validate all fields before submission
+    const phoneValid = validatePhone(formData.phone)
+    const emailValid = validateEmail(formData.email)
+
+    setErrors({
+      phone: phoneValid ? "" : "Số điện thoại không hợp lệ",
+      email: emailValid ? "" : "Email không hợp lệ",
+    })
+
+    if (!phoneValid || !emailValid) {
+      return // Don't submit if validation fails
+    }
+
+    console.log("Form submitted:", formData)
+    // Handle form submission logic here
+  }
 
   return (
-    <Box sx={{ p: 4, maxWidth: 1200 }}>
+    <Box sx={{ p: 4 }}>
       <Container
         maxWidth="lg"
         sx={{
@@ -179,57 +242,135 @@ export default function RegisterForm() {
               </Typography>
 
               <Box component="form" sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                <TextField
-                  fullWidth
-                  label="Họ và tên (*)"
-                  placeholder="Nhập tên của bạn"
-                  variant="outlined"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
-
-                <TextField
-                  fullWidth
-                  label="Số điện thoại (*)"
-                  placeholder="Nhập số điện thoại"
-                  variant="outlined"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">+84</InputAdornment>,
-                  }}
-                />
-
-                <TextField
-                  fullWidth
-                  label="Email"
-                  placeholder="Nhập email"
-                  variant="outlined"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <FormControl fullWidth>
-                  <InputLabel id="contact-time-label">Khung giờ liên hệ</InputLabel>
-                  <Select
-                    labelId="contact-time-label"
-                    value={contactTime}
-                    onChange={(e) => setContactTime(e.target.value)}
-                    label="Khung giờ liên hệ"
-                    IconComponent={KeyboardArrowDownIcon}
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
                   >
-                    <MenuItem value="9h - 11h sáng">9h - 11h sáng</MenuItem>
-                    <MenuItem value="13h - 15h chiều">13h - 15h chiều</MenuItem>
-                    <MenuItem value="19h - 21h tối">19h - 21h tối</MenuItem>
-                  </Select>
-                </FormControl>
+                    Họ và tên (*)
+                  </Typography>
+                  <TextField
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    fullWidth
+                    placeholder="Nhập họ và tên"
+                    variant="outlined"
+                    size="small"
+                    required
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 5,
+                      },
+                    }}
+                  />
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                  >
+                    Số điện thoại (*)
+                  </Typography>
+                  <TextField
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    fullWidth
+                    // placeholder="+84"
+                    variant="outlined"
+                    size="small"
+                    required
+                    error={!!errors.phone}
+                    helperText={errors.phone}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 5,
+                      },
+                    }}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">+84</InputAdornment>,
+                    }}
+                  />
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                  >
+                    Email
+                  </Typography>
+                  <TextField
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    fullWidth
+                    placeholder="Nhập địa chỉ email"
+                    variant="outlined"
+                    size="small"
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 5,
+                      },
+                    }}
+                  />
+                </Box>
+
+                <Box>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
+                  >
+                    Khung giờ nhận tư vấn (*)
+                  </Typography>
+                  <TextField
+                    select
+                    name="timeSlot"
+                    value={formData.timeSlot}
+                    onChange={handleChange}
+                    fullWidth
+                    placeholder="Chọn khung giờ"
+                    variant="outlined"
+                    size="small"
+                    required
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: 5,
+                      },
+                    }}
+                  >
+                    <MenuItem value="9h-11h">9h - 11h sáng</MenuItem>
+                    <MenuItem value="14h-17h30">14h - 17h30 chiều</MenuItem>
+                    <MenuItem value="19h-21h30">19h - 21h30 tối</MenuItem>
+                  </TextField>
+                </Box>
 
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-                  <StyledButton variant="contained" color="primary" size="large" sx={{ minWidth: 200 }}>
+                  <Button
+                    variant="contained"
+                    href="/login"
+                    sx={{
+                      textTransform: "none",
+                      borderRadius: "25px",
+                      backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                      "&:hover": {
+                        backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                      },
+                      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                      color: "white",
+                      padding: "8px 16px",
+                      minWidth: "120px",
+                    }}
+                  >
                     Xác nhận thanh toán
-                  </StyledButton>
+                  </Button>
                 </Box>
               </Box>
             </OrderPaper>

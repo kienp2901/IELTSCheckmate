@@ -15,6 +15,7 @@ import {
   FormGroup,
   IconButton,
   MenuItem,
+  InputAdornment,
 } from "@mui/material"
 import girl3d1 from "../assets/girl3d1.png"
 import Group3 from "../assets/Group3.png"
@@ -303,7 +304,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                   value={formData.phone}
                   onChange={handleChange}
                   fullWidth
-                  placeholder="+84"
+                  // placeholder="+84"
                   variant="outlined"
                   size="small"
                   required
@@ -313,6 +314,9 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                     "& .MuiOutlinedInput-root": {
                       borderRadius: 5,
                     },
+                  }}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">+84</InputAdornment>,
                   }}
                 />
               </Box>
