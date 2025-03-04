@@ -140,8 +140,8 @@ export default function RegisterForm() {
   }
 
   const handleConfirm = (()=>{
-    window.location.href = `/wordpress/thankyou`;
-    // window.location.href = `${process.env.PREFIX}/thankyou`;
+    // window.location.href = `/wordpress/thankyou`;
+    window.location.href = `${process.env.PREFIX}/thankyou`;
   })
 
   return (
@@ -228,8 +228,8 @@ export default function RegisterForm() {
                         IconComponent: KeyboardArrowDownIcon,
                       }}
                     >
-                      <MenuItem value="40%">Đúng ưu đãi 40%</MenuItem>
-                      <MenuItem value="50%">Đúng ưu đãi 50%</MenuItem>
+                      <MenuItem value="40%">Dùng ưu đãi 40%</MenuItem>
+                      <MenuItem value="50%">Dùng ưu đãi 50%</MenuItem>
                     </TextField>
                   </Box>
                 </Box>

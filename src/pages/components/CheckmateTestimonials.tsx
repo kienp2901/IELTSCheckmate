@@ -1,7 +1,7 @@
 "use client"
 
 import { Box, Container, Typography, Avatar, styled, useTheme } from "@mui/material"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useMediaQuery } from "@mui/material"
 import { useSwipeable } from "react-swipeable"
@@ -147,6 +147,8 @@ const testimonials = [
   // Thêm nhiều testimonial khác nếu cần
 ]
 
+const AUTO_SLIDE_INTERVAL = 3000 // 5 seconds between slides
+
 export default function TestimonialSlider() {
   const theme = useTheme()
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"))
@@ -155,20 +157,22 @@ export default function TestimonialSlider() {
   const SLIDES_COUNT = Math.ceil(testimonials.length / itemsPerPage)
   const [activeSlide, setActiveSlide] = useState(0)
   const [direction, setDirection] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
 
   const handlers = useSwipeable({
     onSwipedLeft: () => handleSlideChange((activeSlide + 1) % SLIDES_COUNT),
     onSwipedRight: () => handleSlideChange((activeSlide - 1 + SLIDES_COUNT) % SLIDES_COUNT),
   })
 
-  // useEffect(() => {
-  //   const timer = setInterval(() => {
-  //     setDirection(1)
-  //     setActiveSlide((prevSlide) => (prevSlide + 1) % SLIDES_COUNT)
-  //   }, AUTO_SLIDE_INTERVAL)
+  useEffect(() => {
+    if (isPaused) return
+    const timer = setInterval(() => {
+      setDirection(1)
+      setActiveSlide((prevSlide) => (prevSlide + 1) % SLIDES_COUNT)
+    }, AUTO_SLIDE_INTERVAL)
 
-  //   return () => clearInterval(timer)
-  // }, [])
+    return () => clearInterval(timer)
+  }, [SLIDES_COUNT, isPaused])
 
   const handleSlideChange = (index: number) => {
     setDirection(index > activeSlide ? 1 : -1)
@@ -213,7 +217,7 @@ export default function TestimonialSlider() {
           </Typography>
         </Box>
 
-        <div {...handlers}>
+        <div {...handlers} onMouseEnter={() => setIsPaused(true)} onMouseLeave={() => setIsPaused(false)}>
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <TestimonialContainer
               key={activeSlide}

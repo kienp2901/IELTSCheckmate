@@ -35,12 +35,12 @@ const socialLinks = [
   },
   {
     icon: zalo,
-    href: "https://zalo.me",
+    href: "https://zalo.me/562435418985235142",
     label: "Zalo",
   },
   {
     icon: facebook,
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/ieltscheckmate",
     label: "Facebook",
   },
 ]
