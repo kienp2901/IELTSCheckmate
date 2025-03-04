@@ -26,6 +26,7 @@ import ImgCourse2 from "../../assets/ImgCourse2.png"
 import { CheckCircle } from "@mui/icons-material"
 import React, { ChangeEvent } from "react";
 import { useDialog } from "@/contexts/DialogContext"
+import { useNavigate } from "react-router"
 
 export default function AIAssistant() {
   const theme = useTheme()
@@ -43,6 +44,12 @@ export default function AIAssistant() {
   const handleTargetLevelChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTargetLevel(event.target.value);
   };
+
+  const navigate = useNavigate();
+
+  const handleClickRegister = (()=>{
+    navigate(`register`)
+  })
 
   return (
     <Box
@@ -560,6 +567,7 @@ export default function AIAssistant() {
                     width: { xs: "100%", sm: "fit-content" },
                     minWidth: { xs: "100%", sm: "200px" },
                   }}
+                  onClick={handleClickRegister}
                 >
                   Đăng ký ngay
                 </Button>

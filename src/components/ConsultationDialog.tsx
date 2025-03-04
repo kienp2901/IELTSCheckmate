@@ -20,6 +20,7 @@ import girl3d1 from "../assets/girl3d1.png"
 import Group3 from "../assets/Group3.png"
 import Ellipse2553 from "../assets/Ellipse2553.png"
 import { Close } from "@mui/icons-material"
+import {  useLocation, useNavigate } from 'react-router';
 
 interface ConsultationDialogProps {
   open: boolean
@@ -43,6 +44,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     phone: "",
     email: "",
   })
+  const navigate = useNavigate();
 
   const validatePhone = (phone: string) => {
     const phoneRegex = /^(0|\+84)(\d{9,10})$/
@@ -96,6 +98,11 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     // Handle form submission logic here
     onClose()
   }
+
+  const hanldeContact = (()=>{
+    navigate(`${process.env.PREFIX}/contact`)
+    onClose()
+  })
 
   return (
     <Dialog
@@ -449,6 +456,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                     bgcolor: "#3CB0AA",
                   },
                 }}
+                onClick={hanldeContact}
               >
                 Liên hệ ngay
               </Button>

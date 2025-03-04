@@ -3,14 +3,10 @@
 import { type ReactNode, useState } from "react"
 import { Box, Button, CssBaseline, Drawer, IconButton, Paper, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { Outlet } from "react-router"
-
-import SidebarContent from "./SidebarContent"
-import Header from "./Header"
-import BannerTop from "../assets/banner-top.png"
-import BannerBottom from "../assets/banner-bottom.png"
-import BannerRight from "../assets/banner-right.png"
-import BannerAvatar from "../assets/banner-avatar.png"
-import Footer from "./Footer"
+import BannerTop from "../../assets/banner-top.png"
+import BannerBottom from "../../assets/banner-bottom.png"
+import BannerRight from "../../assets/banner-right.png"
+import BannerAvatar from "../../assets/banner-avatar.png"
 import { CustomBreadcrumbProvider } from "@/contexts/CustomBreadcrumb"
 import { useUser } from "@/contexts/UserContext"
 import { useAlert } from "@/contexts/AlertContext"
@@ -19,6 +15,9 @@ import { useAvatar } from "@/contexts/AvatarContext"
 import { MenuIcon } from "lucide-react"
 import { useDialog } from "@/contexts/DialogContext"
 import { useScroll } from "@/contexts/ScrollContext"
+import Header from "@/components/Header"
+import SidebarContent from "@/components/SidebarContent"
+import Footer from "@/components/Footer"
 
 interface LayoutProps {
   children: ReactNode
@@ -254,7 +253,7 @@ function Banner() {
     </Box>
   )
 }
-const Layout = () => {
+const ContactLayout = () => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
 
@@ -300,8 +299,8 @@ const Layout = () => {
             <SidebarContent drawerWidth={drawerWidth} setDrawerWidth={setDrawerWidth} />
           </Drawer> */}
 
-          <Box display="flex" minHeight="100vh" flexDirection="column">
-            <Banner />
+          <Box display="flex" flexDirection="column">
+            {/* <Banner /> */}
             <Box
               sx={{
                 display: "flex",
@@ -339,5 +338,5 @@ const Layout = () => {
   )
 }
 
-export default Layout
+export default ContactLayout
 
