@@ -14,10 +14,13 @@ import {
   IconButton,
 } from "@mui/material"
 import { MenuIcon, DoorClosedIcon as CloseIcon } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { ReactNode } from "react"
 import { useNavigate } from "react-router"
 import logo from "../assets/logo.png"
+import { useLocation } from "react-router-dom"
+import { useDialog } from "@/contexts/DialogContext"
+import { useScroll } from "@/contexts/ScrollContext"
 
 const HeaderBtn = ({
   children,
@@ -32,15 +35,32 @@ const HeaderBtn = ({
 }) => {
   const navigate = useNavigate()
 
+  // const handleClick = () => {
+  //   // if (href.startsWith("http")) {
+  //   //   window.location.href = href
+  //   // } else if (href === "/") {
+  //   //   window.location.href = "/"
+  //   // } else {
+  //   //   navigate(href)
+  //   // }
+  //   if (href.startsWith("http")) {
+  //     window.location.href = href
+  //   } else {
+  //     navigate(href)
+  //   }
+  //   if (onClick) onClick()
+  // }
+
   const handleClick = () => {
-    if (href.startsWith("http")) {
-      window.location.href = href
-    } else if (href === "/") {
-      window.location.href = "/"
-    } else {
-      navigate(href)
+    if (onClick) {
+      onClick()
+    } else if (href) {
+      if (href.startsWith("http")) {
+        window.location.href = href
+      } else {
+        navigate(href)
+      }
     }
-    if (onClick) onClick()
   }
 
   return (
@@ -74,16 +94,24 @@ export default function Header() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const location = useLocation()
+
+  const { scrollToAIAssistant } = useScroll()
+  const { openDialog } = useDialog()
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen)
   }
 
   const menuItems = [
-    { label: "Trang chủ", href: "/", isActive: true },
-    { label: "Lộ trình", href: "/lo-trinh" },
-    { label: "Liên hệ tư vấn", href: "/lien-he" },
+    { label: "Trang chủ", href: "/" },
+    { label: "Lộ trình", onClick: scrollToAIAssistant },
+    { label: "Liên hệ tư vấn", onClick: openDialog },
   ]
+
+  // useEffect(()=>{
+  //   console.log(location.pathname)
+  // })
 
   return (
     <AppBar
@@ -128,7 +156,12 @@ export default function Header() {
             {!isMobile && (
               <Box sx={{ display: "flex", gap: "8px" }}>
                 {menuItems.map((item) => (
-                  <HeaderBtn key={item.label} href={item.href} isActive={item.isActive}>
+                  <HeaderBtn
+                    key={item.label}
+                    href={item.href || ""}
+                    isActive={location.pathname === item.href}
+                    onClick={item.onClick} // Chỉ gọi hàm nếu có
+                  >
                     {item.label}
                   </HeaderBtn>
                 ))}
@@ -165,7 +198,16 @@ export default function Header() {
                 <List>
                   {menuItems.map((item) => (
                     <ListItem key={item.label} sx={{ padding: "4px 0" }}>
-                      <HeaderBtn href={item.href} onClick={() => setMobileMenuOpen(false)} isActive={item.isActive}>
+                      <HeaderBtn
+                        href={item.href || ""} 
+                        onClick={() => {
+                          if (item.onClick) {
+                            item.onClick() // Gọi hàm scrollToAIAssistant hoặc openDialog nếu có
+                          }
+                          setMobileMenuOpen(false) // Đóng menu khi click
+                        }}
+                        isActive={item.href ? location.pathname === item.href : false}
+                      >
                         {item.label}
                       </HeaderBtn>
                     </ListItem>
@@ -174,7 +216,7 @@ export default function Header() {
                     <Button
                       fullWidth
                       variant="contained"
-                      href="/login"
+                      href="https://ieltscheckmate.edu.vn/signin"
                       sx={{
                         textTransform: "none",
                         borderRadius: "6px",
@@ -200,7 +242,7 @@ export default function Header() {
           ) : (
             <Button
               variant="contained"
-              href="/login"
+              href="https://ieltscheckmate.edu.vn/signin"
               sx={{
                 textTransform: "none",
                 borderRadius: "25px",

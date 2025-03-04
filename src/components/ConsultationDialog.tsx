@@ -101,7 +101,10 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
   }
 
   const hanldeContact = (()=>{
-    navigate(`${process.env.PREFIX}/contact`)
+    // navigate(`${process.env.PREFIX}/contact`);
+    // window.location.reload();
+    window.location.href = `/wordpress/contact`;
+    // window.location.href = `${process.env.PREFIX}/contact`;
     onClose()
   })
 

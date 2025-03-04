@@ -15,6 +15,8 @@ import ContactLayout from "./pages/Contact/ContactLayout";
 import ContactForm from "./pages/Contact/ContactForm";
 import RegisterLayout from "./pages/Register/RegisterLayout";
 import RegisterForm from "./pages/Register/RegisterForm";
+import ThankyouLayout from "./pages/Thankyou/ThankyouLayout";
+import ThankyouForm from "./pages/Thankyou/thankyouForm";
 // const Home = lazy(() => import('./pages/Home'));
 // const PackageManagement = lazy(() => import('./pages/PackageManagement'));
 
@@ -46,6 +48,9 @@ function App() {
                   </Route>
                   <Route path="wordpress/register" Component={RegisterLayout}>
                     <Route index Component={RegisterForm} />
+                  </Route>
+                  <Route path="wordpress/thankyou" Component={ThankyouLayout}>
+                    <Route index Component={ThankyouForm} />
                   </Route>
                 </Route>
               </Routes>

@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import type React from "react"
+
+import { useState, useEffect } from "react"
 import {
   Box,
   Typography,
@@ -10,29 +12,26 @@ import {
   TextField,
   Button,
   Divider,
-  Select,
   MenuItem,
   InputAdornment,
-  FormControl,
-  InputLabel,
-  Avatar,
-  Chip,
 } from "@mui/material"
 import { styled } from "@mui/material/styles"
-import CheckIcon from "@mui/icons-material/Check"
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard"
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown"
+import { useNavigate } from "react-router"
 
 // Custom styled components
 const OrderPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(3),
   borderRadius: 16,
   height: "100%",
+  border: "1px solid #E5E7EB",
+  boxShadow: "none",
 }))
 
 const PromotionBox = styled(Box)(({ theme }) => ({
-  backgroundColor: "rgba(255, 222, 173, 0.5)",
-  borderRadius: 8,
+  backgroundColor: "#FFF9F0",
+  borderRadius: 12,
   padding: theme.spacing(2),
   marginTop: theme.spacing(2),
   marginBottom: theme.spacing(2),
@@ -41,11 +40,12 @@ const PromotionBox = styled(Box)(({ theme }) => ({
 const CourseItem = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "flex-start",
+  alignItems: "center",
   marginBottom: theme.spacing(2),
-  padding: theme.spacing(1.5),
-  backgroundColor: theme.palette.background.default,
-  borderRadius: 8,
+  padding: theme.spacing(2),
+  backgroundColor: "#fff",
+  borderRadius: 12,
+  border: "1px solid #E5E7EB",
 }))
 
 const PriceText = styled(Typography)(({ theme }) => ({
@@ -59,13 +59,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }))
 
 export default function RegisterForm() {
-
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     message: "",
     timeSlot: "9h-11h", // Set default value to first option
+    discountRate: "40%", // Giá trị mặc định là tùy chọn đầu tiên
     agreeTerms: false,
     receiveUpdates: false,
   })
@@ -74,6 +74,16 @@ export default function RegisterForm() {
     phone: "",
     email: "",
   })
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    // Đảm bảo giá trị mặc định được chọn khi component mount
+    setFormData((prev) => ({
+      ...prev,
+      discountRate: "40%", // Giá trị mặc định là tùy chọn đầu tiên
+    }))
+  }, [])
 
   const validatePhone = (phone: string) => {
     const phoneRegex = /^(0|\+84)(\d{9,10})$/
@@ -86,26 +96,28 @@ export default function RegisterForm() {
     return emailRegex.test(email)
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked, type } = e.target
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+  
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    })
-
+      [name]: type === "checkbox" && e.target instanceof HTMLInputElement ? e.target.checked : value,
+    });
+  
     // Validate on change
     if (name === "phone") {
       setErrors({
         ...errors,
         phone: validatePhone(value) ? "" : "Số điện thoại không hợp lệ",
-      })
+      });
     } else if (name === "email") {
       setErrors({
         ...errors,
         email: validateEmail(value) ? "" : "Email không hợp lệ",
-      })
+      });
     }
-  }
+  };
+  
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -126,6 +138,11 @@ export default function RegisterForm() {
     console.log("Form submitted:", formData)
     // Handle form submission logic here
   }
+
+  const handleConfirm = (()=>{
+    window.location.href = `/wordpress/thankyou`;
+    // window.location.href = `${process.env.PREFIX}/thankyou`;
+  })
 
   return (
     <Box sx={{ p: 4 }}>
@@ -158,7 +175,7 @@ export default function RegisterForm() {
                     Đầu ra 4.0 - 5.5 IELTS
                   </Typography>
                 </Box>
-                <PriceText>2.500.000₫</PriceText>
+                <PriceText sx={{ fontWeight: 600 }}>2.500.000đ</PriceText>
               </CourseItem>
 
               <CourseItem>
@@ -170,16 +187,16 @@ export default function RegisterForm() {
                     Đầu ra 5.5-6.5+ IELTS
                   </Typography>
                 </Box>
-                <PriceText>4.300.000₫</PriceText>
+                <PriceText sx={{ fontWeight: 600 }}>4.300.000đ</PriceText>
               </CourseItem>
 
-              <Divider sx={{ my: 2, borderStyle: "dashed" }} />
+              <Divider sx={{ my: 3, borderStyle: "dashed" }} />
 
               <Box sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}>
-                <Typography variant="subtitle1" fontWeight="medium">
+                <Typography variant="subtitle1" fontWeight="600">
                   Tổng học phí
                 </Typography>
-                <PriceText>6.800.000₫</PriceText>
+                <PriceText sx={{ fontWeight: 600 }}>6.800.000đ</PriceText>
               </Box>
 
               <PromotionBox>
@@ -188,14 +205,39 @@ export default function RegisterForm() {
                     Ưu đãi
                   </Typography>
                   <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <Chip label="Đúng ưu đãi" size="small" variant="outlined" icon={<CheckIcon fontSize="small" />} />
+                    <TextField
+                      select
+                      name="discountRate"
+                      value={formData.discountRate}
+                      onChange={handleChange}
+                      size="small"
+                      sx={{
+                        width: "190px",
+                        "& .MuiOutlinedInput-root": {
+                          borderRadius: "16px",
+                          backgroundColor: "#fff",
+                          "& fieldset": {
+                            borderColor: "#E5E7EB",
+                          },
+                        },
+                        "& .MuiSelect-select": {
+                          paddingY: "6px",
+                        },
+                      }}
+                      SelectProps={{
+                        IconComponent: KeyboardArrowDownIcon,
+                      }}
+                    >
+                      <MenuItem value="40%">Đúng ưu đãi 40%</MenuItem>
+                      <MenuItem value="50%">Đúng ưu đãi 50%</MenuItem>
+                    </TextField>
                   </Box>
                 </Box>
 
                 <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
                   <Typography variant="body2">Giá được giảm</Typography>
                   <Typography variant="body2" fontWeight="bold" color="error">
-                    -1.360.000₫
+                    -1.360.000đ
                   </Typography>
                 </Box>
 
@@ -204,30 +246,32 @@ export default function RegisterForm() {
                 </Typography>
 
                 <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
-                  <CardGiftcardIcon fontSize="small" sx={{ mr: 1, mt: 0.3 }} />
+                  <CardGiftcardIcon fontSize="small" sx={{ mr: 1, mt: 0.3, color: "#F59E0B" }} />
                   <Typography variant="body2">
-                    Khóa sách độc quyền tự luyện IELTS 4 kỹ năng (trị giá 1.000.000₫)
+                    Khóa sách độc quyền tự luyện IELTS 4 kỹ năng (trị giá 1.000.000đ)
                   </Typography>
                 </Box>
 
                 <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-                  <CardGiftcardIcon fontSize="small" sx={{ mr: 1, mt: 0.3 }} />
-                  <Typography variant="body2">Tai nghe bluetooth Xiaomi (trị giá 600.000₫)</Typography>
+                  <CardGiftcardIcon fontSize="small" sx={{ mr: 1, mt: 0.3, color: "#F59E0B" }} />
+                  <Typography variant="body2">Tai nghe bluetooth Xiaomi (trị giá 600.000đ)</Typography>
                 </Box>
               </PromotionBox>
 
-              <Box sx={{ display: "flex", justifyContent: "space-between", mb: 3 }}>
-                <Typography variant="subtitle1" fontWeight="medium">
+              <Box sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}>
+                <Typography variant="subtitle1" fontWeight="600">
                   Giá sau khuyến mại
                 </Typography>
-                <Typography variant="h6" fontWeight="bold" color="primary">
-                  5.440.000₫
+                <Typography variant="h6" fontWeight="bold" color="#0E9F97">
+                  5.440.000đ
                 </Typography>
               </Box>
 
+              <Divider sx={{ my: 2 }} />
+
               <Typography variant="body2" color="text.secondary">
                 Bạn vẫn còn phân vân? Liên hệ Checkmate để được{" "}
-                <Typography component="span" color="primary" sx={{ fontWeight: "medium" }}>
+                <Typography component="span" color="#0E9F97" sx={{ fontWeight: "medium" }}>
                   Tư vấn thêm
                 </Typography>
               </Typography>
@@ -254,13 +298,13 @@ export default function RegisterForm() {
                     value={formData.name}
                     onChange={handleChange}
                     fullWidth
-                    placeholder="Nhập họ và tên"
+                    placeholder="Nhập tên của bạn"
                     variant="outlined"
                     size="small"
                     required
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 5,
+                        borderRadius: 25,
                       },
                     }}
                   />
@@ -278,7 +322,7 @@ export default function RegisterForm() {
                     value={formData.phone}
                     onChange={handleChange}
                     fullWidth
-                    // placeholder="+84"
+                    placeholder="Nhập số điện thoại"
                     variant="outlined"
                     size="small"
                     required
@@ -286,7 +330,7 @@ export default function RegisterForm() {
                     helperText={errors.phone}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 5,
+                        borderRadius: 25,
                       },
                     }}
                     InputProps={{
@@ -307,14 +351,14 @@ export default function RegisterForm() {
                     value={formData.email}
                     onChange={handleChange}
                     fullWidth
-                    placeholder="Nhập địa chỉ email"
+                    placeholder="Nhập email"
                     variant="outlined"
                     size="small"
                     error={!!errors.email}
                     helperText={errors.email}
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 5,
+                        borderRadius: 25,
                       },
                     }}
                   />
@@ -325,7 +369,7 @@ export default function RegisterForm() {
                     variant="subtitle1"
                     sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
                   >
-                    Khung giờ nhận tư vấn (*)
+                    Khung giờ liên hệ
                   </Typography>
                   <TextField
                     select
@@ -339,7 +383,7 @@ export default function RegisterForm() {
                     required
                     sx={{
                       "& .MuiOutlinedInput-root": {
-                        borderRadius: 5,
+                        borderRadius: 25,
                       },
                     }}
                   >
@@ -352,7 +396,6 @@ export default function RegisterForm() {
                 <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
                   <Button
                     variant="contained"
-                    href="/login"
                     sx={{
                       textTransform: "none",
                       borderRadius: "25px",
@@ -360,7 +403,8 @@ export default function RegisterForm() {
                       "&:hover": {
                         backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
                       },
-                      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                      fontFamily:
+                        "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
                       fontWeight: 500,
                       fontSize: "14px",
                       lineHeight: "20px",
@@ -368,6 +412,7 @@ export default function RegisterForm() {
                       padding: "8px 16px",
                       minWidth: "120px",
                     }}
+                    onClick={handleConfirm}
                   >
                     Xác nhận thanh toán
                   </Button>

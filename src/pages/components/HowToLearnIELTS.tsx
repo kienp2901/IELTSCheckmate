@@ -48,7 +48,9 @@ export default function AIAssistant() {
   const navigate = useNavigate();
 
   const handleClickRegister = (()=>{
-    navigate(`register`)
+    // navigate(`register`)
+    window.location.href = `/wordpress/register`;
+    // window.location.href = `${process.env.PREFIX}/register`;
   })
 
   return (
@@ -155,7 +157,7 @@ export default function AIAssistant() {
               }}
             >
               <Typography variant="h6" gutterBottom sx={{ fontWeight: 500 }}>
-                Mất gốc đến 3.5
+                Trình độ hiện tại của tôi
               </Typography>
               <FormControl component="fieldset" fullWidth>
                 <RadioGroup
@@ -228,7 +230,7 @@ export default function AIAssistant() {
                           boxShadow: currentLevel === "5.5-6.0" ? "0px 1px 3px 0px #525D6633" : "none",
                         }}
                       >
-                        5.5 - 6.0
+                        5.5 - 6.5+
                       </Box>
                     }
                     sx={{
@@ -358,7 +360,7 @@ export default function AIAssistant() {
                           boxShadow: targetLevel === "5.5-6.0" ? "0px 1px 3px 0px #525D6633" : "none",
                         }}
                       >
-                        5.5 - 6.0
+                        5.5 - 6.5+
                       </Box>
                     }
                     sx={{
