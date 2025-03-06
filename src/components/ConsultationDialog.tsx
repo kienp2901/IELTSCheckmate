@@ -97,6 +97,8 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
 
     console.log("Form submitted:", formData)
     // Handle form submission logic here
+    window.location.href = `/wordpress/contact`;
+    // window.location.href = `${process.env.PREFIX}/contact`;
     onClose()
   }
 
@@ -104,8 +106,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     // navigate(`${process.env.PREFIX}/contact`);
     // window.location.reload();
     // window.location.href = `/wordpress/contact`;
-    window.location.href = `${process.env.PREFIX}/contact`;
-    onClose()
+   
   })
 
   return (
@@ -464,7 +465,6 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                     bgcolor: "#3CB0AA",
                   },
                 }}
-                onClick={hanldeContact}
               >
                 Liên hệ ngay
               </Button>
