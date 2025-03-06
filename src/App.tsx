@@ -16,7 +16,7 @@ import ContactForm from "./pages/Contact/ContactForm";
 import RegisterLayout from "./pages/Register/RegisterLayout";
 import RegisterForm from "./pages/Register/RegisterForm";
 import ThankyouLayout from "./pages/Thankyou/ThankyouLayout";
-import ThankyouForm from "./pages/Thankyou/thankyouForm";
+import ThankyouForm from "./pages/Thankyou/ThankyouForm";
 // const Home = lazy(() => import('./pages/Home'));
 // const PackageManagement = lazy(() => import('./pages/PackageManagement'));
 

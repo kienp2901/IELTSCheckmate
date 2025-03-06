@@ -96,9 +96,9 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     }
 
     console.log("Form submitted:", formData)
-    // Handle form submission logic here
-    window.location.href = `/wordpress/contact`;
-    // window.location.href = `${process.env.PREFIX}/contact`;
+    // // Handle form submission logic here
+    // window.location.href = `/wordpress/contact`;
+    window.location.href = `${process.env.PREFIX}/contact`;
     onClose()
   }
 

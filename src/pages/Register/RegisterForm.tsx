@@ -19,6 +19,7 @@ import { styled } from "@mui/material/styles";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { useNavigate } from "react-router";
+import { useDialog } from "@/contexts/DialogContext"
 
 // Custom styled components
 const OrderPaper = styled(Paper)(({ theme }) => ({
@@ -76,6 +77,8 @@ export default function RegisterForm() {
   });
 
   const navigate = useNavigate();
+
+  const { openDialog } = useDialog()
 
   useEffect(() => {
     // Đảm bảo giá trị mặc định được chọn khi component mount
@@ -143,8 +146,8 @@ export default function RegisterForm() {
 
     console.log("Form submitted:", formData);
     // Handle form submission logic here
-    window.location.href = `/wordpress/thankyou`;
-    // window.location.href = `${process.env.PREFIX}/thankyou`;
+    // window.location.href = `/wordpress/thankyou`;
+    window.location.href = `${process.env.PREFIX}/thankyou`;
   };
 
   return (
@@ -305,7 +308,11 @@ export default function RegisterForm() {
                 <Typography
                   component="span"
                   color="#0E9F97"
-                  sx={{ fontWeight: "medium" }}
+                  sx={{ 
+                    fontWeight: "medium", 
+                    cursor: "pointer"
+                  }}
+                  onClick={openDialog}
                 >
                   Tư vấn thêm
                 </Typography>
