@@ -95,6 +95,7 @@ export default function Header() {
   const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
 
   const { scrollToAIAssistant } = useScroll()
   const { openDialog } = useDialog()
@@ -105,7 +106,7 @@ export default function Header() {
 
   const menuItems = [
     { label: "Trang chủ", href: "/" },
-    { label: "Lộ trình", onClick: scrollToAIAssistant },
+    // { label: "Lộ trình", onClick: scrollToAIAssistant },
     { label: "Liên hệ tư vấn", onClick: openDialog },
   ]
 
@@ -215,6 +216,32 @@ export default function Header() {
                   <ListItem sx={{ padding: "4px 0", mt: 2 }}>
                     <Button
                       fullWidth
+                      variant="outlined"
+                      href="https://ieltscheckmate.edu.vn/register"
+                      sx={{
+                        textTransform: "none",
+                        borderRadius: "6px",
+                        borderColor: "#0E9F97",
+                        color: "#0E9F97",
+                        "&:hover": {
+                          borderColor: "#0C8C87",
+                          backgroundColor: "rgba(14, 159, 151, 0.04)",
+                        },
+                        fontFamily:
+                          "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                        fontWeight: 500,
+                        fontSize: "14px",
+                        lineHeight: "20px",
+                        padding: "8px 16px",
+                        mb: 1,
+                      }}
+                    >
+                      Đăng ký
+                    </Button>
+                  </ListItem>
+                  <ListItem sx={{ padding: "4px 0" }}>
+                    <Button
+                      fullWidth
                       variant="contained"
                       href="https://ieltscheckmate.edu.vn/signin"
                       sx={{
@@ -240,27 +267,51 @@ export default function Header() {
               </Drawer>
             </>
           ) : (
-            <Button
-              variant="contained"
-              href="https://ieltscheckmate.edu.vn/signin"
-              sx={{
-                textTransform: "none",
-                borderRadius: "25px",
-                backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
-                "&:hover": {
-                  backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
-                },
-                fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                fontWeight: 500,
-                fontSize: "14px",
-                lineHeight: "20px",
-                color: "white",
-                padding: "8px 16px",
-                minWidth: "120px",
-              }}
-            >
-              Đăng nhập
-            </Button>
+            <Box sx={{ display: "flex", gap: "12px" }}>
+              <Button
+                variant="outlined"
+                href="https://ieltscheckmate.edu.vn/register"
+                sx={{
+                  textTransform: "none",
+                  borderRadius: "25px",
+                  borderColor: "#0E9F97",
+                  color: "#0E9F97",
+                  "&:hover": {
+                    borderColor: "#0C8C87",
+                    backgroundColor: "rgba(14, 159, 151, 0.04)",
+                  },
+                  fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  lineHeight: "20px",
+                  padding: "8px 16px",
+                  minWidth: "120px",
+                }}
+              >
+                Đăng ký
+              </Button>
+              <Button
+                variant="contained"
+                href="https://ieltscheckmate.edu.vn/signin"
+                sx={{
+                  textTransform: "none",
+                  borderRadius: "25px",
+                  backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                  "&:hover": {
+                    backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                  },
+                  fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                  fontWeight: 500,
+                  fontSize: "14px",
+                  lineHeight: "20px",
+                  color: "white",
+                  padding: "8px 16px",
+                  minWidth: "120px",
+                }}
+              >
+                Đăng nhập
+              </Button>
+            </Box>
           )}
         </Toolbar>
       </Container>

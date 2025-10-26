@@ -1,31 +1,11 @@
 "use client"
 
 import { Box, Container, Typography, useTheme, useMediaQuery, Stack } from "@mui/material"
-import Link from "next/link"
-import Image from "next/image"
 import logo from "../assets/logo.png"
 import facebook from "../assets/facebook_social.png"
 import zalo from "../assets/zalo_social.png"
 import youtube from "../assets/youtube_social.png"
-
-const footerLinks = [
-  {
-    title: "Về IELTS Checkmate",
-    href: "/about",
-  },
-  {
-    title: "Liên hệ",
-    href: "/contact",
-  },
-  {
-    title: "Điều Khoản & Điều Kiện",
-    href: "/terms",
-  },
-  {
-    title: "Chính Sách Bảo Mật",
-    href: "/privacy",
-  },
-]
+import { useDialog } from "@/contexts/DialogContext"
 
 const socialLinks = [
   {
@@ -49,6 +29,27 @@ export default function Footer() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const isTablet = useMediaQuery(theme.breakpoints.down("md"))
+
+  const { openDialog } = useDialog()
+
+  const footerLinks = [
+    {
+      title: "Về IELTS Checkmate",
+      href: "/about",
+    },
+    {
+      title: "Liên hệ",
+      onClick: openDialog,
+    },
+    {
+      title: "Điều Khoản & Điều Kiện",
+      href: "/terms",
+    },
+    {
+      title: "Chính Sách Bảo Mật",
+      href: "/privacy",
+    },
+  ]
 
   return (
     <Box
@@ -95,19 +96,25 @@ export default function Footer() {
           {/* Links */}
           <Stack spacing={{ xs: 2, sm: 3 }}>
             {footerLinks.map((link) => (
-              <Link
+              <Typography
                 key={link.title}
+                component={link.onClick ? "span" : "a"}
                 href={link.href}
-                style={{
+                onClick={link.onClick}
+                sx={{
                   textDecoration: "none",
                   color: "#344054",
-                  fontSize: isMobile ? "14px" : "16px",
+                  fontSize: { xs: "14px", sm: "16px" },
                   fontWeight: 500,
-                  lineHeight: isMobile ? "20px" : "24px",
+                  lineHeight: { xs: "20px", sm: "24px" },
+                  cursor: "pointer",
+                  "&:hover": {
+                    color: "#0E9F97",
+                  },
                 }}
               >
                 {link.title}
-              </Link>
+              </Typography>
             ))}
           </Stack>
 
@@ -125,7 +132,7 @@ export default function Footer() {
             </Typography>
             <Stack direction="row" spacing={{ xs: 2, sm: 3 }}>
               {socialLinks.map((social) => (
-                <Link key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
+                <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
                   <img
                     src={social.icon || "/placeholder.svg"}
                     alt={social.label}
@@ -134,7 +141,7 @@ export default function Footer() {
                       height: "40px",
                     }}
                   />
-                </Link>
+                </a>
               ))}
             </Stack>
           </Box>

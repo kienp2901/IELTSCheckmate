@@ -1,13 +1,16 @@
 import { Box, Button, Container, Typography, useTheme, useMediaQuery, Stack } from "@mui/material"
+import { Play } from "lucide-react"
 import Vector from "../../assets/Vector.png"
 import Model21 from "../../assets/model21.png"
 import { useDialog } from "@/contexts/DialogContext"
+import { useScroll } from "@/contexts/ScrollContext"
 
 export default function IELTSCheckmateIntro() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const isTablet = useMediaQuery(theme.breakpoints.down("md"))
   const { openDialog } = useDialog()
+  const { scrollToAIAssistant } = useScroll()
 
   return (
     <Container maxWidth="lg">
@@ -138,83 +141,61 @@ export default function IELTSCheckmateIntro() {
           </Box>
         </Stack>
 
-        {/* CTA Section */}
+        {/* Video Section */}
         <Box
           sx={{
             mt: { xs: 4, md: 6 },
             backgroundColor: "#FFF3EB",
             borderRadius: "16px",
-            p: { xs: 4, md: 6 },
-            textAlign: "center",
+            p: { xs: 3, md: 4 },
           }}
         >
           <Typography
             variant="h5"
-            sx={{ 
-              fontWeight: 600, 
-              fontSize: { xs: "20px", sm: "24px", md: "28px" }, 
-              lineHeight: 1.4,
-              mb: 1,
-              color: "#000"
-            }}
+            align="center"
+            gutterBottom
+            sx={{ fontWeight: "bold", fontSize: { xs: "20px", sm: "24px", md: "28px" }, lineHeight: 1.3 }}
           >
-            Bạn đã sẵn sàng chinh phục mục tiêu chưa?
+            Bắt đầu hành trình chinh phục IELTS ngay hôm nay
           </Typography>
           <Typography
             variant="h6"
+            align="center"
             sx={{
-              color: "#0E9F97",
+              background: "linear-gradient(90deg, #F25022 -4.76%, #FFBA33 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
               mb: { xs: 3, md: 4 },
-              fontWeight: 500,
-              fontSize: { xs: "16px", sm: "18px", md: "20px" },
+              fontWeight: 700,
+              fontSize: { xs: "18px", sm: "20px", md: "24px" },
             }}
           >
-            Hãy bắt đầu học ngay thôi
+            Bằng việc xây lộ trình học nhé!
           </Typography>
-          
-          <Stack spacing={2} alignItems="center" sx={{ maxWidth: "400px", mx: "auto" }}>
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              href="https://ieltscheckmate.edu.vn/signin"
-              sx={{
-                background: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
-                borderRadius: "25px",
-                px: 4,
-                py: 1.5,
-                fontSize: { xs: "14px", sm: "16px" },
-                fontWeight: 600,
-                textTransform: "none",
-                "&:hover": {
-                  background: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
-                },
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              height: { xs: "200px", sm: "300px", md: "400px" },
+              bgcolor: "#FFE3CB",
+              borderRadius: "16px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              "&:hover": {
+                bgcolor: "#FFD6B3",
+              },
+            }}
+          >
+            <Play
+              size={isMobile ? 48 : isTablet ? 56 : 64}
+              color="white"
+              style={{
+                filter: "drop-shadow(0 4px 6px rgba(0,0,0,0.1))",
               }}
-            >
-              Bắt đầu học
-            </Button>
-            
-            <Button
-              variant="contained"
-              fullWidth
-              size="large"
-              onClick={openDialog}
-              sx={{
-                background: "linear-gradient(90deg, #F25022 -4.76%, #FFBA33 100%)",
-                borderRadius: "25px",
-                px: 4,
-                py: 1.5,
-                fontSize: { xs: "14px", sm: "16px" },
-                fontWeight: 600,
-                textTransform: "none",
-                "&:hover": {
-                  background: "linear-gradient(90deg, #D94419 -4.76%, #E6A829 100%)",
-                },
-              }}
-            >
-              Nhận thêm tư vấn
-            </Button>
-          </Stack>
+            />
+          </Box>
         </Box>
       </Stack>
     </Container>

@@ -1,10 +1,11 @@
 "use client"
 
-import { Box, Container, Typography, Avatar, styled, useTheme } from "@mui/material"
+import { Box, Container, Typography, Avatar, styled, useTheme, IconButton } from "@mui/material"
 import { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useMediaQuery } from "@mui/material"
 import { useSwipeable } from "react-swipeable"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const SlideContainer = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -37,10 +38,13 @@ const TestimonialCard = styled(motion.div)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   backgroundColor: "white",
-  borderRadius: "12px",
+  borderRadius: "16px",
   padding: "1.5rem",
-  boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
+  // boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
+  border: "1px solid #E5E7EB",
   willChange: "transform, opacity",
+  height: "100%",
+  // transition: "all 0.3s ease",
   [theme.breakpoints.down("md")]: {
     width: "100%",
     maxWidth: "400px",
@@ -48,32 +52,44 @@ const TestimonialCard = styled(motion.div)(({ theme }) => ({
   },
 }))
 
-const RatingCircle = styled(Box)(() => ({
-  width: 36,
-  height: 36,
-  borderRadius: "50%",
-  backgroundColor: "#FF7A00",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: "white",
-  fontWeight: "600",
-  fontSize: "0.9rem",
-}))
 
 const SlideIndicator = styled(Box)(() => ({
   display: "flex",
   justifyContent: "center",
+  alignItems: "center",
   marginTop: "3rem",
-  gap: "0.5rem",
-  "& > div": {
-    width: 8,
-    height: 8,
-    borderRadius: "50%",
-    backgroundColor: "#D9D9D9",
-    cursor: "pointer",
-    transition: "background-color 0.3s ease",
+  gap: "0.75rem",
+}))
+
+const NavigationButton = styled(IconButton)(() => ({
+  width: 40,
+  height: 40,
+  backgroundColor: "#E5E7EB",
+  color: "#6B7280",
+  "&:hover": {
+    backgroundColor: "#D1D5DB",
   },
+  "&:disabled": {
+    backgroundColor: "#F3F4F6",
+    color: "#D1D5DB",
+  },
+}))
+
+const VNBadge = styled(Box)(() => ({
+  position: "absolute",
+  bottom: -2,
+  right: -2,
+  width: 16,
+  height: 16,
+  borderRadius: "50%",
+  backgroundColor: "#0E9F97",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "0.5rem",
+  fontWeight: 700,
+  color: "white",
+  border: "2px solid white",
 }))
 
 // Animation variants
@@ -100,54 +116,107 @@ const cardVariants = {
 
 const testimonials = [
   {
-    name: "Ali Kumar",
-    location: "Học viên Ấn Độ",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel",
-    rating: 7.5,
-    avatar: "/placeholder.svg?height=48&width=48",
-    testType: "IELTS GENERAL",
+    name: "Minh Khang",
+    location: "TP. Hồ Chí Minh",
+    content: "Phòng luyện Speaking AI thực sự là cứu cánh cho mình. Phản hồi chi tiết về phát âm và ngữ pháp giúp mình tự tin hơn hẳn. Từ 5.5 lên 7.0 chỉ sau 3 tháng!",
+    rating: 7.0,
+    avatar: "https://lumetest.com/assets/avatar/student/ali.png",
+    testType: "IELTS ACADEMIC",
   },
   {
-    name: "Mai Trần",
-    location: "Học viên Việt Nam",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel",
+    name: "Thanh Mai",
+    location: "Hà Nội",
+    content: "Tính năng chấm Writing AI nhanh và chính xác không ngờ. Mình không còn phải chờ giáo viên hàng tuần khi học trên trung tâm nữa nữa. Các gợi ý từ vựng và cấu trúc câu rất giá trị.",
     rating: 7.5,
-    avatar: "/placeholder.svg?height=48&width=48",
-    testType: "IELTS GENERAL",
+    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/91194/avatar-bpfull.jpg",
+    testType: "IELTS ACADEMIC",
   },
   {
-    name: "Tên học viên",
-    location: "Học viên Ấn Độ",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel",
-    rating: 7.5,
-    avatar: "/placeholder.svg?height=48&width=48",
-    testType: "IELTS GENERAL",
+    name: "Quốc Bảo",
+    location: "Đà Nẵng",
+    content: "Checkmate Pass đúng là khoản đầu tư xứng đáng! Các buổi chữa bài trực tiếp với giáo viên đã giúp mình xác định và sửa triệt để các lỗi sai cố hữu.",
+    rating: 6.5,
+    avatar: "",
+    testType: "IELTS ACADEMIC",
   },
   {
-    name: "Tên học viên",
-    location: "Học viên Ấn Độ",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel",
-    rating: 7.5,
-    avatar: "/placeholder.svg?height=48&width=48",
-    testType: "IELTS GENERAL",
+    name: "Ngọc Anh",
+    location: "Hải Phòng",
+    content: "Checkmate Pass đúng là khoản đầu tư xứng đáng! Có tất cả mọi thứ và buổi chữa bài trực tiếp với giáo viên đã giúp mình xác định và sửa triệt để các lỗi sai cố hữu.",
+    rating: 8.0,
+    avatar: "https://lumetest.com/assets/avatar/student/mai-tran.png",
+    testType: "IELTS ACADEMIC",
   },
   {
-    name: "Tên học viên",
-    location: "Địa chỉ",
-    content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel",
-    rating: 7.5,
-    avatar: "/placeholder.svg?height=48&width=48",
-    testType: "IELTS GENERAL",
+    name: "Văn Hùng",
+    location: "Cần Thơ",
+    content: "Luyện đề Mock Test full 4 kỹ năng trong môi trường mô phỏng thi thật giúp mình quen với áp lực thời gian. Kết quả thi thật rất sát với điểm Mock mình làm trên Checkmate.",
+    rating: 6.0,
+    avatar: "",
+    testType: "IELTS ACADEMIC",
   },
-  // Thêm nhiều testimonial khác nếu cần
+  {
+    name: "Mỹ Duyên",
+    location: "Bình Dương",
+    content: "Mình là người đi làm, không có nhiều thời gian. Các bài giảng ngắn gọn, súc tích và AI hỗ trợ hỏi đáp bài học rất phù hợp để mình học tranh thủ.",
+    rating: 7.0,
+    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/91037/avatar-bpfull.jpg",
+    testType: "IELTS ACADEMIC",
+  },
+  {
+    name: "Hoàng Phúc",
+    location: "Đồng Nai",
+    content: "Tính năng Topic Talk vô cùng tiện lợi! Mình có thể luyện nói các chủ đề bất cứ lúc nào, bất cứ nơi đâu mà không sợ ai đánh giá. Phân tích kết quả rất chuyên nghiệp.",
+    rating: 6.5,
+    avatar: "https://lumetest.com/assets/avatar/student/boon.png",
+    testType: "IELTS ACADEMIC",
+  },
+  {
+    name: "Trần Thảo",
+    location: "Nghệ An",
+    content: "Các tính năng ở Checkmate được cập nhật liên tục và rất thú vị. Giá thì hạt rẻ nữa",
+    rating: 7.5,
+    avatar: "",
+    testType: "IELTS ACADEMIC",
+  },
+  {
+    name: "Đức Nam",
+    location: "Huế",
+    content: "Bộ đề IELTS được cập nhật liên tục giúp mình chuẩn bị kỹ lưỡng cho phần Speaking Part 2 và Part 3. Mình đã gặp lại chủ đề đã luyện trong phòng thi!",
+    rating: 7.0,
+    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/100297/avatar-bpfull.jpg",
+    testType: "IELTS ACADEMIC",
+  },
+  {
+    name: "Thị Bích",
+    location: "Quảng Ninh",
+    content: "Mình chỉ dùng gói Test Pass để luyện đề, và 10 lượt chấm Speaking/Writing AI giới hạn ban đầu đã đủ để mình hiểu được tiêu chí chấm điểm và tự điều chỉnh. Đạt được band 6.0 sau 4 tháng!",
+    rating: 6.0,
+    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/100298/avatar-bpfull.jpg",
+    testType: "IELTS ACADEMIC",
+  },
 ]
 
 const AUTO_SLIDE_INTERVAL = 3000 // 5 seconds between slides
+
+// Helper function to get initials from name
+const getInitials = (name: string) => {
+  const names = name.split(' ')
+  if (names.length >= 2) {
+    return names[0][0] + names[names.length - 1][0]
+  }
+  return name.substring(0, 2)
+}
+
+// Helper function to generate color from name
+const stringToColor = (string: string) => {
+  let hash = 0
+  for (let i = 0; i < string.length; i++) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash)
+  }
+  const hue = hash % 360
+  return `hsl(${hue}, 65%, 50%)`
+}
 
 export default function TestimonialSlider() {
   const theme = useTheme()
@@ -244,83 +313,108 @@ export default function TestimonialSlider() {
                     whileHover="hover"
                     transition={{ delay: index * 0.05 }}
                   >
-                    <Box sx={{ display: "flex", alignItems: "center", mb: 2.5 }}>
-                      <Avatar
-                        src={testimonial.avatar}
-                        alt={testimonial.name}
-                        sx={{
-                          width: 40,
-                          height: 40,
-                          mr: 2,
-                          border: "2px solid #F3F4F6",
-                        }}
-                      />
-                      <Box>
-                        <Typography
-                          variant="subtitle1"
+                    <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
+                      <Box sx={{ position: "relative", mr: 2 }}>
+                        <Avatar
+                          src={testimonial.avatar || undefined}
+                          alt={testimonial.name}
                           sx={{
-                            fontWeight: "600",
+                            width: 48,
+                            height: 48,
+                            bgcolor: testimonial.avatar ? 'transparent' : stringToColor(testimonial.name),
+                            color: 'white',
+                            fontWeight: 700,
+                            fontSize: '0.875rem',
+                          }}
+                        >
+                          {!testimonial.avatar && getInitials(testimonial.name)}
+                        </Avatar>
+                        <VNBadge>VN</VNBadge>
+                      </Box>
+                      <Box sx={{ textAlign: "left" }}>
+                        <Typography
+                          sx={{
+                            fontWeight: 700,
                             color: "#111827",
-                            fontSize: "1rem",
-                            mb: 0.5,
+                            fontSize: "0.875rem",
+                            mb: 0.25,
                           }}
                         >
                           {testimonial.name}
                         </Typography>
                         <Typography
-                          variant="body2"
                           sx={{
                             color: "#6B7280",
-                            fontSize: "0.875rem",
+                            fontSize: "0.75rem",
                           }}
                         >
                           {testimonial.location}
                         </Typography>
                       </Box>
                     </Box>
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        mb: 2.5,
-                        color: "#4B5563",
-                        lineHeight: 1.6,
-                        fontSize: "0.875rem",
-                      }}
-                    >
-                      {testimonial.content}
-                    </Typography>
+                    <Box sx={{ flexGrow: 1, mb: 2 }}>
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: "#4B5563",
+                          lineHeight: 1.6,
+                          fontSize: "0.875rem",
+                        }}
+                      >
+                        "{testimonial.content}"
+                      </Typography>
+                    </Box>
+
+                    {/* Divider */}
                     <Box
                       sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        mt: "auto",
+                        borderTop: "1px solid #E5E7EB",
+                        my: 2,
                       }}
-                    >
-                      <Box>
-                        <Typography
-                          variant="caption"
-                          sx={{
-                            color: "#6B7280",
-                            fontSize: "0.75rem",
-                            display: "block",
-                            mb: 0.5,
-                          }}
-                        >
-                          Điểm thi
-                        </Typography>
+                    />
+
+                    {/* Exam Details */}
+                    <Box>
+                      <Typography
+                        variant="caption"
+                        sx={{
+                          color: "#6B7280",
+                          fontSize: "0.75rem",
+                          display: "block",
+                          mb: 1,
+                          fontWeight: 600,
+                        }}
+                      >
+                        ĐIỂM THI
+                      </Typography>
+                      <Box
+                        sx={{
+                          display: "grid",
+                          gridTemplateColumns: "1fr auto",
+                          alignItems: "baseline",
+                        }}
+                      >
                         <Typography
                           variant="body2"
                           sx={{
-                            fontWeight: "600",
+                            fontWeight: "500",
                             color: "#111827",
                             fontSize: "0.875rem",
                           }}
                         >
                           {testimonial.testType}
                         </Typography>
+                        <Typography
+                          sx={{
+                            fontSize: "1.125rem",
+                            fontWeight: 700,
+                            color: "#0E9F97",
+                            textAlign: "right",
+                          }}
+                        >
+                          {testimonial.rating}
+                        </Typography>
                       </Box>
-                      <RatingCircle>{testimonial.rating}</RatingCircle>
                     </Box>
                   </TestimonialCard>
                 ))}
@@ -329,15 +423,36 @@ export default function TestimonialSlider() {
         </div>
 
         <SlideIndicator>
-          {Array.from({ length: SLIDES_COUNT }).map((_, index) => (
-            <div
-              key={index}
-              onClick={() => handleSlideChange(index)}
-              style={{
-                backgroundColor: index === activeSlide ? "#FF7A00" : "#D9D9D9",
-              }}
-            />
-          ))}
+          <NavigationButton
+            onClick={() => handleSlideChange((activeSlide - 1 + SLIDES_COUNT) % SLIDES_COUNT)}
+            disabled={activeSlide === 0}
+          >
+            <ChevronLeft size={20} />
+          </NavigationButton>
+          
+          <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+            {Array.from({ length: SLIDES_COUNT }).map((_, index) => (
+              <Box
+                key={index}
+                onClick={() => handleSlideChange(index)}
+                sx={{
+                  width: index === activeSlide ? "24px" : "8px",
+                  height: "8px",
+                  borderRadius: index === activeSlide ? "4px" : "50%",
+                  backgroundColor: index === activeSlide ? "#0E9F97" : "#D9D9D9",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                }}
+              />
+            ))}
+          </Box>
+          
+          <NavigationButton
+            onClick={() => handleSlideChange((activeSlide + 1) % SLIDES_COUNT)}
+            disabled={activeSlide === SLIDES_COUNT - 1}
+          >
+            <ChevronRight size={20} />
+          </NavigationButton>
         </SlideIndicator>
       </SlideContainer>
     </Container>
