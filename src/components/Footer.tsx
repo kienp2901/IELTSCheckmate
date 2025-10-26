@@ -8,11 +8,11 @@ import youtube from "../assets/youtube_social.png"
 import { useDialog } from "@/contexts/DialogContext"
 
 const socialLinks = [
-  {
-    icon: youtube,
-    href: "https://youtube.com",
-    label: "Youtube",
-  },
+  // {
+  //   icon: youtube,
+  //   href: "https://youtube.com",
+  //   label: "Youtube",
+  // },
   {
     icon: zalo,
     href: "https://zalo.me/562435418985235142",
