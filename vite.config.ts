@@ -5,6 +5,7 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   base: '/wp-content/plugins/ielts_checkmate_dashboard/dist/',
+  // base: '/wordpress/wp-content/plugins/ielts_checkmate_dashboard/dist/',
   build: {
     outDir: 'dist',
     // assetsDir: 'student-workspace-v3/assets',

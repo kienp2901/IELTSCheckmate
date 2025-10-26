@@ -136,7 +136,7 @@ function Banner() {
                 lineHeight: 1.2,
               }}
             >
-              Lộ trình Học & Luyện{" "}
+              Luyện thi thông minh{" "}
               <Box component="span" sx={{ display: "block" }}>
                 <Box
                   component="span"
@@ -144,11 +144,11 @@ function Banner() {
                     background: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    fontSize: { xs: "28px", sm: "32px", md: "48px" },
+                    fontSize: { xs: "16px", sm: "20px", md: "35px" },
                     fontWeight: "bold",
                   }}
                 >
-                  IELTS
+                  Cải thiện các mốc
                 </Box>{" "}
                 <Box
                   component="span"
@@ -156,11 +156,11 @@ function Banner() {
                     background: "linear-gradient(90deg, #F25022 -4.76%, #FFBA33 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    fontSize: { xs: "28px", sm: "32px", md: "48px" },
+                    fontSize: { xs: "16px", sm: "20px", md: "35px" },
                     fontWeight: "bold",
                   }}
                 >
-                  toàn diện
+                  Band IELTS!
                 </Box>
               </Box>
             </Typography>
@@ -174,9 +174,7 @@ function Banner() {
                 maxWidth: "600px",
               }}
             >
-              Không còn những giờ học nặng nề, khó hiểu, với <strong>IELTS Checkmate</strong>, bạn được học đúng trình độ
-              và mục tiêu. Đảm bảo học tới đâu, hiểu tới đó - Hiểu sâu nhớ lâu, vận dụng nhuần nhuyễn, ứng dụng dễ dàng.
-              Học là đạt band!
+              Không còn những giờ học nặng nề, khó hiểu, với IELTS Checkmate, bạn được học một cách khoa học để  mục tiêu. Đảm bảo học tới đâu, hiểu tới đó - Hiểu sâu nhớ lâu, vận dụng nhuần nhuyễn, ứng dụng dễ dàng. Học là đạt band!
             </Typography>
 
             <Box
@@ -189,7 +187,7 @@ function Banner() {
                 width: { xs: "100%", sm: "auto" },
               }}
             >
-              <Button
+              {/* <Button
                 variant="contained"
                 sx={{
                   backgroundImage: "linear-gradient(90deg, #F25022 -4.76%, #FFBA33 100%)",
@@ -209,7 +207,7 @@ function Banner() {
                 onClick={scrollToAIAssistant}
               >
                 Thiết kế lộ trình học
-              </Button>
+              </Button> */}
               <Button
                 variant="contained"
                 sx={{

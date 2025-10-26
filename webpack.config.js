@@ -23,6 +23,7 @@ module.exports = {
         path: path.resolve(__dirname, 'dist'),
         clean: true, // Clean the output directory before each build
         publicPath: '/wp-content/plugins/ielts_checkmate_dashboard/dist/',
+        // publicPath: '/wordpress/wp-content/plugins/ielts_checkmate_dashboard/dist/',
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.scss'], // Added .scss for SCSS files

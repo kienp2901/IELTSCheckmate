@@ -14,9 +14,9 @@ export default function IELTS_Learning_Experience() {
 
   const features = [
     {
-      title: "Luyện Speaking hằng ngày",
+      title: "Trò chuyện tiếng Anh hàng ngày",
       description:
-        "Cùng AI luyện kỹ năng Speaking mỗi ngày! IELTS Checkmate AI sẽ giúp bạn cải thiện cách phát âm, ngữ điệu, để tự tin nói tiếng Anh hơn.",
+        "Thực hành giao tiếp tiếng Anh theo chủ đề và nhận đánh giá chi tiết tức thì với Trợ lý ngôn ngữ AI sẽ giúp bạn cải thiện cách phát âm, ngữ điệu, để tự tin nói tiếng Anh hơn.",
       video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_1_pte_magic.mp4",
     },
     {
@@ -36,6 +36,12 @@ export default function IELTS_Learning_Experience() {
       description:
         "Với việc thực hành làm các đề Listening, bạn sẽ tặng cường kỹ năng nghe hiểu đoạn hội thoại từ đó phát triển được việc nắm bắt ý chính và phản xạ nhanh nhạy",
       video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_5_pte_magic.mp4",
+    },
+    {
+      title: "Luyện đề Speaking",
+      description:
+        "Luyện đề Speaking với AI chấm điểm IELTS chuẩn. Phân tích phát âm, ngữ pháp và từ vựng giúp bạn biết điểm mạnh, điểm yếu và cải thiện band Speaking hiệu quả!",
+      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_3_pte_magic.mp4",
     },
     {
       title: "Phòng thi thử 4 kỹ năng",
@@ -92,13 +98,13 @@ export default function IELTS_Learning_Experience() {
               color: "#0E9F97",
               fontWeight: 500,
               mb: { xs: 1, md: 2 },
-              fontSize: { xs: "14px", sm: "16px", md: "24px" },
+              fontSize: { xs: "20px", sm: "24px", md: "28px" },
             }}
           >
-            Trải nghiệm học chủ động, thông minh
+            Bạn nhận được gì khi đến với IELTS Checkmate?
           </Typography>
 
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: { xs: 1, md: 2 } }}>
+          {/* <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", gap: { xs: 1, md: 2 } }}>
             <Typography
               variant="h3"
               sx={{
@@ -110,7 +116,7 @@ export default function IELTS_Learning_Experience() {
             >
               Từ Phòng Luyện Thi IELTS Ảo Siêu Cấp
             </Typography>
-          </Box>
+          </Box> */}
 
           <Typography
             sx={{
@@ -121,8 +127,7 @@ export default function IELTS_Learning_Experience() {
               fontSize: { xs: "12px", sm: "14px", md: "18px" },
             }}
           >
-            Trên nền tảng công nghệ mạnh mẽ, công cụ chấm điểm, đánh giá của IELTS Checkmate đang tiên phong trong việc
-            đánh giá các kỹ năng của người dùng một cách nhanh chóng và chính xác
+            Trên nền tảng công nghệ mạnh mẽ và chương trình học thú vị.  IELTS Checkmate có thể giúp bạn đạt mục tiêu thi IELTS với chi phí và thời gian tối ưu nhất
           </Typography>
         </Box>
 

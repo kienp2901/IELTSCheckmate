@@ -61,9 +61,9 @@ export default function LandingPage() {
       {/* IELTSCheckmateIntro */}
       <IELTSCheckmateIntro/>
 
-      <Box ref={aiAssistantRef} sx={{ p: 4, bgcolor: "#f9f9f9" }}>
+      {/* <Box ref={aiAssistantRef} sx={{ p: 4, bgcolor: "#f9f9f9" }}>
         <HowToLearnIELTS/>
-      </Box>
+      </Box> */}
       
 
       <CheckmateTestimonials/>

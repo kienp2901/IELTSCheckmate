@@ -11,7 +11,8 @@ Version: 1.4
 Author URI: https://freetuts.net
 Text Domain:custom-form
 */
-define('IELTS_CHECKMATE_PREFIX_PATH', '/');
+// define('IELTS_CHECKMATE_PREFIX_PATH', 'wordpress');
+define('IELTS_CHECKMATE_PREFIX_PATH', '');
 define('WIDGET_URL_CHECKMATE_DASHBOARD', plugins_url('/ielts_checkmate_dashboard'));
 function add_my_custom_page_ielts_checkmate_dashboard()
 {
