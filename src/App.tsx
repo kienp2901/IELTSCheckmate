@@ -17,6 +17,10 @@ import RegisterLayout from "./pages/Register/RegisterLayout";
 import RegisterForm from "./pages/Register/RegisterForm";
 import ThankyouLayout from "./pages/Thankyou/ThankyouLayout";
 import ThankyouForm from "./pages/Thankyou/ThankyouForm";
+import TermsLayout from "./pages/Terms/TermsLayout";
+import TermsContent from "./pages/Terms/TermsContent";
+import PrivacyLayout from "./pages/Privacy/PrivacyLayout";
+import PrivacyContent from "./pages/Privacy/PrivacyContent";
 // const Home = lazy(() => import('./pages/Home'));
 // const PackageManagement = lazy(() => import('./pages/PackageManagement'));
 
@@ -51,6 +55,12 @@ function App() {
                 <Route path="/wordpress/thankyou" Component={ThankyouLayout}>
                   <Route index Component={ThankyouForm} />
                 </Route>
+                <Route path="/wordpress/terms" Component={TermsLayout}>
+                  <Route index Component={TermsContent} />
+                </Route>
+                <Route path="/wordpress/privacy" Component={PrivacyLayout}>
+                  <Route index Component={PrivacyContent} />
+                </Route>
                 {/* <Route path="/" Component={Layout}>
                   <Route index Component={LandingPage} />
                 </Route>
@@ -62,6 +72,12 @@ function App() {
                 </Route>
                 <Route path="/thankyou" Component={ThankyouLayout}>
                   <Route index Component={ThankyouForm} />
+                </Route>
+                <Route path="/terms" Component={TermsLayout}>
+                  <Route index Component={TermsContent} />
+                </Route>
+                <Route path="/privacy" Component={PrivacyLayout}>
+                  <Route index Component={PrivacyContent} />
                 </Route> */}
               </Routes>
             </DialogProvider>
