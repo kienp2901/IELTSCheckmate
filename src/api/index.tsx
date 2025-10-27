@@ -1,2 +1,2 @@
-export * from './wp-api';
-export * from './workshop-api';
+export { api, type IContactForm, type IApiResponse } from './api';
+export { default } from './api';

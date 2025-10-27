@@ -22,6 +22,7 @@ import Group3 from "../assets/Group3.png"
 import Ellipse2553 from "../assets/Ellipse2553.png"
 import { Close } from "@mui/icons-material"
 import {  useLocation, useNavigate } from 'react-router';
+import { api } from '../api';
 
 interface ConsultationDialogProps {
   open: boolean
@@ -45,6 +46,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     phone: "",
     email: "",
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate();
 
   const validatePhone = (phone: string) => {
@@ -79,7 +81,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
     // Validate all fields before submission
@@ -95,11 +97,30 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
       return // Don't submit if validation fails
     }
 
-    console.log("Form submitted:", formData)
-    // // Handle form submission logic here
-    // window.location.href = `/wordpress/contact`;
-    window.location.href = `${process.env.PREFIX}/contact`;
-    onClose()
+    setIsSubmitting(true)
+
+    try {
+      // Submit form data to API
+      const response = await api.contact.create({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        timeSlot: formData.timeSlot,
+        message: formData.message,
+      })
+
+      console.log("Form submitted successfully:", response)
+      
+      // Close dialog and redirect to contact page
+      onClose()
+      window.location.href = `${process.env.PREFIX}/contact`
+    } catch (error: any) {
+      console.error("Error submitting form:", error)
+      // Show error message from API or generic message
+      alert(error.message || "Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại!")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const hanldeContact = (()=>{
@@ -455,6 +476,7 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={isSubmitting}
                 sx={{
                   bgcolor: "#4DD0C9",
                   borderRadius: 6,
@@ -464,9 +486,12 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
                   "&:hover": {
                     bgcolor: "#3CB0AA",
                   },
+                  "&:disabled": {
+                    bgcolor: "#B0E0DE",
+                  },
                 }}
               >
-                Liên hệ ngay
+                {isSubmitting ? "Đang gửi..." : "Liên hệ ngay"}
               </Button>
             </form>
           </Box>
