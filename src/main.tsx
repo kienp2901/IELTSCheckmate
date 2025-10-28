@@ -10,22 +10,25 @@ import { AlertProvider } from './contexts/AlertContext';
 import { SnackbarProvider } from "notistack";
 import  ConfirmDialog  from './components/ConfirmDialog';
 import { CustomBreadcrumbProvider } from './contexts/CustomBreadcrumb';
+import { AuthProvider } from './contexts/AuthContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   // <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <UserProvider>
-        <SnackbarProvider maxSnack={10} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={3000}>
-        <AlertProvider>
-        
-          <App />
-        
-        
+      <AuthProvider>
+        <UserProvider>
+          <SnackbarProvider maxSnack={10} anchorOrigin={{ vertical: 'top', horizontal: 'right' }} autoHideDuration={3000}>
+          <AlertProvider>
+          
+            <App />
+          
+          
 
-        </AlertProvider>
-        </SnackbarProvider>
-        
-      </UserProvider>
+          </AlertProvider>
+          </SnackbarProvider>
+          
+        </UserProvider>
+      </AuthProvider>
     </ThemeProvider>
   // </React.StrictMode>,
 );

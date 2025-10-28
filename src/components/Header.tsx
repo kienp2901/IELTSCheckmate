@@ -21,6 +21,7 @@ import logo from "../assets/logo.png"
 import { useLocation } from "react-router-dom"
 import { useDialog } from "@/contexts/DialogContext"
 import { useScroll } from "@/contexts/ScrollContext"
+import { useAuth } from "@/contexts/AuthContext"
 
 const HeaderBtn = ({
   children,
@@ -99,6 +100,7 @@ export default function Header() {
 
   const { scrollToAIAssistant } = useScroll()
   const { openDialog } = useDialog()
+  const { isAuthenticated, login, user } = useAuth()
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen)
@@ -213,104 +215,167 @@ export default function Header() {
                       </HeaderBtn>
                     </ListItem>
                   ))}
-                  <ListItem sx={{ padding: "4px 0", mt: 2 }}>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      href="https://ieltscheckmate.edu.vn/register"
-                      sx={{
-                        textTransform: "none",
-                        borderRadius: "6px",
-                        borderColor: "#0E9F97",
-                        color: "#0E9F97",
-                        "&:hover": {
-                          borderColor: "#0C8C87",
-                          backgroundColor: "rgba(14, 159, 151, 0.04)",
-                        },
-                        fontFamily:
-                          "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        lineHeight: "20px",
-                        padding: "8px 16px",
-                        mb: 1,
-                      }}
-                    >
-                      Đăng ký
-                    </Button>
-                  </ListItem>
-                  <ListItem sx={{ padding: "4px 0" }}>
-                    <Button
-                      fullWidth
-                      variant="contained"
-                      href="https://ieltscheckmate.edu.vn/signin"
-                      sx={{
-                        textTransform: "none",
-                        borderRadius: "6px",
-                        backgroundColor: "#10B981",
-                        "&:hover": {
-                          backgroundColor: "#059669",
-                        },
-                        fontFamily:
-                          "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                        fontWeight: 500,
-                        fontSize: "14px",
-                        lineHeight: "20px",
-                        color: "white",
-                        padding: "8px 16px",
-                      }}
-                    >
-                      Đăng nhập
-                    </Button>
-                  </ListItem>
+                  {!isAuthenticated ? (
+                    <>
+                      <ListItem sx={{ padding: "4px 0", mt: 2 }}>
+                        <Button
+                          fullWidth
+                          variant="outlined"
+                          onClick={() => {
+                            window.location.href = `${process.env.DOMAIN_FE}/register`;
+                          }}
+                          sx={{
+                            textTransform: "none",
+                            borderRadius: "6px",
+                            borderColor: "#0E9F97",
+                            color: "#0E9F97",
+                            "&:hover": {
+                              borderColor: "#0C8C87",
+                              backgroundColor: "rgba(14, 159, 151, 0.04)",
+                            },
+                            fontFamily:
+                              "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                            fontWeight: 500,
+                            fontSize: "14px",
+                            lineHeight: "20px",
+                            padding: "8px 16px",
+                            mb: 1,
+                          }}
+                        >
+                          Đăng ký
+                        </Button>
+                      </ListItem>
+                      <ListItem sx={{ padding: "4px 0" }}>
+                        <Button
+                          fullWidth
+                          variant="contained"
+                          onClick={login}
+                          sx={{
+                            textTransform: "none",
+                            borderRadius: "6px",
+                            backgroundColor: "#10B981",
+                            "&:hover": {
+                              backgroundColor: "#059669",
+                            },
+                            fontFamily:
+                              "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                            fontWeight: 500,
+                            fontSize: "14px",
+                            lineHeight: "20px",
+                            color: "white",
+                            padding: "8px 16px",
+                          }}
+                        >
+                          Đăng nhập
+                        </Button>
+                      </ListItem>
+                    </>
+                  ) : (
+                    <ListItem sx={{ padding: "4px 0", mt: 2 }}>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={() => {
+                          window.location.href = `${process.env.DOMAIN_FE}/dashboard`;
+                        }}
+                        sx={{
+                          textTransform: "none",
+                          borderRadius: "6px",
+                          backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                          "&:hover": {
+                            backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                          },
+                          fontFamily:
+                            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                          fontWeight: 500,
+                          fontSize: "14px",
+                          lineHeight: "20px",
+                          color: "white",
+                          padding: "8px 16px",
+                        }}
+                      >
+                        Vào học
+                      </Button>
+                    </ListItem>
+                  )}
                 </List>
               </Drawer>
             </>
           ) : (
             <Box sx={{ display: "flex", gap: "12px" }}>
-              <Button
-                variant="outlined"
-                href="https://ieltscheckmate.edu.vn/register"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "25px",
-                  borderColor: "#0E9F97",
-                  color: "#0E9F97",
-                  "&:hover": {
-                    borderColor: "#0C8C87",
-                    backgroundColor: "rgba(14, 159, 151, 0.04)",
-                  },
-                  fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  lineHeight: "20px",
-                  padding: "8px 16px",
-                  minWidth: "120px",
-                }}
-              >
-                Đăng ký
-              </Button>
-              <Button
-                variant="contained"
-                href="https://ieltscheckmate.edu.vn/signin"
-                sx={{
-                  textTransform: "none",
-                  borderRadius: "25px",
-                  backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
-                  "&:hover": {
-                    backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
-                  },
-                  fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                  fontWeight: 500,
-                  fontSize: "14px",
-                  lineHeight: "20px",
-                  color: "white",
-                  padding: "8px 16px",
-                  minWidth: "120px",
-                }}
-              >
-                Đăng nhập
-              </Button>
+              {!isAuthenticated ? (
+                <>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      window.location.href = `${process.env.DOMAIN_FE}/register`;
+                    }}
+                    sx={{
+                      textTransform: "none",
+                      borderRadius: "25px",
+                      borderColor: "#0E9F97",
+                      color: "#0E9F97",
+                      "&:hover": {
+                        borderColor: "#0C8C87",
+                        backgroundColor: "rgba(14, 159, 151, 0.04)",
+                      },
+                      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                      padding: "8px 16px",
+                      minWidth: "120px",
+                    }}
+                  >
+                    Đăng ký
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={login}
+                    sx={{
+                      textTransform: "none",
+                      borderRadius: "25px",
+                      backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                      "&:hover": {
+                        backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                      },
+                      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                      fontWeight: 500,
+                      fontSize: "14px",
+                      lineHeight: "20px",
+                      color: "white",
+                      padding: "8px 16px",
+                      minWidth: "120px",
+                    }}
+                  >
+                    Đăng nhập
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  variant="contained"
+                  onClick={() => {
+                    window.location.href = `${process.env.DOMAIN_FE}/dashboard`;
+                  }}
+                  sx={{
+                    textTransform: "none",
+                    borderRadius: "25px",
+                    backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                    "&:hover": {
+                      backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                    },
+                    fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    lineHeight: "20px",
+                    color: "white",
+                    padding: "8px 16px",
+                    minWidth: "120px",
+                  }}
+                >
+                  Vào học
+                </Button>
+              )}
             </Box>
           )}
         </Toolbar>

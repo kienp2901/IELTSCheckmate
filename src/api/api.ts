@@ -73,6 +73,20 @@ export const api = {
         },
     },
 
+    // SSO API
+    sso: {
+        verifySession: async (sessionId: string): Promise<IApiResponse> => {
+            try {
+                const response = await apiClient.get(
+                    `/api/sso/session/${sessionId}`
+                );
+                return response.data;
+            } catch (error: any) {
+                throw new Error(error.response?.data?.message || 'Không thể xác thực phiên đăng nhập');
+            }
+        },
+    },
+
     // Có thể thêm các API khác ở đây
     // workshop: { ... },
     // user: { ... },

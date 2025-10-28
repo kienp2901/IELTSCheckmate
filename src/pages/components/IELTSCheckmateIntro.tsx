@@ -2,12 +2,14 @@ import { Box, Button, Container, Typography, useTheme, useMediaQuery, Stack } fr
 import Vector from "../../assets/Vector.png"
 import Model21 from "../../assets/model21.png"
 import { useDialog } from "@/contexts/DialogContext"
+import { useAuth } from "@/contexts/AuthContext"
 
 export default function IELTSCheckmateIntro() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const isTablet = useMediaQuery(theme.breakpoints.down("md"))
   const { openDialog } = useDialog()
+  const { isAuthenticated, login } = useAuth()
 
   return (
     <Container maxWidth="lg">
@@ -177,7 +179,13 @@ export default function IELTSCheckmateIntro() {
               variant="contained"
               fullWidth
               size="large"
-              href="https://ieltscheckmate.edu.vn/signin"
+              onClick={() => {
+                if (isAuthenticated) {
+                  window.location.href = `${process.env.DOMAIN_FE}/dashboard`;
+                } else {
+                  login();
+                }
+              }}
               sx={{
                 background: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
                 borderRadius: "25px",
@@ -191,7 +199,7 @@ export default function IELTSCheckmateIntro() {
                 },
               }}
             >
-              Bắt đầu học
+              {isAuthenticated ? "Vào học" : "Bắt đầu học"}
             </Button>
             
             <Button
