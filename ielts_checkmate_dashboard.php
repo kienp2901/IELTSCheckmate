@@ -89,6 +89,18 @@ function add_my_custom_page_ielts_checkmate_dashboard()
     // Insert the post into the database
     $add8 = wp_insert_post($my_post8);
     update_option('ielts_checkmate_privacy', $add8);
+
+    $my_post9 = array(
+        'post_title'    => wp_strip_all_tags('Ielts checkmate Payment'),
+        'post_status'   => 'publish',
+        'post_author'   => 1,
+        'post_type'     => 'page',
+        'post_name' => 'payment',
+    );
+
+    // Insert the post into the database
+    $add9 = wp_insert_post($my_post9);
+    update_option('ielts_checkmate_payment', $add9);
 }
 
 register_activation_hook(__FILE__, 'add_my_custom_page_ielts_checkmate_dashboard');
@@ -103,12 +115,14 @@ function fw_reserve_page_template_ielts_checkmate_dashboard( $page_template )
     $page_id6 = get_option('ielts_checkmate_thankyou');
     $page_id7 = get_option('ielts_checkmate_terms');
     $page_id8 = get_option('ielts_checkmate_privacy');
+    $page_id9 = get_option('ielts_checkmate_payment');
     if (  is_page( $page_id3 ) || 
     is_page( $page_id4 ) || 
     is_page( $page_id5 ) || 
     is_page( $page_id6 ) ||
     is_page( $page_id7 ) ||
-    is_page( $page_id8 )) {
+    is_page( $page_id8 ) ||
+    is_page( $page_id9 )) {
 
         $page_template = dirname( __FILE__ ) . '/index.php';
     }
@@ -134,5 +148,8 @@ function deactivate_plugin_ielts_checkmate_dashboard()
 
     $page_id8 = get_option('ielts_checkmate_privacy');
     wp_delete_post($page_id8);
+
+    $page_id9 = get_option('ielts_checkmate_payment');
+    wp_delete_post($page_id9);
 }
 register_deactivation_hook(__FILE__, 'deactivate_plugin_ielts_checkmate_dashboard');

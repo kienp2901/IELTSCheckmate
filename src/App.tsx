@@ -21,6 +21,8 @@ import TermsLayout from "./pages/Terms/TermsLayout";
 import TermsContent from "./pages/Terms/TermsContent";
 import PrivacyLayout from "./pages/Privacy/PrivacyLayout";
 import PrivacyContent from "./pages/Privacy/PrivacyContent";
+import PaymentLayout from "./pages/Payment/PaymentLayout";
+import PaymentContent from "./pages/Payment/PaymentContent";
 // const Home = lazy(() => import('./pages/Home'));
 // const PackageManagement = lazy(() => import('./pages/PackageManagement'));
 
@@ -61,6 +63,9 @@ function App() {
                 <Route path="/wordpress/privacy" Component={PrivacyLayout}>
                   <Route index Component={PrivacyContent} />
                 </Route>
+                <Route path="/wordpress/payment" Component={PaymentLayout}>
+                  <Route index Component={PaymentContent} />
+                </Route>
                 {/* <Route path="/" Component={Layout}>
                   <Route index Component={LandingPage} />
                 </Route>
@@ -78,6 +83,9 @@ function App() {
                 </Route>
                 <Route path="/privacy" Component={PrivacyLayout}>
                   <Route index Component={PrivacyContent} />
+                </Route>
+                <Route path="/payment" Component={PaymentLayout}>
+                  <Route index Component={PaymentContent} />
                 </Route> */}
               </Routes>
             </DialogProvider>
