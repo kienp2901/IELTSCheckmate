@@ -66,6 +66,7 @@ function App() {
                 <Route path="/wordpress/payment" Component={PaymentLayout}>
                   <Route index Component={PaymentContent} />
                 </Route>
+
                 {/* <Route path="/" Component={Layout}>
                   <Route index Component={LandingPage} />
                 </Route>

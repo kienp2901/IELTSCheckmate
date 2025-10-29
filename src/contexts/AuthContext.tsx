@@ -37,12 +37,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Check if user is already logged in on mount
   useEffect(() => {
     const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+    console.log('🔍 Checking stored auth:', storedAuth);
+    
     if (storedAuth) {
       try {
         const authData = JSON.parse(storedAuth);
         setUser(authData);
+        console.log('✅ User restored from localStorage:', authData);
       } catch (error) {
-        console.error('Error parsing auth data:', error);
+        console.error('❌ Error parsing auth data:', error);
         localStorage.removeItem(AUTH_STORAGE_KEY);
       }
     }
@@ -57,16 +60,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       if (sessionId) {
         setIsLoading(true);
+        console.log('🔄 Verifying session:', sessionId);
+        
         try {
           // Call API to verify session and get token
           const response = await api.sso.verifySession(sessionId);
           
-          if (response.status && response.data?.token) {
-            // Save auth data
+          console.log('📦 API Response:', response);
+          
+          // Check for both 'success' and 'status' fields (API returns 'success')
+          if ((response.success || response.status) && response.data?.token) {
+            // Save auth data (API returns user_info, not user)
+            const userInfo = response.data.user_info || response.data.user;
             const authData: IAuthUser = {
-              id: response.data.user?.id,
-              email: response.data.user?.email,
-              name: response.data.user?.name,
+              id: userInfo?._id || userInfo?.id || userInfo?.idStudent,
+              email: userInfo?.email,
+              name: userInfo?.firstName || userInfo?.name,
               token: response.data.token,
             };
             
@@ -80,9 +89,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const cleanUrl = window.location.pathname;
             window.history.replaceState({}, document.title, cleanUrl);
             
-            console.log('✅ SSO Login successful');
+            console.log('✅ SSO Login successful', authData);
           } else {
-            console.error('❌ Invalid session or no token received');
+            console.error('❌ Invalid session or no token received', response);
           }
         } catch (error) {
           console.error('❌ Error verifying session:', error);
@@ -115,6 +124,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const isAuthenticated = !!user?.token;
+
+  // Debug log
+  useEffect(() => {
+    console.log('🔐 Auth State:', { isAuthenticated, user, isLoading });
+  }, [isAuthenticated, user, isLoading]);
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, login, logout, isLoading }}>

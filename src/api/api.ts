@@ -47,7 +47,8 @@ export interface IContactForm {
 }
 
 export interface IApiResponse<T = any> {
-    status: boolean;
+    status?: boolean;
+    success?: boolean;
     code?: string;
     message?: string;
     data?: T;
