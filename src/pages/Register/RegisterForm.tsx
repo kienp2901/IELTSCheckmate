@@ -14,12 +14,16 @@ import {
   Divider,
   MenuItem,
   InputAdornment,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import CardGiftcardIcon from "@mui/icons-material/CardGiftcard";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import { useNavigate } from "react-router";
-import { useDialog } from "@/contexts/DialogContext"
+import { useNavigate, useSearchParams } from "react-router";
+import { useDialog } from "@/contexts/DialogContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { portalApi, type IPackageData, type IDiscountCheckData } from "@/api/portal-api";
 
 // Custom styled components
 const OrderPaper = styled(Paper)(({ theme }) => ({
@@ -60,13 +64,31 @@ const StyledButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function RegisterForm() {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { openDialog } = useDialog();
+  const { user } = useAuth();
+
+  const [packageData, setPackageData] = useState<IPackageData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string>("");
+  
+  // Discount code states
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountData, setDiscountData] = useState<IDiscountCheckData | null>(null);
+  const [isCheckingDiscount, setIsCheckingDiscount] = useState(false);
+  const [discountError, setDiscountError] = useState("");
+  
+  // Payment states
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     message: "",
-    timeSlot: "9h-11h", // Set default value to first option
-    discountRate: "40%", // Giá trị mặc định là tùy chọn đầu tiên
+    timeSlot: "9h-11h",
+    discountRate: "40%",
     agreeTerms: false,
     receiveUpdates: false,
   });
@@ -76,17 +98,43 @@ export default function RegisterForm() {
     email: "",
   });
 
-  const navigate = useNavigate();
-
-  const { openDialog } = useDialog()
-
+  // Fetch package data when component mounts
   useEffect(() => {
-    // Đảm bảo giá trị mặc định được chọn khi component mount
-    setFormData((prev) => ({
-      ...prev,
-      discountRate: "40%", // Giá trị mặc định là tùy chọn đầu tiên
-    }));
-  }, []);
+    const fetchPackageData = async () => {
+      const idPackage = searchParams.get('idPackage');
+      
+      if (!idPackage) {
+        setError('Không tìm thấy gói. Vui lòng chọn gói từ trang chủ.');
+        setLoading(false);
+        return;
+      }
+
+      if (!user?.token) {
+        setError('Vui lòng đăng nhập để tiếp tục.');
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        const response = await portalApi.package.getById(idPackage, user.token);
+        
+        if (response.status && response.data) {
+          setPackageData(response.data);
+          setError('');
+        } else {
+          setError('Không thể tải thông tin gói. Vui lòng thử lại.');
+        }
+      } catch (err: any) {
+        console.error('Error fetching package:', err);
+        setError(err.message || 'Không thể tải thông tin gói. Vui lòng thử lại.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPackageData();
+  }, [searchParams, user]);
 
   const validatePhone = (phone: string) => {
     const phoneRegex = /^(0|\+84)(\d{9,10})$/;
@@ -128,26 +176,133 @@ export default function RegisterForm() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate all fields before submission
-    const phoneValid = validatePhone(formData.phone);
-    const emailValid = validateEmail(formData.email);
-
-    setErrors({
-      phone: phoneValid ? "" : "Số điện thoại không hợp lệ",
-      email: emailValid ? "" : "Email không hợp lệ",
-    });
-
-    if (!phoneValid || !emailValid) {
-      return; // Don't submit if validation fails
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault();
     }
 
-    console.log("Form submitted:", formData);
-    // Handle form submission logic here
-    // window.location.href = `/wordpress/thankyou`;
-    window.location.href = `${process.env.PREFIX}/thankyou`;
+    // Check if package data exists
+    if (!packageData?.idPackage || !user?.token) {
+      alert('Không thể tạo đơn hàng. Vui lòng thử lại.');
+      return;
+    }
+
+    setIsProcessingPayment(true);
+
+    try {
+      // Prepare order data
+      const orderData: any = {
+        items: [
+          {
+            packageId: packageData.idPackage,
+            quantity: 1
+          }
+        ]
+      };
+
+      // Add discount code if available
+      if (discountData?.discountInfo?.code) {
+        orderData.discountCode = discountData.discountInfo.code;
+      }
+
+      console.log('Creating order with data:', orderData);
+
+      // Call API to create order
+      const response = await portalApi.order.create(orderData, user.token);
+
+      console.log('Order created successfully:', response);
+
+      if (response.status && response.data?.payUrl) {
+        // Redirect to payment URL
+        window.location.href = response.data.payUrl;
+        
+        // Alternative: Open in new tab
+        // window.open(response.data.payUrl, '_blank');
+      } else {
+        throw new Error('Không nhận được URL thanh toán');
+      }
+    } catch (err: any) {
+      console.error('Error creating order:', err);
+      alert(err.message || 'Không thể tạo đơn hàng. Vui lòng thử lại.');
+    } finally {
+      setIsProcessingPayment(false);
+    }
+  };
+
+  // Format price
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('vi-VN').format(price) + 'đ';
+  };
+
+  // Format date
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+  };
+
+  // Handle check discount code
+  const handleCheckDiscount = async () => {
+    if (!discountCode.trim()) {
+      setDiscountError('Vui lòng nhập mã giảm giá');
+      return;
+    }
+
+    if (!packageData?.idPackage || !user?.token) {
+      setDiscountError('Không thể kiểm tra mã giảm giá');
+      return;
+    }
+
+    setIsCheckingDiscount(true);
+    setDiscountError('');
+
+    try {
+      const response = await portalApi.order.checkDiscountCode(
+        {
+          discountCode: discountCode.trim(),
+          items: [
+            {
+              packageId: packageData.idPackage,
+              quantity: 1
+            }
+          ]
+        },
+        user.token
+      );
+
+      if (response.status && response.data) {
+        setDiscountData(response.data);
+        setDiscountError('');
+      } else {
+        setDiscountError('Mã giảm giá không hợp lệ');
+        setDiscountData(null);
+      }
+    } catch (err: any) {
+      console.error('Error checking discount:', err);
+      setDiscountError(err.message || 'Mã giảm giá không hợp lệ');
+      setDiscountData(null);
+    } finally {
+      setIsCheckingDiscount(false);
+    }
+  };
+
+  // Calculate total prices
+  const getOriginalPrice = () => {
+    return packageData?.amount || 0;
+  };
+
+  const getDiscountAmount = () => {
+    return discountData?.discountAmount || 0;
+  };
+
+  const getFinalPrice = () => {
+    if (discountData) {
+      return discountData.totalAmount;
+    }
+    return packageData?.amount || 0;
   };
 
   return (
@@ -159,9 +314,18 @@ export default function RegisterForm() {
           zIndex: 1,
         }}
       >
-        <Grid container spacing={3}>
-          {/* Left side - Order information */}
-          <Grid item xs={12} md={6}>
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '400px' }}>
+            <CircularProgress />
+          </Box>
+        ) : error ? (
+          <Alert severity="error" sx={{ mb: 3 }}>
+            {error}
+          </Alert>
+        ) : (
+          <Grid container spacing={3}>
+            {/* Left side - Order information - FULL WIDTH */}
+            <Grid item xs={12}>
             <OrderPaper elevation={0} variant="outlined">
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}
@@ -170,32 +334,25 @@ export default function RegisterForm() {
                   Thông tin đơn hàng
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  Mã đơn hàng 123456
+                  Mã gói: {packageData?.idPackage}
                 </Typography>
               </Box>
 
               <CourseItem>
                 <Box>
                   <Typography variant="subtitle1" fontWeight="medium">
-                    Khóa học IELTS Rock cơ bản
+                    {packageData?.name}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Đầu ra 4.0 - 5.5 IELTS
+                    {packageData?.description}
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
+                    Thời gian: {packageData?.timeStart && formatDate(packageData.timeStart)} - {packageData?.timeEnd && formatDate(packageData.timeEnd)}
                   </Typography>
                 </Box>
-                <PriceText sx={{ fontWeight: 600 }}>2.500.000đ</PriceText>
-              </CourseItem>
-
-              <CourseItem>
-                <Box>
-                  <Typography variant="subtitle1" fontWeight="medium">
-                    Khóa học IELTS Knight cơ bản
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Đầu ra 5.5-6.5+ IELTS
-                  </Typography>
-                </Box>
-                <PriceText sx={{ fontWeight: 600 }}>4.300.000đ</PriceText>
+                <PriceText sx={{ fontWeight: 600 }}>
+                  {packageData?.amount && formatPrice(packageData.amount)}
+                </PriceText>
               </CourseItem>
 
               <Divider sx={{ my: 3, borderStyle: "dashed" }} />
@@ -206,104 +363,150 @@ export default function RegisterForm() {
                 <Typography variant="subtitle1" fontWeight="600">
                   Tổng học phí
                 </Typography>
-                <PriceText sx={{ fontWeight: 600 }}>6.800.000đ</PriceText>
+                <PriceText sx={{ fontWeight: 600 }}>
+                  {formatPrice(getOriginalPrice())}
+                </PriceText>
               </Box>
 
+              {/* Discount Code Section */}
               <PromotionBox>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="subtitle1" fontWeight="medium">
-                    Ưu đãi
+                <Typography variant="subtitle1" fontWeight="600" sx={{ mb: 2 }}>
+                  Mã giảm giá
+                </Typography>
+                
+                <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+                  <TextField
+                    fullWidth
+                    size="small"
+                    placeholder="Nhập mã giảm giá"
+                    value={discountCode}
+                    onChange={(e) => {
+                      setDiscountCode(e.target.value.toUpperCase());
+                      setDiscountError('');
+                    }}
+                    error={!!discountError}
+                    sx={{
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "8px",
+                        backgroundColor: "#fff",
+                      },
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={handleCheckDiscount}
+                    disabled={isCheckingDiscount || !discountCode.trim()}
+                    sx={{
+                      minWidth: "100px",
+                      borderRadius: "8px",
+                      textTransform: "none",
+                      backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                      "&:hover": {
+                        backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                      },
+                      "&:disabled": {
+                        background: "#E5E7EB",
+                        color: "#9CA3AF",
+                      }
+                    }}
+                  >
+                    {isCheckingDiscount ? "Đang kiểm tra..." : "Áp dụng"}
+                  </Button>
+                </Box>
+
+                {discountError && (
+                  <Typography variant="caption" color="error" sx={{ display: 'block', mb: 1 }}>
+                    {discountError}
                   </Typography>
-                  <Box sx={{ display: "flex", alignItems: "center" }}>
-                    <TextField
-                      select
-                      name="discountRate"
-                      value={formData.discountRate}
-                      onChange={handleChange}
-                      size="small"
+                )}
+
+                {discountData && (
+                  <>
+                    <Box sx={{ 
+                      p: 2, 
+                      bgcolor: '#E8F5F3', 
+                      borderRadius: 2,
+                      border: '1px solid #0E9F97',
+                      mb: 2 
+                    }}>
+                      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                        <CardGiftcardIcon sx={{ color: '#0E9F97' }} />
+                        <Typography variant="subtitle2" fontWeight="600" color="#0E9F97">
+                          Mã "{discountData.discountInfo.code}" đã được áp dụng!
+                        </Typography>
+                      </Box>
+                      <Typography variant="body2" color="text.secondary">
+                        Giảm {discountData.discountInfo.type === 'percent' 
+                          ? `${discountData.discountInfo.amount}%` 
+                          : formatPrice(discountData.discountInfo.amount)
+                        }
+                      </Typography>
+                    </Box>
+
+                    <Box
                       sx={{
-                        width: "190px",
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: "16px",
-                          backgroundColor: "#fff",
-                          "& fieldset": {
-                            borderColor: "#E5E7EB",
-                          },
-                        },
-                        "& .MuiSelect-select": {
-                          paddingY: "6px",
-                        },
-                      }}
-                      SelectProps={{
-                        IconComponent: KeyboardArrowDownIcon,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        mb: 1,
                       }}
                     >
-                      <MenuItem value="40%">Dùng ưu đãi 40%</MenuItem>
-                      <MenuItem value="50%">Dùng ưu đãi 50%</MenuItem>
-                    </TextField>
-                  </Box>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    mb: 1,
-                  }}
-                >
-                  <Typography variant="body2">Giá được giảm</Typography>
-                  <Typography variant="body2" fontWeight="bold" color="error">
-                    -1.360.000đ
-                  </Typography>
-                </Box>
-
-                <Typography variant="subtitle2" sx={{ mb: 1 }}>
-                  Quà tặng
-                </Typography>
-
-                <Box sx={{ display: "flex", alignItems: "flex-start", mb: 1 }}>
-                  <CardGiftcardIcon
-                    fontSize="small"
-                    sx={{ mr: 1, mt: 0.3, color: "#F59E0B" }}
-                  />
-                  <Typography variant="body2">
-                    Khóa sách độc quyền tự luyện IELTS 4 kỹ năng (trị giá
-                    1.000.000đ)
-                  </Typography>
-                </Box>
-
-                <Box sx={{ display: "flex", alignItems: "flex-start" }}>
-                  <CardGiftcardIcon
-                    fontSize="small"
-                    sx={{ mr: 1, mt: 0.3, color: "#F59E0B" }}
-                  />
-                  <Typography variant="body2">
-                    Tai nghe bluetooth Xiaomi (trị giá 600.000đ)
-                  </Typography>
-                </Box>
+                      <Typography variant="body2">Giá được giảm</Typography>
+                      <Typography variant="body2" fontWeight="bold" color="error">
+                        -{formatPrice(getDiscountAmount())}
+                      </Typography>
+                    </Box>
+                  </>
+                )}
               </PromotionBox>
 
               <Box
                 sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
               >
                 <Typography variant="subtitle1" fontWeight="600">
-                  Giá sau khuyến mại
+                  Tổng thanh toán
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" color="#0E9F97">
-                  5.440.000đ
+                  {formatPrice(getFinalPrice())}
                 </Typography>
               </Box>
 
               <Divider sx={{ my: 2 }} />
 
-              <Typography variant="body2" color="text.secondary">
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+                <Button
+                  variant="contained"
+                  onClick={handleSubmit}
+                  disabled={isProcessingPayment}
+                  sx={{
+                    textTransform: "none",
+                    borderRadius: "25px",
+                    backgroundImage:
+                      "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
+                    "&:hover": {
+                      backgroundImage:
+                        "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
+                    },
+                    "&:disabled": {
+                      background: "#E5E7EB",
+                      color: "#9CA3AF",
+                    },
+                    fontFamily:
+                      "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
+                    fontWeight: 600,
+                    fontSize: "16px",
+                    lineHeight: "20px",
+                    color: "white",
+                    padding: "12px 48px",
+                    minWidth: "200px",
+                  }}
+                >
+                  {isProcessingPayment ? "Đang xử lý..." : "Thanh toán ngay"}
+                </Button>
+              </Box>
+
+              <Divider sx={{ my: 3 }} />
+
+              <Typography variant="body2" color="text.secondary" textAlign="center">
                 Bạn vẫn còn phân vân? Liên hệ Checkmate để được{" "}
                 <Typography
                   component="span"
@@ -319,9 +522,11 @@ export default function RegisterForm() {
               </Typography>
             </OrderPaper>
           </Grid>
+        </Grid>
+        )}
 
-          {/* Right side - Customer information */}
-          <Grid item xs={12} md={6}>
+        {/* Right side - Customer information */}
+          {/* <Grid item xs={12} md={6}>
             <OrderPaper elevation={0} variant="outlined">
               <Typography variant="h6" fontWeight="bold" sx={{ mb: 3 }}>
                 Thông tin của bạn
@@ -486,8 +691,8 @@ export default function RegisterForm() {
                 </Box>
               </form>
             </OrderPaper>
-          </Grid>
-        </Grid>
+          </Grid> */}
+
       </Container>
     </Box>
   );

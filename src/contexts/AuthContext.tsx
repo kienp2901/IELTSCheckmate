@@ -15,6 +15,7 @@ interface IAuthUser {
   email?: string;
   name?: string;
   token?: string;
+  sessionId?: string;
 }
 
 interface IAuthContext {
@@ -34,22 +35,68 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<IAuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Check if user is already logged in on mount
+  // Verify session from localStorage on mount
   useEffect(() => {
-    const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
-    console.log('🔍 Checking stored auth:', storedAuth);
-    
-    if (storedAuth) {
-      try {
-        const authData = JSON.parse(storedAuth);
-        setUser(authData);
-        console.log('✅ User restored from localStorage:', authData);
-      } catch (error) {
-        console.error('❌ Error parsing auth data:', error);
-        localStorage.removeItem(AUTH_STORAGE_KEY);
+    const verifyStoredSession = async () => {
+      const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+      console.log('🔍 Checking stored auth:', storedAuth);
+      
+      if (storedAuth) {
+        try {
+          const authData = JSON.parse(storedAuth);
+          
+          // If we have a sessionId, verify it with backend
+          if (authData.sessionId) {
+            console.log('🔄 Verifying stored session:', authData.sessionId);
+            
+            try {
+              const response = await api.sso.verifySession(authData.sessionId);
+              
+              console.log('📦 Session verification response:', response);
+              
+              // Check if session is still valid
+              if ((response.success || response.status) && response.data?.token) {
+                const userInfo = response.data.user_info || response.data.user;
+                const updatedAuthData: IAuthUser = {
+                  id: userInfo?._id || userInfo?.id || userInfo?.idStudent,
+                  email: userInfo?.email,
+                  name: userInfo?.firstName || userInfo?.name,
+                  token: response.data.token,
+                  sessionId: authData.sessionId, // Keep the sessionId
+                };
+                
+                setUser(updatedAuthData);
+                localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(updatedAuthData));
+                console.log('✅ Session verified and updated:', updatedAuthData);
+              } else {
+                // Session invalid, clear auth
+                console.log('❌ Session invalid, clearing auth');
+                setUser(null);
+                localStorage.removeItem(AUTH_STORAGE_KEY);
+                sessionStorage.removeItem(SESSION_STORAGE_KEY);
+              }
+            } catch (error) {
+              // Session verification failed, clear auth
+              console.error('❌ Session verification failed:', error);
+              setUser(null);
+              localStorage.removeItem(AUTH_STORAGE_KEY);
+              sessionStorage.removeItem(SESSION_STORAGE_KEY);
+            }
+          } else {
+            // No sessionId, just restore the stored data (old flow)
+            setUser(authData);
+            console.log('✅ User restored from localStorage (no sessionId):', authData);
+          }
+        } catch (error) {
+          console.error('❌ Error parsing auth data:', error);
+          localStorage.removeItem(AUTH_STORAGE_KEY);
+        }
       }
-    }
-    setIsLoading(false);
+      
+      setIsLoading(false);
+    };
+
+    verifyStoredSession();
   }, []);
 
   // Check for session_id in URL query params (callback from FE login)
@@ -60,7 +107,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       if (sessionId) {
         setIsLoading(true);
-        console.log('🔄 Verifying session:', sessionId);
+        console.log('🔄 Verifying session from URL:', sessionId);
         
         try {
           // Call API to verify session and get token
@@ -77,19 +124,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               email: userInfo?.email,
               name: userInfo?.firstName || userInfo?.name,
               token: response.data.token,
+              sessionId: sessionId, // Save sessionId for future verification
             };
             
             setUser(authData);
             localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData));
             
-            // Clean up session_id from storage
+            // Clean up session_id from sessionStorage
             sessionStorage.removeItem(SESSION_STORAGE_KEY);
             
             // Remove session_id from URL
             const cleanUrl = window.location.pathname;
             window.history.replaceState({}, document.title, cleanUrl);
             
-            console.log('✅ SSO Login successful', authData);
+            console.log('✅ SSO Login successful with sessionId:', authData);
           } else {
             console.error('❌ Invalid session or no token received', response);
           }
@@ -112,7 +160,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     sessionStorage.setItem(SESSION_STORAGE_KEY, sessionId);
     
     // Redirect to FE login with session_id
-    const loginUrl = `${process.env.DOMAIN_FE}/login?session_id=${sessionId}`;
+    const loginUrl = `${process.env.DOMAIN_FE}/signin?session_id=${sessionId}`;
     window.location.href = loginUrl;
   };
 

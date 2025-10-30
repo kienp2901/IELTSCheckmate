@@ -45,8 +45,8 @@ function App() {
             <DialogProvider>
               <Routes>
                 {/* <Route index Component={LandingPage}  /> */}
-                <Route path="/wordpress/" Component={Layout}>
-                  <Route index Component={LandingPage} />
+                <Route path="/wordpress/" Component={RegisterLayout}>
+                  <Route index Component={RegisterForm} />
                 </Route>
                 <Route path="/wordpress/contact" Component={ContactLayout}>
                   <Route index Component={ContactForm} />
