@@ -11,7 +11,7 @@ Version: 1.4
 Author URI: https://freetuts.net
 Text Domain:custom-form
 */
-// define('IELTS_CHECKMATE_PREFIX_PATH', 'wordpress');
+define('IELTS_CHECKMATE_PREFIX_PATH', 'wordpress');
 // define('IELTS_CHECKMATE_PREFIX_PATH', '');
 define('WIDGET_URL_CHECKMATE_DASHBOARD', plugins_url('/ielts_checkmate_dashboard'));
 function add_my_custom_page_ielts_checkmate_dashboard()
@@ -153,3 +153,72 @@ function deactivate_plugin_ielts_checkmate_dashboard()
     wp_delete_post($page_id9);
 }
 register_deactivation_hook(__FILE__, 'deactivate_plugin_ielts_checkmate_dashboard');
+
+// Custom 404 Template for IELTS Checkmate
+function checkmate_custom_404_template($template) {
+    if (is_404()) {
+        $custom_404 = dirname(__FILE__) . '/templates/404-checkmate.php';
+        if (file_exists($custom_404)) {
+            return $custom_404;
+        }
+    }
+    return $template;
+}
+add_filter('template_include', 'checkmate_custom_404_template', 99);
+
+// Custom 403 Error Page for IELTS Checkmate
+function checkmate_custom_403_page() {
+    $custom_403 = dirname(__FILE__) . '/templates/403-checkmate.php';
+    if (file_exists($custom_403)) {
+        status_header(403);
+        include($custom_403);
+        exit;
+    }
+}
+
+// Custom 500 Error Page for IELTS Checkmate
+function checkmate_custom_500_page() {
+    $custom_500 = dirname(__FILE__) . '/templates/500-checkmate.php';
+    if (file_exists($custom_500)) {
+        status_header(500);
+        include($custom_500);
+        exit;
+    }
+}
+
+// Hook to display error pages when needed
+function checkmate_handle_custom_errors() {
+    // Check for 403 error
+    if (isset($_GET['checkmate_error']) && $_GET['checkmate_error'] === '403') {
+        checkmate_custom_403_page();
+    }
+    
+    // Check for 500 error
+    if (isset($_GET['checkmate_error']) && $_GET['checkmate_error'] === '500') {
+        checkmate_custom_500_page();
+    }
+}
+add_action('template_redirect', 'checkmate_handle_custom_errors', 1);
+
+// Custom wp_die handler for errors
+function checkmate_custom_wp_die_handler($message, $title, $args) {
+    // Check if this is a 403 error
+    if (isset($args['response']) && $args['response'] == 403) {
+        checkmate_custom_403_page();
+    }
+    
+    // Check if this is a 500 error
+    if (isset($args['response']) && $args['response'] == 500) {
+        checkmate_custom_500_page();
+    }
+    
+    // For other errors, use default handler
+    _default_wp_die_handler($message, $title, $args);
+}
+
+// Override wp_die for custom error pages (403, 500)
+function checkmate_set_custom_die_handler($handlers) {
+    $handlers[] = 'checkmate_custom_wp_die_handler';
+    return $handlers;
+}
+add_filter('wp_die_handler', 'checkmate_set_custom_die_handler');

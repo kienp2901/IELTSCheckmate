@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Portal API Base URL - khác với API chính
-const PORTAL_API_BASE_URL = process.env.PORTAL_API_URL || 'https://apiems.microgem.io.vn';
+const PORTAL_API_BASE_URL = process.env.PORTAL_API_URL;
 
 // Tạo axios instance riêng cho Portal API
 const portalApiClient = axios.create({
