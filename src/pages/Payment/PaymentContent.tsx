@@ -268,7 +268,14 @@ export default function PaymentContent() {
                     <Typography variant="subtitle2" color="text.secondary">
                       Giá gốc
                     </Typography>
-                    <Typography variant="body1" sx={{ textDecoration: transactionData.discountAmount > 0 ? "line-through" : "none" }}>
+                    <Typography 
+                      variant="h5" 
+                      fontWeight={700}
+                      sx={{ 
+                        textDecoration: transactionData.discountAmount > 0 ? "line-through" : "none",
+                        color: "#000"
+                      }}
+                    >
                       {formatPrice(transactionData.totalAmount + transactionData.discountAmount)}
                     </Typography>
                   </Grid>
@@ -276,7 +283,7 @@ export default function PaymentContent() {
                     <Typography variant="subtitle2" color="text.secondary">
                       Tổng tiền
                     </Typography>
-                    <Typography variant="h5" color="error" fontWeight={700}>
+                    <Typography variant="h5" fontWeight={700} sx={{ color: "#1976D2" }}>
                       {formatPrice(transactionData.totalAmount)}
                     </Typography>
                   </Grid>
@@ -285,7 +292,7 @@ export default function PaymentContent() {
                       <Typography variant="subtitle2" color="text.secondary">
                         Giảm giá
                       </Typography>
-                      <Typography variant="body1" color="success.main" fontWeight={600}>
+                      <Typography variant="h5" fontWeight={700} sx={{ color: "#0E9F97" }}>
                         -{formatPrice(transactionData.discountAmount)}
                       </Typography>
                     </Grid>
@@ -295,11 +302,9 @@ export default function PaymentContent() {
                       Tình trạng
                     </Typography>
                     <Box display="flex" alignItems="center" gap={1}>
-                      <Chip 
-                        label={getStatusInfo(transactionData.status).label}
-                        color={getStatusInfo(transactionData.status).color}
-                        size="small"
-                      />
+                      <Typography variant="h6" fontWeight={700} sx={{ color: "#000" }}>
+                        {getStatusInfo(transactionData.status).label}
+                      </Typography>
                     </Box>
                   </Grid>
                   <Grid item xs={12} sm={6}>
