@@ -101,9 +101,26 @@ function add_my_custom_page_ielts_checkmate_dashboard()
     // Insert the post into the database
     $add9 = wp_insert_post($my_post9);
     update_option('ielts_checkmate_payment', $add9);
+    
+    // Add rewrite rules and flush
+    checkmate_add_rewrite_rules();
+    flush_rewrite_rules();
 }
 
 register_activation_hook(__FILE__, 'add_my_custom_page_ielts_checkmate_dashboard');
+
+// Add custom rewrite rules for /dashboard
+function checkmate_add_rewrite_rules() {
+    add_rewrite_rule('^dashboard/?$', 'index.php?checkmate_dashboard=1', 'top');
+}
+add_action('init', 'checkmate_add_rewrite_rules');
+
+// Add query var
+function checkmate_query_vars($vars) {
+    $vars[] = 'checkmate_dashboard';
+    return $vars;
+}
+add_filter('query_vars', 'checkmate_query_vars');
 
 
 add_filter( 'page_template', 'fw_reserve_page_template_ielts_checkmate_dashboard' );
@@ -153,6 +170,47 @@ function deactivate_plugin_ielts_checkmate_dashboard()
     wp_delete_post($page_id9);
 }
 register_deactivation_hook(__FILE__, 'deactivate_plugin_ielts_checkmate_dashboard');
+
+// Prevent WordPress from redirecting /dashboard to login
+function checkmate_intercept_dashboard_redirect() {
+    // Get the current URL path
+    $request_uri = $_SERVER['REQUEST_URI'];
+    $parsed_url = parse_url($request_uri);
+    $path = isset($parsed_url['path']) ? rtrim($parsed_url['path'], '/') : '';
+    
+    // Remove any prefix path (for subdirectory installations)
+    $path = str_replace('/wordpress', '', $path);
+    
+    // Check if accessing /dashboard
+    if ($path === '/dashboard') {
+        // Redirect to IELTS Checkmate Dashboard
+        wp_redirect(home_url('/ielts-checkmate-dashboard'), 301);
+        exit;
+    }
+}
+// Use very early priority to intercept before WordPress processes admin redirects
+add_action('init', 'checkmate_intercept_dashboard_redirect', 1);
+
+// Handle the custom query var redirect
+function checkmate_redirect_dashboard_template() {
+    // Check if this is our custom dashboard query var
+    if (get_query_var('checkmate_dashboard')) {
+        wp_redirect(home_url('/ielts-checkmate-dashboard'), 301);
+        exit;
+    }
+    
+    // Also check direct URL access as backup
+    $request_uri = $_SERVER['REQUEST_URI'];
+    $parsed_url = parse_url($request_uri);
+    $path = isset($parsed_url['path']) ? rtrim($parsed_url['path'], '/') : '';
+    $path = str_replace('/wordpress', '', $path);
+    
+    if ($path === '/dashboard') {
+        wp_redirect(home_url('/ielts-checkmate-dashboard'), 301);
+        exit;
+    }
+}
+add_action('template_redirect', 'checkmate_redirect_dashboard_template', 1);
 
 // Custom 404 Template for IELTS Checkmate
 function checkmate_custom_404_template($template) {
