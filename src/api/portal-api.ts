@@ -112,6 +112,25 @@ export interface ICreateOrderData {
     payUrl: string;
 }
 
+export interface IStudentInfo {
+    _id: string;
+    firstName: string;
+    lastName: string;
+    userName: string;
+    phone: string;
+    email: string;
+    avatar: string;
+    birthday: string;
+    gender: number;
+    idStudent: string;
+    idStudentCode: number;
+    isPermission: boolean;
+    timeFinishPermission: string;
+    lastLogin: string;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export interface IPortalApiResponse<T = any> {
     status?: boolean;
     success?: boolean;
@@ -125,6 +144,25 @@ export interface IPortalApiResponse<T = any> {
 // ============================================
 
 export const portalApi = {
+    // Student API
+    student: {
+        getInfo: async (token: string): Promise<IPortalApiResponse<IStudentInfo>> => {
+            try {
+                const response = await portalApiClient.get(
+                    `/portal/student/info`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    }
+                );
+                return response.data;
+            } catch (error: any) {
+                throw new Error(error.response?.data?.message || 'Không thể lấy thông tin sinh viên');
+            }
+        },
+    },
+
     // Package API
     package: {
         getById: async (idPackage: string | number, token: string): Promise<IPortalApiResponse<IPackageData>> => {

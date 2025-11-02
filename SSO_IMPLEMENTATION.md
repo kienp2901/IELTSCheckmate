@@ -4,7 +4,7 @@
 
 Hệ thống đăng nhập SSO (Single Sign-On) cho phép user đăng nhập qua React FE và tự động đồng bộ với WordPress landing page.
 
-## 📋 Flow hoạt động
+## 📋 Flow hoạt động (Updated với Token Verification)
 
 ### 1. User chưa đăng nhập
 
@@ -28,7 +28,7 @@ Hệ thống đăng nhập SSO (Single Sign-On) cho phép user đăng nhập qua
        ▼
 ┌────────────────────────────────────────┐
 │ 3. Redirect to FE login:               │
-│    ${DOMAIN_FE}/login?session_id=xxx   │
+│    ${DOMAIN_FE}/signin?session_id=xxx  │
 └────────────────────────────────────────┘
 ```
 
@@ -49,11 +49,11 @@ Hệ thống đăng nhập SSO (Single Sign-On) cho phép user đăng nhập qua
        ▼
 ┌──────────────────────────────────────┐
 │ FE redirect về WordPress:            │
-│ /wordpress/?session_id=xxx           │
+│ /wordpress/?session_id=xxx&login=..  │
 └──────────────────────────────────────┘
 ```
 
-### 3. WordPress verify session
+### 3. WordPress verify session + token (UPDATED ✨)
 
 ```
 ┌────────────────────────┐
@@ -63,7 +63,7 @@ Hệ thống đăng nhập SSO (Single Sign-On) cho phép user đăng nhập qua
        │
        ▼
 ┌──────────────────────────────────────┐
-│ Call API:                            │
+│ STEP 1: Call SSO API                 │
 │ GET /api/sso/session/{session_id}    │
 └──────┬───────────────────────────────┘
        │
@@ -71,27 +71,75 @@ Hệ thống đăng nhập SSO (Single Sign-On) cho phép user đăng nhập qua
 ┌──────────────────────────┐
 │ Response:                │
 │ {                        │
-│   status: true,          │
+│   success: true,         │
 │   data: {                │
 │     token: "xxx",        │
-│     user: { ... }        │
+│     user_info: { ... }   │
 │   }                      │
 │ }                        │
 └──────┬───────────────────┘
        │
        ▼
-┌──────────────────────────┐
-│ Save to localStorage:    │
-│ - token                  │
-│ - user info              │
-└──────┬───────────────────┘
+┌──────────────────────────────────────┐
+│ STEP 2: Verify Token (NEW! ✨)       │
+│ GET /portal/student/info             │
+│ Authorization: Bearer {token}        │
+└──────┬───────────────────────────────┘
        │
-       ▼
-┌──────────────────────────┐
-│ Update UI:               │
-│ - Hide Đăng ký/Đăng nhập │
-│ - Show "Vào học" button  │
-└──────────────────────────┘
+       ├─► Token Valid ✅
+       │   ├─► Save to localStorage
+       │   ├─► Update UI (show "Vào học")
+       │   └─► Clean URL
+       │
+       └─► Token Expired/Invalid ❌
+           ├─► Clear localStorage
+           ├─► Clear sessionStorage
+           └─► Show login buttons
+```
+
+### 4. Restore session on page load (UPDATED ✨)
+
+```
+┌────────────────────────┐
+│ Page load              │
+│ Check localStorage     │
+└──────┬─────────────────┘
+       │
+       ├─► No auth → Show login buttons
+       │
+       └─► Has auth data
+           │
+           ├─► Priority 1: Has sessionId? (UPDATED! ✨)
+           │   │
+           │   ▼
+           │   ┌──────────────────────────────────┐
+           │   │ Re-verify Session                │
+           │   │ GET /api/sso/session/{sessionId} │
+           │   └──────┬───────────────────────────┘
+           │          │
+           │          ├─► Session Valid → Get fresh token
+           │          │   │
+           │          │   ▼
+           │          │   ┌──────────────────────────────┐
+           │          │   │ Verify Token                 │
+           │          │   │ GET /portal/student/info     │
+           │          │   └──────┬───────────────────────┘
+           │          │          │
+           │          │          ├─► Valid ✅ → Restore user
+           │          │          └─► Invalid ❌ → Clear auth
+           │          │
+           │          └─► Session Invalid ❌ → Clear auth
+           │
+           └─► Priority 2: Only has token (no sessionId)?
+               │
+               ▼
+               ┌──────────────────────────────────┐
+               │ Verify Token                     │
+               │ GET /portal/student/info         │
+               └──────┬───────────────────────────┘
+                      │
+                      ├─► Valid ✅ → Restore user
+                      └─► Invalid ❌ → Clear auth
 ```
 
 ## 📁 Files thay đổi
@@ -158,6 +206,8 @@ API_HOST=ai.microgem.io.vn
 
 ## 🎯 API Requirements
 
+### API 1: SSO Verify Session
+
 Backend Laravel cần implement endpoint:
 
 ```
@@ -167,26 +217,83 @@ GET https://ai.microgem.io.vn/api/sso/session/{session_id}
 **Response format**:
 ```json
 {
-  "status": true,
+  "success": true,
   "data": {
+    "session_id": "99e8fd1c-b865-486f-9f35-fadbbda93abd",
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "user": {
-      "id": 123,
-      "email": "user@example.com",
-      "name": "John Doe"
+    "user_info": {
+      "_id": "68099a9b24882d70d4591353",
+      "idStudent": "c579f5fc-6378-4df2-972e-8e8ba434140a",
+      "email": "kienp2901@gmail.com",
+      "firstName": "ABC",
+      "phone": "0394859392"
     }
   }
 }
 ```
 
+### API 2: Verify Token (NEW! ✨)
+
+Portal API để verify token còn hạn:
+
+```
+GET https://apiems.microgem.io.vn/portal/student/info
+Headers:
+  Authorization: Bearer {token}
+```
+
+**Response format**:
+```json
+{
+  "status": true,
+  "data": {
+    "_id": "68099a9b24882d70d4591353",
+    "firstName": "ABC",
+    "lastName": "",
+    "userName": "0394859392",
+    "phone": "0394859392",
+    "email": "kienp2901@gmail.com",
+    "avatar": "https://...",
+    "idStudent": "c579f5fc-6378-4df2-972e-8e8ba434140a",
+    "isPermission": true,
+    "timeFinishPermission": "2025-12-18T15:01:39.000Z"
+  }
+}
+```
+
+**Error (Token expired/invalid)**:
+```json
+{
+  "status": false,
+  "message": "Unauthorized"
+}
+```
+or HTTP 401
+
 ## 🧪 Testing
 
-### Test Flow:
+### Test Flow 1: Fresh Login
 1. Mở WordPress landing page
 2. Click "Đăng nhập" → redirect to FE with session_id
 3. Login trên FE
-4. FE redirect về → WordPress auto verify và login
-5. Check UI: "Vào học" button xuất hiện
+4. FE redirect về → WordPress auto verify
+5. **NEW!** Verify token với student info API
+6. Check UI: "Vào học" button xuất hiện
+
+### Test Flow 2: Token Expired
+1. Có token cũ trong localStorage
+2. Reload page
+3. **NEW!** Auto verify token với student info API
+4. Token hết hạn → API trả 401
+5. Auto clear auth → Show login buttons
+6. User phải login lại
+
+### Test Flow 3: Page Reload (Valid Token)
+1. User đã login (có token valid)
+2. Reload page
+3. **NEW!** Auto verify token
+4. Token còn hạn → API success
+5. Auto restore user → Show "Vào học"
 
 ### Debug:
 ```javascript
@@ -203,10 +310,64 @@ console.log(sessionStorage.getItem('ielts_checkmate_session_id'));
 ✅ Store session_id in sessionStorage  
 ✅ Redirect to FE login with session_id  
 ✅ Auto verify session on callback  
+✅ **NEW!** Verify token validity với student info API  
 ✅ Save token to localStorage  
+✅ **NEW!** Auto-check token expiry on page load  
+✅ **NEW!** Clear expired tokens automatically  
 ✅ Dynamic UI based on auth state  
 ✅ Support both mobile and desktop  
-✅ Clean URL after authentication  
+✅ Clean URL after authentication
+
+## 🎯 Benefits of Dual Verification (Session + Token)
+
+### Why verify both sessionId AND token?
+
+#### 1. Verify Session (`/api/sso/session/{sessionId}`)
+
+**Purpose:**
+- ✅ Check if session còn valid (chưa bị revoke)
+- ✅ Get fresh token từ session
+- ✅ Backend có thể invalidate session bất cứ lúc nào
+
+**Use Cases:**
+- User logout trên device khác → Session bị revoke
+- Admin ban user → Session bị clear
+- Security breach → All sessions bị invalidate
+
+#### 2. Verify Token (`/portal/student/info`)
+
+**Purpose:**
+- ✅ Check token chưa expired
+- ✅ Validate JWT signature
+- ✅ Ensure user permissions còn active
+
+**Use Cases:**
+- Token hết hạn (JWT expiry)
+- User bị block/deactivate
+- Permissions thay đổi
+
+### Combined Benefits 🚀
+
+1. **Double Security** 🔒
+   - Session level validation
+   - Token level validation
+   - Prevent both session hijacking và token expiry
+
+2. **Always Fresh Token** 🔄
+   - Get new token from session mỗi lần verify
+   - Auto-refresh token lifecycle
+   - Prevent using stale tokens
+
+3. **Comprehensive Checks** 📊
+   - Session valid? ✅
+   - Token valid? ✅
+   - User permissions OK? ✅
+   - ALL must pass → User authenticated
+
+4. **Graceful Degradation** 🛡️
+   - SessionId missing? → Fallback to token verification
+   - Token missing? → Clear auth
+   - Any verification fails? → Auto-logout  
 
 ## 🔒 Security Notes
 

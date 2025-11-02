@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { api } from '@/api/api';
+import { portalApi } from '@/api/portal-api';
 
 // Simple UUID v4 generator
 const generateUUID = (): string => {
@@ -35,6 +36,25 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [user, setUser] = useState<IAuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Helper function to verify token by calling student info API
+  const verifyToken = async (token: string): Promise<boolean> => {
+    try {
+      console.log('🔑 Verifying token with student info API...');
+      const response = await portalApi.student.getInfo(token);
+      
+      if (response.status && response.data) {
+        console.log('✅ Token is valid, student info:', response.data);
+        return true;
+      } else {
+        console.log('❌ Token invalid or no data returned');
+        return false;
+      }
+    } catch (error) {
+      console.error('❌ Token verification failed:', error);
+      return false;
+    }
+  };
+
   // Verify session from localStorage on mount
   useEffect(() => {
     const verifyStoredSession = async () => {
@@ -45,29 +65,43 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         try {
           const authData = JSON.parse(storedAuth);
           
-          // If we have a sessionId, verify it with backend
+          // Priority 1: If we have sessionId, verify session first
           if (authData.sessionId) {
-            console.log('🔄 Verifying stored session:', authData.sessionId);
+            console.log('🔄 Verifying stored session with sessionId:', authData.sessionId);
             
             try {
               const response = await api.sso.verifySession(authData.sessionId);
               
               console.log('📦 Session verification response:', response);
               
-              // Check if session is still valid
+              // Check if session is still valid and returns token
               if ((response.success || response.status) && response.data?.token) {
-                const userInfo = response.data.user_info || response.data.user;
-                const updatedAuthData: IAuthUser = {
-                  id: userInfo?._id || userInfo?.id || userInfo?.idStudent,
-                  email: userInfo?.email,
-                  name: userInfo?.firstName || userInfo?.name,
-                  token: response.data.token,
-                  sessionId: authData.sessionId, // Keep the sessionId
-                };
+                const token = response.data.token;
                 
-                setUser(updatedAuthData);
-                localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(updatedAuthData));
-                console.log('✅ Session verified and updated:', updatedAuthData);
+                // Additional verification: check token with student info API
+                const isTokenValid = await verifyToken(token);
+                
+                if (isTokenValid) {
+                  // Both session and token valid, update auth data
+                  const userInfo = response.data.user_info || response.data.user;
+                  const updatedAuthData: IAuthUser = {
+                    id: userInfo?._id || userInfo?.id || userInfo?.idStudent,
+                    email: userInfo?.email,
+                    name: userInfo?.firstName || userInfo?.name,
+                    token: token,
+                    sessionId: authData.sessionId,
+                  };
+                  
+                  setUser(updatedAuthData);
+                  localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(updatedAuthData));
+                  console.log('✅ Session and token verified and updated:', updatedAuthData);
+                } else {
+                  // Token invalid, clear auth
+                  console.log('❌ Token invalid, clearing auth');
+                  setUser(null);
+                  localStorage.removeItem(AUTH_STORAGE_KEY);
+                  sessionStorage.removeItem(SESSION_STORAGE_KEY);
+                }
               } else {
                 // Session invalid, clear auth
                 console.log('❌ Session invalid, clearing auth');
@@ -82,10 +116,28 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               localStorage.removeItem(AUTH_STORAGE_KEY);
               sessionStorage.removeItem(SESSION_STORAGE_KEY);
             }
+          } 
+          // Priority 2: If only have token (no sessionId), verify token only
+          else if (authData.token) {
+            console.log('🔄 Verifying stored token (no sessionId)...');
+            
+            const isValid = await verifyToken(authData.token);
+            
+            if (isValid) {
+              // Token is valid, restore user
+              setUser(authData);
+              console.log('✅ User restored from localStorage with valid token:', authData);
+            } else {
+              // Token expired or invalid, clear auth
+              console.log('❌ Token expired, clearing auth');
+              setUser(null);
+              localStorage.removeItem(AUTH_STORAGE_KEY);
+              sessionStorage.removeItem(SESSION_STORAGE_KEY);
+            }
           } else {
-            // No sessionId, just restore the stored data (old flow)
-            setUser(authData);
-            console.log('✅ User restored from localStorage (no sessionId):', authData);
+            // No sessionId and no token, clear auth
+            console.log('❌ No sessionId or token found, clearing auth');
+            localStorage.removeItem(AUTH_STORAGE_KEY);
           }
         } catch (error) {
           console.error('❌ Error parsing auth data:', error);
@@ -95,7 +147,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       setIsLoading(false);
     };
-
+ 
     verifyStoredSession();
   }, []);
 
@@ -117,27 +169,40 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           
           // Check for both 'success' and 'status' fields (API returns 'success')
           if ((response.success || response.status) && response.data?.token) {
-            // Save auth data (API returns user_info, not user)
-            const userInfo = response.data.user_info || response.data.user;
-            const authData: IAuthUser = {
-              id: userInfo?._id || userInfo?.id || userInfo?.idStudent,
-              email: userInfo?.email,
-              name: userInfo?.firstName || userInfo?.name,
-              token: response.data.token,
-              sessionId: sessionId, // Save sessionId for future verification
-            };
+            const token = response.data.token;
             
-            setUser(authData);
-            localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData));
+            // Verify token with student info API
+            const isTokenValid = await verifyToken(token);
             
-            // Clean up session_id from sessionStorage
-            sessionStorage.removeItem(SESSION_STORAGE_KEY);
-            
-            // Remove session_id from URL
-            const cleanUrl = window.location.pathname;
-            window.history.replaceState({}, document.title, cleanUrl);
-            
-            console.log('✅ SSO Login successful with sessionId:', authData);
+            if (isTokenValid) {
+              // Token is valid, save auth data
+              const userInfo = response.data.user_info || response.data.user;
+              const authData: IAuthUser = {
+                id: userInfo?._id || userInfo?.id || userInfo?.idStudent,
+                email: userInfo?.email,
+                name: userInfo?.firstName || userInfo?.name,
+                token: token,
+                sessionId: sessionId,
+              };
+              
+              setUser(authData);
+              localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData));
+              
+              // Clean up session_id from sessionStorage
+              sessionStorage.removeItem(SESSION_STORAGE_KEY);
+              
+              // Remove session_id from URL
+              const cleanUrl = window.location.pathname;
+              window.history.replaceState({}, document.title, cleanUrl);
+              
+              console.log('✅ SSO Login successful with verified token:', authData);
+            } else {
+              // Token invalid/expired
+              console.error('❌ Token verification failed, token may be expired');
+              setUser(null);
+              localStorage.removeItem(AUTH_STORAGE_KEY);
+              sessionStorage.removeItem(SESSION_STORAGE_KEY);
+            }
           } else {
             console.error('❌ Invalid session or no token received', response);
           }

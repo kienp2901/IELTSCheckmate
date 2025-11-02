@@ -2,21 +2,33 @@
 
 ## ✅ Completed Features
 
-### 1. 🔐 SSO Authentication System
+### 1. 🔐 SSO Authentication System (Updated ✨)
 - **AuthContext.tsx** - Quản lý authentication state
 - **UUID Generation** - Generate session_id không cần thư viện
 - **Auto Login Verification** - Tự động verify khi callback
+- **Token Validation** - **NEW!** Verify token với student info API
+- **Auto Token Refresh** - **NEW!** Check token expiry on page load
 - **Persistent Session** - Lưu token vào localStorage
 - **Dynamic UI** - Buttons thay đổi theo auth state
 
-**Flow:**
+**Flow (Updated):**
 ```
 Click "Đăng nhập" 
 → Generate session_id 
 → Redirect to FE 
 → Callback với session_id 
-→ Verify & save token 
+→ Verify session & get token 
+→ **NEW! Verify token với /portal/student/info**
+→ Token valid? Save : Clear auth
 → Show "Vào học" button
+```
+
+**Page Load Flow:**
+```
+Page loads
+→ Check localStorage for token
+→ **NEW! Verify token với /portal/student/info**
+→ Token expired? Clear & show login : Restore user
 ```
 
 ### 2. 💳 Payment System
@@ -75,7 +87,7 @@ src/
 ├── api/
 │   ├── api.ts              ✅ Updated (SSO API)
 │   ├── payment-api.ts      ✅ NEW (Payment APIs)
-│   └── portal-api.ts       ✅ Existing (Order APIs)
+│   └── portal-api.ts       ✅ Updated (Student Info API + Order APIs)
 │
 ├── contexts/
 │   ├── AuthContext.tsx     ✅ NEW (SSO Auth)
@@ -103,10 +115,18 @@ src/
 
 Create `.env.qa`:
 ```env
+# WordPress & Frontend
 PREFIX=/wordpress
 DOMAIN_FE=https://checkmate-user.vercel.app
+
+# SSO & Main API
 API_HOST=ai.microgem.io.vn
+API_CONTACT_CREATE=/api/fe/contact/create-new
+
+# Portal API (Student Info, Orders) ⚠️ Required for token verification!
 PORTAL_API_URL=https://apiems.microgem.io.vn
+
+# Payment API
 PAYMENT_API_URL=https://payment.microgem.io.vn
 PAYMENT_API_KEY=ccbe2d130918423c92cc30f7e5919c5e
 PAYMENT_SECRET_KEY=3a6e86fdfe76cb6bf59bd713bf845f8851a1bd88de42d2553a6321952650b267
