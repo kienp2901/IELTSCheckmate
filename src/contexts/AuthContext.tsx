@@ -31,6 +31,7 @@ const AuthContext = createContext<IAuthContext | null>(null);
 
 const AUTH_STORAGE_KEY = 'ielts_checkmate_auth';
 const SESSION_STORAGE_KEY = 'ielts_checkmate_session_id';
+const SESSION_TOKEN_KEY = 'ielts_checkmate_session_token'; // Session cookie equivalent
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<IAuthUser | null>(null);
@@ -58,8 +59,22 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Verify session from localStorage on mount
   useEffect(() => {
     const verifyStoredSession = async () => {
+      // Check sessionStorage first (like cookie session)
+      const sessionToken = sessionStorage.getItem(SESSION_TOKEN_KEY);
       const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+      
+      console.log('🔍 Checking session token (like cookie):', sessionToken ? 'exists' : 'none');
       console.log('🔍 Checking stored auth:', storedAuth);
+      
+      // If no session token (browser was closed), clear everything
+      if (!sessionToken) {
+        console.log('❌ No session token found (browser was closed), clearing auth');
+        setUser(null);
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        sessionStorage.removeItem(SESSION_STORAGE_KEY);
+        setIsLoading(false);
+        return;
+      }
       
       if (storedAuth) {
         try {
@@ -94,6 +109,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                   
                   setUser(updatedAuthData);
                   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(updatedAuthData));
+                  // Save to sessionStorage (like cookie session)
+                  sessionStorage.setItem(SESSION_TOKEN_KEY, token);
                   console.log('✅ Session and token verified and updated:', updatedAuthData);
                 } else {
                   // Token invalid, clear auth
@@ -101,6 +118,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                   setUser(null);
                   localStorage.removeItem(AUTH_STORAGE_KEY);
                   sessionStorage.removeItem(SESSION_STORAGE_KEY);
+                  sessionStorage.removeItem(SESSION_TOKEN_KEY);
                 }
               } else {
                 // Session invalid, clear auth
@@ -108,6 +126,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 setUser(null);
                 localStorage.removeItem(AUTH_STORAGE_KEY);
                 sessionStorage.removeItem(SESSION_STORAGE_KEY);
+                sessionStorage.removeItem(SESSION_TOKEN_KEY);
               }
             } catch (error) {
               // Session verification failed, clear auth
@@ -115,6 +134,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               setUser(null);
               localStorage.removeItem(AUTH_STORAGE_KEY);
               sessionStorage.removeItem(SESSION_STORAGE_KEY);
+              sessionStorage.removeItem(SESSION_TOKEN_KEY);
             }
           } 
           // Priority 2: If only have token (no sessionId), verify token only
@@ -126,6 +146,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             if (isValid) {
               // Token is valid, restore user
               setUser(authData);
+              // Save to sessionStorage (like cookie session)
+              sessionStorage.setItem(SESSION_TOKEN_KEY, authData.token);
               console.log('✅ User restored from localStorage with valid token:', authData);
             } else {
               // Token expired or invalid, clear auth
@@ -133,15 +155,18 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               setUser(null);
               localStorage.removeItem(AUTH_STORAGE_KEY);
               sessionStorage.removeItem(SESSION_STORAGE_KEY);
+              sessionStorage.removeItem(SESSION_TOKEN_KEY);
             }
           } else {
             // No sessionId and no token, clear auth
             console.log('❌ No sessionId or token found, clearing auth');
             localStorage.removeItem(AUTH_STORAGE_KEY);
+            sessionStorage.removeItem(SESSION_TOKEN_KEY);
           }
         } catch (error) {
           console.error('❌ Error parsing auth data:', error);
           localStorage.removeItem(AUTH_STORAGE_KEY);
+          sessionStorage.removeItem(SESSION_TOKEN_KEY);
         }
       }
       
@@ -186,7 +211,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               };
               
               setUser(authData);
+              // Save to localStorage (backup)
               localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData));
+              // Save to sessionStorage (like cookie session - mất khi tắt browser)
+              sessionStorage.setItem(SESSION_TOKEN_KEY, token);
               
               // Clean up session_id from sessionStorage
               sessionStorage.removeItem(SESSION_STORAGE_KEY);
@@ -202,6 +230,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               setUser(null);
               localStorage.removeItem(AUTH_STORAGE_KEY);
               sessionStorage.removeItem(SESSION_STORAGE_KEY);
+              sessionStorage.removeItem(SESSION_TOKEN_KEY);
             }
           } else {
             console.error('❌ Invalid session or no token received', response);
@@ -233,6 +262,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setUser(null);
     localStorage.removeItem(AUTH_STORAGE_KEY);
     sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    sessionStorage.removeItem(SESSION_TOKEN_KEY);
     console.log('✅ Logged out');
   };
 

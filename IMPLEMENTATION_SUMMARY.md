@@ -2,13 +2,15 @@
 
 ## ✅ Completed Features
 
-### 1. 🔐 SSO Authentication System (Updated ✨)
+### 1. 🔐 SSO Authentication System (Updated v2.0 ✨)
 - **AuthContext.tsx** - Quản lý authentication state
 - **UUID Generation** - Generate session_id không cần thư viện
 - **Auto Login Verification** - Tự động verify khi callback
-- **Token Validation** - **NEW!** Verify token với student info API
-- **Auto Token Refresh** - **NEW!** Check token expiry on page load
-- **Persistent Session** - Lưu token vào localStorage
+- **Token Validation** - Verify token với student info API
+- **Auto Token Refresh** - Check token expiry on page load
+- **Session Cookie Mechanism** - **NEW!** SessionStorage như cookie session
+- **Auto Logout on Browser Close** - **NEW!** Tắt browser = logout
+- **Dual Storage** - **NEW!** sessionStorage (primary) + localStorage (backup)
 - **Dynamic UI** - Buttons thay đổi theo auth state
 
 **Flow (Updated):**
@@ -23,12 +25,33 @@ Click "Đăng nhập"
 → Show "Vào học" button
 ```
 
-**Page Load Flow:**
+**Page Load Flow (Session Cookie v2.0):**
 ```
 Page loads
-→ Check localStorage for token
-→ **NEW! Verify token với /portal/student/info**
-→ Token expired? Clear & show login : Restore user
+→ **GATE 1: Check sessionStorage for token** (like cookie)
+   ├─► NO ❌ → Browser was closed
+   │         → Clear all auth
+   │         → Show "Đăng nhập" (MUST LOGIN)
+   │         → STOP HERE
+   │
+   └─► YES ✅ → Continue
+       ↓
+→ GATE 2: Check localStorage for auth data
+   ↓
+→ GATE 3: Verify session (if has sessionId)
+   ↓
+→ GATE 4: Verify token với /portal/student/info
+   ↓
+→ All gates pass? Restore user : Clear & show login
+```
+
+**Browser Close Behavior:**
+```
+Tắt browser/Safari
+→ sessionStorage cleared by browser
+→ Mở lại WordPress
+→ GATE 1 FAIL (no sessionStorage)
+→ Must login again ✅
 ```
 
 ### 2. 💳 Payment System
@@ -152,20 +175,24 @@ npm run build
 ## 📖 Documentation Files
 
 1. **README.md** - Plugin overview và installation
-2. **SSO_IMPLEMENTATION.md** - SSO authentication flow
-3. **PAYMENT_IMPLEMENTATION.md** - Payment system details
-4. **ENVIRONMENT_VARIABLES.md** - Environment setup guide
-5. **DEBUG_SSO.md** - SSO debugging guide
-6. **IMPLEMENTATION_SUMMARY.md** - This file
+2. **SSO_IMPLEMENTATION.md** - SSO authentication flow (updated v2.0)
+3. **SESSION_COOKIE_MECHANISM.md** - **NEW!** Session cookie behavior
+4. **PAYMENT_IMPLEMENTATION.md** - Payment system details
+5. **ENVIRONMENT_VARIABLES.md** - Environment setup guide
+6. **DEBUG_SSO.md** - SSO debugging guide
+7. **IMPLEMENTATION_SUMMARY.md** - This file
 
 ## ✨ Key Features Summary
 
-### Authentication
+### Authentication (v2.0 - Session Cookie)
 - ✅ SSO Login via React FE
-- ✅ Session-based authentication
-- ✅ Token storage in localStorage
+- ✅ **Session Cookie Mechanism** - Match FE behavior
+- ✅ **Auto Logout on Browser Close** - Like session cookie
+- ✅ Dual storage (sessionStorage + localStorage)
+- ✅ Token verification on every page load
+- ✅ Session verification with sessionId
 - ✅ Auto-verify on page load
-- ✅ Persistent login state
+- ✅ Auto-clear expired tokens/sessions
 
 ### Payment
 - ✅ Real-time transaction status

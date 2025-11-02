@@ -158,9 +158,10 @@ const {
 } = useAuth();
 ```
 
-**Storage**:
-- `localStorage['ielts_checkmate_auth']`: Lưu token và user info
-- `sessionStorage['ielts_checkmate_session_id']`: Lưu session_id tạm
+**Storage (Updated ✨)**:
+- `localStorage['ielts_checkmate_auth']`: Backup token và user info (persistent)
+- `sessionStorage['ielts_checkmate_session_id']`: Lưu session_id tạm khi login
+- `sessionStorage['ielts_checkmate_session_token']`: **PRIMARY CHECK** - Token như cookie session (mất khi tắt browser)
 
 ### 2. `src/api/api.ts` (UPDATED)
 **Thêm SSO API**:
@@ -369,12 +370,91 @@ console.log(sessionStorage.getItem('ielts_checkmate_session_id'));
    - Token missing? → Clear auth
    - Any verification fails? → Auto-logout  
 
+## 🍪 Session Cookie Mechanism (NEW! ✨)
+
+### Giống như FE React
+
+WordPress landing page bây giờ hoạt động **giống y hệt** FE React:
+
+**FE React:**
+```
+Login → Save token to:
+  ├─► Cookie (session) - PRIMARY
+  └─► localStorage - BACKUP
+
+Check auth:
+  └─► Cookie exists? YES → Authenticated
+      Cookie missing? NO → Must login (ignore localStorage)
+
+Tắt browser → Cookie mất → Must login lại
+```
+
+**WordPress Landing (Updated):**
+```
+Login → Save token to:
+  ├─► sessionStorage (PRIMARY) - like session cookie
+  └─► localStorage (BACKUP) - for verification data
+
+Check auth:
+  └─► sessionStorage exists? YES → Verify & authenticate
+      sessionStorage missing? NO → Must login (clear localStorage)
+
+Tắt browser → sessionStorage mất → Must login lại ✅
+```
+
+### Behavior Chi Tiết
+
+| Scenario | sessionStorage | localStorage | Result |
+|----------|----------------|--------------|---------|
+| Login lần đầu | ✅ Save token | ✅ Save auth data | Authenticated |
+| Reload page | ✅ Token còn | ✅ Data còn | Stay logged in |
+| Tắt browser | ❌ Token mất | ✅ Data còn | Must login again |
+| Mở browser mới | ❌ Token mất | ✅ Data còn | Must login again |
+| New tab (same window) | ✅ Token còn | ✅ Data còn | Stay logged in |
+
+### Code Implementation
+
+```typescript
+// On page load - Check sessionStorage FIRST
+const sessionToken = sessionStorage.getItem('ielts_checkmate_session_token');
+
+if (!sessionToken) {
+  // NO session token → Browser was closed
+  console.log('❌ No session token, must login again');
+  clearAllAuth();
+  return; // Stop here, force login
+}
+
+// Has session token → Proceed with verification
+const authData = localStorage.getItem('ielts_checkmate_auth');
+// ... verify session & token ...
+```
+
+### Why This is Better?
+
+1. **Security** 🔒
+   - Session ends when browser closes
+   - No persistent login on public computers
+   - Match FE behavior
+
+2. **User Experience** ✨
+   - Consistent with FE React app
+   - Expected behavior for users
+   - Privacy protection
+
+3. **Compliance** 📋
+   - Better for GDPR/privacy
+   - No persistent tracking
+   - Clear session boundaries
+
 ## 🔒 Security Notes
 
 1. Session_id chỉ dùng 1 lần (one-time use)
-2. Token được lưu trong localStorage (có thể chuyển sang httpOnly cookie nếu cần)
-3. API verify session có timeout và expiry
-4. Clean up session_id sau khi verify thành công
+2. Token được lưu trong **sessionStorage** (PRIMARY) - mất khi tắt browser
+3. localStorage chỉ là backup để store sessionId và user info
+4. API verify session có timeout và expiry
+5. Clean up session_id sau khi verify thành công
+6. **NEW!** SessionStorage như cookie session - auto-clear khi tắt browser
 
 ## 📝 Notes
 
