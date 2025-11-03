@@ -8,5 +8,6 @@ export {
     type IDiscountInfo,
     type ICheckDiscountRequest,
     type ICreateOrderRequest,
-    type ICreateOrderData
+    type ICreateOrderData,
+    type IStudentInfo
 } from './portal-api';

@@ -15,7 +15,7 @@ const portalApiClient = axios.create({
 // Interceptor để log requests
 portalApiClient.interceptors.request.use(
     (config) => {
-        console.log('Portal API Request:', config.method?.toUpperCase(), config.url);
+        // console.log('Portal API Request:', config.method?.toUpperCase(), config.url);
         return config;
     },
     (error) => {

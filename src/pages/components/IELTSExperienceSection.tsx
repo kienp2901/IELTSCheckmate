@@ -1,67 +1,145 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
-import { Box, Container, Typography, List, ListItem, ListItemText, useTheme, useMediaQuery } from "@mui/material"
+import { useState, useEffect } from "react"
+import { Box, Container, Typography, List, ListItem, ListItemText, useTheme, useMediaQuery, IconButton } from "@mui/material"
 import Layer1 from "../../assets/Layer_1.png"
 import { motion, AnimatePresence } from "framer-motion"
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useSwipeable } from "react-swipeable"
+
+// Import ảnh từng folder
+import topicTalk1 from "../../assets/IELTSExperienceSectionImage/1-topic-talk/topic-talk-1.png"
+import topicTalk2 from "../../assets/IELTSExperienceSectionImage/1-topic-talk/topic-talk-2.png"
+import topicTalk3 from "../../assets/IELTSExperienceSectionImage/1-topic-talk/topic-talk-3.png"
+import topicTalk4 from "../../assets/IELTSExperienceSectionImage/1-topic-talk/topic-talk-4.png"
+import topicTalk5 from "../../assets/IELTSExperienceSectionImage/1-topic-talk/topic-talk-5.png"
+
+import writing1 from "../../assets/IELTSExperienceSectionImage/2-writing/writing-1.png"
+import writing2 from "../../assets/IELTSExperienceSectionImage/2-writing/writing-2.png"
+import writing3 from "../../assets/IELTSExperienceSectionImage/2-writing/writing-3.png"
+import writing4 from "../../assets/IELTSExperienceSectionImage/2-writing/writing-4.png"
+import writing5 from "../../assets/IELTSExperienceSectionImage/2-writing/writing-5.png"
+
+import listening1 from "../../assets/IELTSExperienceSectionImage/3-listening/listening-1.png"
+import listening2 from "../../assets/IELTSExperienceSectionImage/3-listening/listening-2.png"
+import listening3 from "../../assets/IELTSExperienceSectionImage/3-listening/listening-3.png"
+
+import reading1 from "../../assets/IELTSExperienceSectionImage/4-reading/reading-1.png"
+import reading2 from "../../assets/IELTSExperienceSectionImage/4-reading/reading-2.png"
+import reading3 from "../../assets/IELTSExperienceSectionImage/4-reading/reading-3.png"
+
+import speaking1 from "../../assets/IELTSExperienceSectionImage/5-speaking/speaking-1.png"
+import speaking2 from "../../assets/IELTSExperienceSectionImage/5-speaking/speaking-2.png"
+import speaking3 from "../../assets/IELTSExperienceSectionImage/5-speaking/speaking-3.png"
+import speaking4 from "../../assets/IELTSExperienceSectionImage/5-speaking/speaking-4.png"
+
+import allSkill1 from "../../assets/IELTSExperienceSectionImage/6-all-skill/all-skill-1.png"
+
+const AUTO_SLIDE_INTERVAL = 3000 // 3 giây tự chuyển ảnh
+
+// Animation variants
+const imageVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+  }),
+}
 
 export default function IELTS_Learning_Experience() {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down("md"))
   const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"))
   const [selectedFeature, setSelectedFeature] = useState(0)
-  const videoRef = useRef<HTMLVideoElement | null>(null)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [direction, setDirection] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
 
   const features = [
     {
       title: "Trò chuyện tiếng Anh hàng ngày",
       description:
         "Thực hành giao tiếp tiếng Anh theo chủ đề và nhận đánh giá chi tiết tức thì với Trợ lý ngôn ngữ AI sẽ giúp bạn cải thiện cách phát âm, ngữ điệu, để tự tin nói tiếng Anh hơn.",
-      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_1_pte_magic.mp4",
+      images: [topicTalk1, topicTalk2, topicTalk3, topicTalk4, topicTalk5],
     },
     {
       title: "Chấm bài Writing toàn diện",
       description:
         "Sau mỗi bài viết của bạn, AI sẽ đưa ra các khuyến nghị về tự vựng, ngữ pháp cùng các nhận xét chi tiết về tất cả các khía cạnh cùng điểm số mà bạn nhận được! Từ đó bạn sẽ cải thiện nhanh chóng",
-      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_2_pte_magic.mp4",
-    },
-    {
-      title: "Luyện đề Reading",
-      description:
-        "Với việc thực hành làm các đề Reading, bạn sẽ tặng cường kỹ năng đọc hiểu để nhanh chóng nắm bắt ý chính của bài đọc",
-      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_4_pte_magic.mp4",
+      images: [writing1, writing2, writing3, writing4, writing5],
     },
     {
       title: "Luyện đề Listening",
       description:
         "Với việc thực hành làm các đề Listening, bạn sẽ tặng cường kỹ năng nghe hiểu đoạn hội thoại từ đó phát triển được việc nắm bắt ý chính và phản xạ nhanh nhạy",
-      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_5_pte_magic.mp4",
+      images: [listening1, listening2, listening3],
+    },
+    {
+      title: "Luyện đề Reading",
+      description:
+        "Với việc thực hành làm các đề Reading, bạn sẽ tặng cường kỹ năng đọc hiểu để nhanh chóng nắm bắt ý chính của bài đọc",
+      images: [reading1, reading2, reading3],
     },
     {
       title: "Luyện đề Speaking",
       description:
         "Luyện đề Speaking với AI chấm điểm IELTS chuẩn. Phân tích phát âm, ngữ pháp và từ vựng giúp bạn biết điểm mạnh, điểm yếu và cải thiện band Speaking hiệu quả!",
-      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_3_pte_magic.mp4",
+      images: [speaking1, speaking2, speaking3, speaking4],
     },
     {
       title: "Phòng thi thử 4 kỹ năng",
       description:
         "IELTS Checkmate tích hợp chế độ thi thử 4 kỹ năng trong 1 lần làm bài. Giúp bạn có thể rèn luyện tâm lý phòng thi và nhận về kết quả đánh giá tổng quát",
-      video_url: "https://video-study-centre.lumeprep.com/Lume%20Landing%20Page/video_6_pte_magic.mp4",
+      images: [allSkill1],
     },
   ]
 
+  const currentImages = features[selectedFeature].images
+
+  // Swipe handlers
+  const handlers = useSwipeable({
+    onSwipedLeft: () => handleNextImage(),
+    onSwipedRight: () => handlePrevImage(),
+    trackMouse: true,
+  })
+
+  // Auto-play slideshow
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.load() // Reset lại video
-      videoRef.current.onloadeddata = () => {
-        videoRef.current?.play().catch((error) => console.log("Autoplay was prevented:", error))
-      }
-    }
+    if (isPaused || currentImages.length <= 1) return
+
+    const interval = setInterval(() => {
+      setDirection(1)
+      setCurrentImageIndex((prev) => (prev + 1) % currentImages.length)
+    }, AUTO_SLIDE_INTERVAL)
+
+    return () => clearInterval(interval)
+  }, [selectedFeature, isPaused, currentImages.length])
+
+  // Reset về ảnh đầu tiên khi đổi feature
+  useEffect(() => {
+    setCurrentImageIndex(0)
+    setDirection(0)
   }, [selectedFeature])
 
   const handleFeatureClick = (index: number) => {
     setSelectedFeature(index)
+  }
+
+  const handlePrevImage = () => {
+    setDirection(-1)
+    setCurrentImageIndex((prev) => (prev === 0 ? currentImages.length - 1 : prev - 1))
+  }
+
+  const handleNextImage = () => {
+    setDirection(1)
+    setCurrentImageIndex((prev) => (prev + 1) % currentImages.length)
   }
 
   return (
@@ -222,31 +300,136 @@ export default function IELTS_Learning_Experience() {
             </List>
           </Box>
 
+          {/* Container khung bao quanh ảnh và controls */}
           <Box
             sx={{
               flex: 1,
-              bgcolor: "#FF6B00",
-              borderRadius: { xs: "8px", md: "12px" },
-              overflow: "hidden",
-              minHeight: { xs: "200px", sm: "300px", md: "400px" },
               order: { xs: 1, md: 2 },
+              bgcolor: "#FF6B00",
+              borderRadius: { xs: "12px", md: "16px" },
+              p: { xs: 2, md: 3 },
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
             }}
           >
-            <AnimatePresence mode="wait">
-              <motion.video
-                key={selectedFeature}
-                ref={videoRef}
-                src={features[selectedFeature].video_url}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.5 }}
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                controls
-                muted
-                playsInline
-              />
-            </AnimatePresence>
+            {/* Image Container */}
+            <Box
+              {...handlers}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              sx={{
+                position: "relative",
+                borderRadius: { xs: "8px", md: "12px" },
+                overflow: "hidden",
+                minHeight: { xs: "200px", sm: "300px", md: "400px" },
+                bgcolor: "#ffffff",
+                flex: 1,
+              }}
+            >
+              <AnimatePresence initial={false} custom={direction} mode="wait">
+                <motion.img
+                  key={`${selectedFeature}-${currentImageIndex}`}
+                  src={currentImages[currentImageIndex]}
+                  custom={direction}
+                  variants={imageVariants}
+                  initial="enter"
+                  animate="center"
+                  exit="exit"
+                  transition={{
+                    x: { type: "tween", duration: 0.3 },
+                    opacity: { duration: 0.2 },
+                  }}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  }}
+                  alt={`${features[selectedFeature].title} - Slide ${currentImageIndex + 1}`}
+                />
+              </AnimatePresence>
+            </Box>
+
+            {/* Navigation Controls - Dưới ảnh */}
+            {currentImages.length > 1 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  py: 1,
+                }}
+              >
+                <IconButton
+                  onClick={handlePrevImage}
+                  disabled={currentImageIndex === 0}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    bgcolor: "#E5E7EB",
+                    color: "#6B7280",
+                    "&:hover": {
+                      bgcolor: "#D1D5DB",
+                    },
+                    "&:disabled": {
+                      bgcolor: "#F3F4F6",
+                      color: "#D1D5DB",
+                    },
+                  }}
+                >
+                  <ChevronLeft size={20} />
+                </IconButton>
+
+                {/* Indicators */}
+                <Box sx={{ display: "flex", gap: "0.5rem", alignItems: "center" }}>
+                  {currentImages.map((_, index) => (
+                    <Box
+                      key={index}
+                      onClick={() => {
+                        setDirection(index > currentImageIndex ? 1 : -1)
+                        setCurrentImageIndex(index)
+                      }}
+                      sx={{
+                        width: index === currentImageIndex ? "24px" : "8px",
+                        height: "8px",
+                        borderRadius: index === currentImageIndex ? "4px" : "50%",
+                        bgcolor: index === currentImageIndex ? "#0E9F97" : "#D9D9D9",
+                        cursor: "pointer",
+                        transition: "all 0.3s ease",
+                        "&:hover": {
+                          bgcolor: index === currentImageIndex ? "#0E9F97" : "#BFBFBF",
+                        },
+                      }}
+                    />
+                  ))}
+                </Box>
+
+                <IconButton
+                  onClick={handleNextImage}
+                  disabled={currentImageIndex === currentImages.length - 1}
+                  sx={{
+                    width: 40,
+                    height: 40,
+                    bgcolor: "#E5E7EB",
+                    color: "#6B7280",
+                    "&:hover": {
+                      bgcolor: "#D1D5DB",
+                    },
+                    "&:disabled": {
+                      bgcolor: "#F3F4F6",
+                      color: "#D1D5DB",
+                    },
+                  }}
+                >
+                  <ChevronRight size={20} />
+                </IconButton>
+              </Box>
+            )}
           </Box>
         </Box>
       </Container>

@@ -80,11 +80,17 @@ PAYMENT_METHOD_ID=09677f3c-c97e-44a8-a3d1-679ac691b0a9
 | `API_HOST` | Main Laravel Backend | `ai.microgem.io.vn` |
 | `API_CONTACT_CREATE` | Contact form endpoint | `/api/fe/contact/create-new` |
 
-### Portal API (Order Management)
+### Portal API (Order Management & Student Info)
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `PORTAL_API_URL` | Portal API base URL | `https://apiems.microgem.io.vn` |
+| Variable | Description | Example | Purpose |
+|----------|-------------|---------|---------|
+| `PORTAL_API_URL` | Portal API base URL | `https://apiems.microgem.io.vn` | Package, Order, Student APIs |
+
+**Portal API Endpoints:**
+- `/portal/student/info` - 🍪 **Verify token from cookie**
+- `/portal/package/:id` - Get package details
+- `/portal/order/checkDiscountCode` - Check discount code
+- `/portal/order/create` - Create new order
 
 ### Payment API
 

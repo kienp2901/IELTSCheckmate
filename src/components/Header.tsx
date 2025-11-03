@@ -103,9 +103,9 @@ export default function Header() {
   const { isAuthenticated, login, user } = useAuth()
 
   // Debug log
-  useEffect(() => {
-    console.log('🎯 Header - Auth state:', { isAuthenticated, user });
-  }, [isAuthenticated, user]);
+  // useEffect(() => {
+  //   console.log('🎯 Header - Auth state:', { isAuthenticated, user });
+  // }, [isAuthenticated, user]);
 
   const handleMobileMenuToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen)

@@ -36,18 +36,28 @@ const SESSION_TOKEN_KEY = 'ielts_checkmate_session_token'; // Session cookie equ
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<IAuthUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+ 
+  // Helper function to get cookie value
+  const getCookie = (name: string): string | null => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop()?.split(';').shift() || null;
+    }
+    return null;
+  };
 
   // Helper function to verify token by calling student info API
   const verifyToken = async (token: string): Promise<boolean> => {
     try {
-      console.log('🔑 Verifying token with student info API...');
+      // console.log('🔑 Verifying token with student info API...');
       const response = await portalApi.student.getInfo(token);
       
       if (response.status && response.data) {
-        console.log('✅ Token is valid, student info:', response.data);
+        // console.log('✅ Token is valid, student info:', response.data);
         return true;
       } else {
-        console.log('❌ Token invalid or no data returned');
+        // console.log('❌ Token invalid or no data returned');
         return false;
       }
     } catch (error) {
@@ -59,16 +69,66 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   // Verify session from localStorage on mount
   useEffect(() => {
     const verifyStoredSession = async () => {
+      // Check wp_user_token cookie first (highest priority)
+      const wpUserToken = getCookie('wp_user_token');
+      // console.log('🍪 Checking wp_user_token cookie:', wpUserToken ? 'exists' : 'none');
+      
+      // If wp_user_token cookie exists, use it directly and skip verifySession
+      if (wpUserToken) {
+        // console.log('✨ Found wp_user_token cookie, verifying token directly (skip verifySession)...');
+        
+        const isValid = await verifyToken(wpUserToken);
+        
+        if (isValid) {
+          // Token from cookie is valid, try to get user info from localStorage or create new
+          const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
+          let authData: IAuthUser;
+          
+          if (storedAuth) {
+            try {
+              const parsed = JSON.parse(storedAuth);
+              authData = {
+                ...parsed,
+                token: wpUserToken, // Update with cookie token
+              };
+            } catch {
+              // If parsing fails, create minimal auth data
+              authData = { token: wpUserToken };
+            }
+          } else {
+            // No stored auth, create minimal auth data
+            authData = { token: wpUserToken };
+          }
+          
+          setUser(authData);
+          localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authData));
+          sessionStorage.setItem(SESSION_TOKEN_KEY, wpUserToken);
+          // console.log('✅ Authenticated with wp_user_token cookie:', authData);
+          setIsLoading(false);
+          return;
+        } else {
+          // Cookie token invalid, clear everything
+          // console.log('❌ wp_user_token cookie invalid, clearing auth');
+          setUser(null);
+          localStorage.removeItem(AUTH_STORAGE_KEY);
+          sessionStorage.removeItem(SESSION_STORAGE_KEY);
+          sessionStorage.removeItem(SESSION_TOKEN_KEY);
+          setIsLoading(false);
+          return;
+        }
+      }
+      
+      // No wp_user_token cookie, proceed with normal flow
       // Check sessionStorage first (like cookie session)
       const sessionToken = sessionStorage.getItem(SESSION_TOKEN_KEY);
       const storedAuth = localStorage.getItem(AUTH_STORAGE_KEY);
       
-      console.log('🔍 Checking session token (like cookie):', sessionToken ? 'exists' : 'none');
-      console.log('🔍 Checking stored auth:', storedAuth);
+      // console.log('🔍 Checking session token (like cookie):', sessionToken ? 'exists' : 'none');
+      // console.log('🔍 Checking stored auth:', storedAuth);
       
       // If no session token (browser was closed), clear everything
       if (!sessionToken) {
-        console.log('❌ No session token found (browser was closed), clearing auth');
+        // console.log('❌ No session token found (browser was closed), clearing auth');
         setUser(null);
         localStorage.removeItem(AUTH_STORAGE_KEY);
         sessionStorage.removeItem(SESSION_STORAGE_KEY);
@@ -82,12 +142,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           
           // Priority 1: If we have sessionId, verify session first
           if (authData.sessionId) {
-            console.log('🔄 Verifying stored session with sessionId:', authData.sessionId);
+            // console.log('🔄 Verifying stored session with sessionId:', authData.sessionId);
             
             try {
               const response = await api.sso.verifySession(authData.sessionId);
               
-              console.log('📦 Session verification response:', response);
+              // console.log('📦 Session verification response:', response);
               
               // Check if session is still valid and returns token
               if ((response.success || response.status) && response.data?.token) {
@@ -111,10 +171,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                   localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(updatedAuthData));
                   // Save to sessionStorage (like cookie session)
                   sessionStorage.setItem(SESSION_TOKEN_KEY, token);
-                  console.log('✅ Session and token verified and updated:', updatedAuthData);
+                  // console.log('✅ Session and token verified and updated:', updatedAuthData);
                 } else {
                   // Token invalid, clear auth
-                  console.log('❌ Token invalid, clearing auth');
+                  // console.log('❌ Token invalid, clearing auth');
                   setUser(null);
                   localStorage.removeItem(AUTH_STORAGE_KEY);
                   sessionStorage.removeItem(SESSION_STORAGE_KEY);
@@ -122,7 +182,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 }
               } else {
                 // Session invalid, clear auth
-                console.log('❌ Session invalid, clearing auth');
+                // console.log('❌ Session invalid, clearing auth');
                 setUser(null);
                 localStorage.removeItem(AUTH_STORAGE_KEY);
                 sessionStorage.removeItem(SESSION_STORAGE_KEY);
@@ -139,7 +199,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           } 
           // Priority 2: If only have token (no sessionId), verify token only
           else if (authData.token) {
-            console.log('🔄 Verifying stored token (no sessionId)...');
+            // console.log('🔄 Verifying stored token (no sessionId)...');
             
             const isValid = await verifyToken(authData.token);
             
@@ -148,10 +208,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               setUser(authData);
               // Save to sessionStorage (like cookie session)
               sessionStorage.setItem(SESSION_TOKEN_KEY, authData.token);
-              console.log('✅ User restored from localStorage with valid token:', authData);
+              // console.log('✅ User restored from localStorage with valid token:', authData);
             } else {
               // Token expired or invalid, clear auth
-              console.log('❌ Token expired, clearing auth');
+              // console.log('❌ Token expired, clearing auth');
               setUser(null);
               localStorage.removeItem(AUTH_STORAGE_KEY);
               sessionStorage.removeItem(SESSION_STORAGE_KEY);
@@ -159,7 +219,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             }
           } else {
             // No sessionId and no token, clear auth
-            console.log('❌ No sessionId or token found, clearing auth');
+            // console.log('❌ No sessionId or token found, clearing auth');
             localStorage.removeItem(AUTH_STORAGE_KEY);
             sessionStorage.removeItem(SESSION_TOKEN_KEY);
           }
@@ -184,13 +244,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       
       if (sessionId) {
         setIsLoading(true);
-        console.log('🔄 Verifying session from URL:', sessionId);
+        // console.log('🔄 Verifying session from URL:', sessionId);
         
         try {
           // Call API to verify session and get token
           const response = await api.sso.verifySession(sessionId);
           
-          console.log('📦 API Response:', response);
+          // console.log('📦 API Response:', response);
           
           // Check for both 'success' and 'status' fields (API returns 'success')
           if ((response.success || response.status) && response.data?.token) {
@@ -223,7 +283,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
               const cleanUrl = window.location.pathname;
               window.history.replaceState({}, document.title, cleanUrl);
               
-              console.log('✅ SSO Login successful with verified token:', authData);
+              // console.log('✅ SSO Login successful with verified token:', authData);
             } else {
               // Token invalid/expired
               console.error('❌ Token verification failed, token may be expired');
@@ -263,14 +323,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     localStorage.removeItem(AUTH_STORAGE_KEY);
     sessionStorage.removeItem(SESSION_STORAGE_KEY);
     sessionStorage.removeItem(SESSION_TOKEN_KEY);
-    console.log('✅ Logged out');
+    // console.log('✅ Logged out');
   };
 
   const isAuthenticated = !!user?.token;
 
   // Debug log
   useEffect(() => {
-    console.log('🔐 Auth State:', { isAuthenticated, user, isLoading });
+    // console.log('🔐 Auth State:', { isAuthenticated, user, isLoading });
   }, [isAuthenticated, user, isLoading]);
 
   return (

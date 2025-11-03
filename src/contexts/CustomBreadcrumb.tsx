@@ -85,7 +85,7 @@ export const CustomBreadcrumbProvider: React.FC<{ children: ReactNode }> = ({ ch
                 breadcrumb: path?.breadcrumb || breadcrumb.match.route?.breadcrumb
             };
           }).filter((breadcrumb)=>breadcrumb.breadcrumb);
-          console.log("routesDisplay",routesDisplay,breadcrumbsTree);
+        //   console.log("routesDisplay",routesDisplay,breadcrumbsTree);
           setCustomBreadcrumbs(routesDisplay as ICustomBreadcrumbRoute[]);
           
       }

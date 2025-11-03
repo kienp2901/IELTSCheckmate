@@ -2,32 +2,44 @@
 
 ## ✅ Completed Features
 
-### 1. 🔐 SSO Authentication System (Updated v2.0 ✨)
+### 1. 🔐 SSO Authentication System (Updated v3.0 - Cookie Integration ✨)
 - **AuthContext.tsx** - Quản lý authentication state
 - **UUID Generation** - Generate session_id không cần thư viện
 - **Auto Login Verification** - Tự động verify khi callback
 - **Token Validation** - Verify token với student info API
 - **Auto Token Refresh** - Check token expiry on page load
-- **Session Cookie Mechanism** - **NEW!** SessionStorage như cookie session
-- **Auto Logout on Browser Close** - **NEW!** Tắt browser = logout
-- **Dual Storage** - **NEW!** sessionStorage (primary) + localStorage (backup)
+- **Cookie Detection** - **NEW v3.0!** Detect `wp_user_token` cookie from FE
+- **Smart Verification** - Skip verifySession khi có cookie
+- **Session Cookie Mechanism** - SessionStorage như cookie session
+- **Auto Logout on Browser Close** - Tắt browser = logout
+- **Dual Storage** - sessionStorage (primary) + localStorage (backup)
 - **Dynamic UI** - Buttons thay đổi theo auth state
 
-**Flow (Updated):**
+**Flow (Updated v3.0):**
 ```
 Click "Đăng nhập" 
 → Generate session_id 
 → Redirect to FE 
 → Callback với session_id 
 → Verify session & get token 
-→ **NEW! Verify token với /portal/student/info**
+→ Verify token với /portal/student/info
 → Token valid? Save : Clear auth
 → Show "Vào học" button
 ```
 
-**Page Load Flow (Session Cookie v2.0):**
+**Page Load Flow (Cookie-First v3.0 🍪):**
 ```
 Page loads
+→ **PRIORITY 0: Check Cookie wp_user_token** 🍪 (HIGHEST)
+   ├─► YES ✅ → Found wp_user_token cookie!
+   │         → Verify token directly (SKIP verifySession)
+   │         → Token valid?
+   │            ├─► YES → Set user, save to storage
+   │            └─► NO → Clear all auth
+   │         → STOP HERE (done!)
+   │
+   └─► NO → Continue to normal flow
+       ↓
 → **GATE 1: Check sessionStorage for token** (like cookie)
    ├─► NO ❌ → Browser was closed
    │         → Clear all auth
@@ -45,13 +57,24 @@ Page loads
 → All gates pass? Restore user : Clear & show login
 ```
 
+**Cookie Integration Benefits:**
+```
+✅ FE sets cookie → WP auto-login (seamless)
+✅ FE logout clears cookie → WP auto-logout
+✅ Cross-domain cookie sync (same domain)
+✅ Performance: 1 API call instead of 2
+✅ Real-time sync with FE dashboard
+```
+
 **Browser Close Behavior:**
 ```
 Tắt browser/Safari
 → sessionStorage cleared by browser
+→ Cookie may expire (depends on FE settings)
 → Mở lại WordPress
-→ GATE 1 FAIL (no sessionStorage)
-→ Must login again ✅
+→ Check cookie first
+   ├─► Still valid → Auto-login ✅
+   └─► Expired → Must login ✅
 ```
 
 ### 2. 💳 Payment System
@@ -146,7 +169,8 @@ DOMAIN_FE=https://checkmate-user.vercel.app
 API_HOST=ai.microgem.io.vn
 API_CONTACT_CREATE=/api/fe/contact/create-new
 
-# Portal API (Student Info, Orders) ⚠️ Required for token verification!
+# Portal API (Student Info, Orders) 
+# ⚠️ Required for cookie token verification!
 PORTAL_API_URL=https://apiems.microgem.io.vn
 
 # Payment API
@@ -155,6 +179,11 @@ PAYMENT_API_KEY=ccbe2d130918423c92cc30f7e5919c5e
 PAYMENT_SECRET_KEY=3a6e86fdfe76cb6bf59bd713bf845f8851a1bd88de42d2553a6321952650b267
 PAYMENT_METHOD_ID=09677f3c-c97e-44a8-a3d1-679ac691b0a9
 ```
+
+**Important Notes:**
+- 🍪 **Portal API** is used to verify `wp_user_token` cookie
+- Cookie domain must match between FE and WP for cookie sharing
+- Set `DOMAIN_FE` to same domain as WordPress if using cookie sync
 
 ## 🚀 Build & Deploy
 
@@ -175,24 +204,30 @@ npm run build
 ## 📖 Documentation Files
 
 1. **README.md** - Plugin overview và installation
-2. **SSO_IMPLEMENTATION.md** - SSO authentication flow (updated v2.0)
-3. **SESSION_COOKIE_MECHANISM.md** - **NEW!** Session cookie behavior
-4. **PAYMENT_IMPLEMENTATION.md** - Payment system details
-5. **ENVIRONMENT_VARIABLES.md** - Environment setup guide
-6. **DEBUG_SSO.md** - SSO debugging guide
-7. **IMPLEMENTATION_SUMMARY.md** - This file
+2. **SSO_IMPLEMENTATION.md** - SSO authentication flow (updated v3.0)
+3. **SESSION_COOKIE_MECHANISM.md** - Session cookie behavior
+4. **COOKIE_INTEGRATION.md** - **NEW v3.0!** Cookie wp_user_token integration
+5. **PAYMENT_IMPLEMENTATION.md** - Payment system details
+6. **ENVIRONMENT_VARIABLES.md** - Environment setup guide
+7. **BEHAVIOR_COMPARISON.md** - FE vs WP behavior comparison (updated v3.0)
+8. **DEBUG_SSO.md** - SSO debugging guide
+9. **IMPLEMENTATION_SUMMARY.md** - This file
 
 ## ✨ Key Features Summary
 
-### Authentication (v2.0 - Session Cookie)
+### Authentication (v3.0 - Cookie Integration 🍪)
 - ✅ SSO Login via React FE
+- ✅ **Cookie Detection** - Read `wp_user_token` from FE
+- ✅ **Smart Verification** - Skip verifySession when cookie exists
+- ✅ **Real-time Sync** - FE logout = WP logout
 - ✅ **Session Cookie Mechanism** - Match FE behavior
 - ✅ **Auto Logout on Browser Close** - Like session cookie
 - ✅ Dual storage (sessionStorage + localStorage)
 - ✅ Token verification on every page load
-- ✅ Session verification with sessionId
+- ✅ Session verification with sessionId (fallback)
 - ✅ Auto-verify on page load
 - ✅ Auto-clear expired tokens/sessions
+- ✅ **Performance boost** - 1 API call instead of 2
 
 ### Payment
 - ✅ Real-time transaction status
@@ -230,7 +265,7 @@ Nếu cần hỗ trợ:
 
 ---
 
-**Last Updated:** 2025-11-01  
-**Version:** 1.5  
-**Status:** ✅ Ready for Testing
+**Last Updated:** 2025-11-03  
+**Version:** 1.6 (Cookie Integration v3.0)  
+**Status:** ✅ Production Ready
 
