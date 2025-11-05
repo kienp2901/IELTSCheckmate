@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>403 - Truy cập bị từ chối | IELTS Checkmate</title>
     <?php wp_head(); ?>
+    <?php 
+    // Inject GTM head code
+    if (function_exists('checkmate_get_gtm_code')) {
+        echo checkmate_get_gtm_code('head');
+    }
+    ?>
     <style>
         * {
             margin: 0;
@@ -191,6 +197,12 @@
     </style>
 </head>
 <body>
+    <?php 
+    // Inject GTM body code
+    if (function_exists('checkmate_get_gtm_code')) {
+        echo checkmate_get_gtm_code('body');
+    }
+    ?>
     <div class="checkmate-403-wrapper">
         <div class="checkmate-403-header">
             <a href="<?php echo esc_url(home_url('/')); ?>" class="checkmate-403-logo">

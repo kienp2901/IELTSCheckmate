@@ -280,3 +280,58 @@ function checkmate_set_custom_die_handler($handlers) {
     return $handlers;
 }
 add_filter('wp_die_handler', 'checkmate_set_custom_die_handler');
+
+// Helper function to get GTM code for manual injection
+function checkmate_get_gtm_code($position = 'head') {
+    // Check if GTM4WP plugin functions are available
+    if ($position === 'head') {
+        // Use GTM4WP's function if available
+        if (function_exists('gtm4wp_wp_header_begin')) {
+            ob_start();
+            gtm4wp_wp_header_begin(true);
+            return ob_get_clean();
+        }
+    } elseif ($position === 'body') {
+        // Use GTM4WP's function if available
+        if (function_exists('gtm4wp_the_gtm_tag')) {
+            ob_start();
+            gtm4wp_the_gtm_tag();
+            return ob_get_clean();
+        }
+    }
+    
+    // Fallback: Manual GTM code injection if GTM4WP functions not available
+    global $gtm4wp_options;
+    
+    // Try to get GTM ID from GTM4WP global options
+    if (isset($gtm4wp_options) && is_array($gtm4wp_options)) {
+        $gtm_id = isset($gtm4wp_options['gtm-code']) ? $gtm4wp_options['gtm-code'] : '';
+    } else {
+        // Fallback: Get from database directly
+        $gtm_options = get_option('gtm4wp-options');
+        $gtm_id = isset($gtm_options['gtm-code']) ? $gtm_options['gtm-code'] : '';
+    }
+    
+    // Return empty if GTM is not configured
+    if (empty($gtm_id)) {
+        return '';
+    }
+
+    // Return appropriate GTM code based on position
+    if ($position === 'head') {
+        return "<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','" . esc_js($gtm_id) . "');</script>
+<!-- End Google Tag Manager -->";
+    } elseif ($position === 'body') {
+        return "<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src=\"https://www.googletagmanager.com/ns.html?id=" . esc_attr($gtm_id) . "\"
+height=\"0\" width=\"0\" style=\"display:none;visibility:hidden\"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->";
+    }
+    
+    return '';
+}

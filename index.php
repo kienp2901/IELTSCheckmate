@@ -36,7 +36,29 @@ $userinfo=array(
     'is_admin' => $current_user->is_admin
     
 );
+
+// Read the HTML file
+ob_start();
 include('dist/index.html');
+$html = ob_get_clean();
+
+// Inject GTM code if helper function is available
+if (function_exists('checkmate_get_gtm_code')) {
+    $gtm_head = checkmate_get_gtm_code('head');
+    $gtm_body = checkmate_get_gtm_code('body');
+    
+    // Inject GTM head code before </head>
+    if (!empty($gtm_head)) {
+        $html = str_replace('</head>', $gtm_head . "\n</head>", $html);
+    }
+    
+    // Inject GTM body code after <body>
+    if (!empty($gtm_body)) {
+        $html = str_replace('<body>', '<body>' . "\n" . $gtm_body . "\n", $html);
+    }
+}
+
+echo $html;
 die;
 
 
