@@ -87,7 +87,7 @@ export default function Footer() {
                 lineHeight: { xs: "20px", sm: "24px" },
               }}
             >
-              ELTS Checkmate - Làm chủ kỳ thi, chinh phục band điểm.
+              IELTS Checkmate - Làm chủ kỳ thi, chinh phục band điểm.
               <br />
               Nền tảng học tập tiên tiến với công nghệ độc quyền, kết hợp luyện tập cùng AI đánh giá 24/7, chuẩn hóa mọi kỹ năng, giúp bạn chinh phục điểm số tối đa trong kỳ thi IELTS.
             </Typography>

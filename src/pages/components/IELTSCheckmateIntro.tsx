@@ -29,54 +29,156 @@ export default function IELTSCheckmateIntro() {
               gutterBottom
               sx={{ fontWeight: "bold", fontSize: { xs: "24px", sm: "28px", md: "32px" }, lineHeight: 1.2 }}
             >
-              ELTS Checkmate - Làm chủ kỳ thi, chinh phục band điểm
+              IELTS Checkmate – Nước cờ quyết định để bạn làm chủ bài thi.
             </Typography>
+            
             <Typography
               variant="body1"
               sx={{
-                mb: { xs: 2, md: 3 },
-                color: "text.secondary",
+                mb: { xs: 2, md: 2 },
+                color: "#374151",
                 fontSize: { xs: "14px", sm: "16px" },
                 lineHeight: 1.6,
               }}
             >
-              "Checkmate" - nước cờ quyết định cho đến chiến thắng. ELTS Checkmate nhằm tạo nguồn cảm hứng học tập cho
-              bạn để đạt điểm tốt, chinh phục mục tiêu IELTS của mình.
+              Ở đây, chúng tôi không "học cho có".
             </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 2, md: 2 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+              }}
+            >
+              Chúng tôi học để <Box component="strong" sx={{ fontWeight: "bold" }}>ra đòn đúng</Box>, <Box component="strong" sx={{ fontWeight: "bold" }}>đi nước cờ khôn</Box>, và ghi điểm thật.
+            </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 1, md: 1 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+              }}
+            >
+              Với Checkmate, bạn không chỉ luyện đề và làm bài.
+            </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 1, md: 1 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+              }}
+            >
+              Bạn được học theo chiến lược:
+            </Typography>
+            
+            <Box component="ul" sx={{ mb: { xs: 2, md: 2 }, pl: 3, color: "#374151" }}>
+              <Typography
+                component="li"
+                sx={{
+                  fontSize: { xs: "14px", sm: "16px" },
+                  lineHeight: 1.6,
+                  mb: 0.5,
+                }}
+              >
+                Hiểu cấu trúc bài thi
+              </Typography>
+              <Typography
+                component="li"
+                sx={{
+                  fontSize: { xs: "14px", sm: "16px" },
+                  lineHeight: 1.6,
+                  mb: 0.5,
+                }}
+              >
+                Luyện kỹ năng đúng trọng tâm
+              </Typography>
+              <Typography
+                component="li"
+                sx={{
+                  fontSize: { xs: "14px", sm: "16px" },
+                  lineHeight: 1.6,
+                  mb: 0.5,
+                }}
+              >
+                Sử dụng AI như <Box component="strong" sx={{ fontWeight: "bold" }}>trợ thủ chiến đấu</Box>
+              </Typography>
+            </Box>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 2, md: 2 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+              }}
+            >
+              Và quan trọng nhất: phát triển tư duy ngôn ngữ thật sự.
+            </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 2, md: 2 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+              }}
+            >
+              Không áp lực, không "cày cuốc vô nghĩa".
+            </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 2, md: 2 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+              }}
+            >
+              Chúng tôi biến hành trình IELTS thành một cuộc chơi có luật, có chiến thuật — và bạn là người cầm bàn cờ.
+            </Typography>
+            
+            <Typography
+              variant="body1"
+              sx={{
+                mb: { xs: 1, md: 1 },
+                color: "#374151",
+                fontSize: { xs: "14px", sm: "16px" },
+                lineHeight: 1.6,
+                fontWeight: "bold",
+              }}
+            >
+              Sẵn sàng chốt ván chưa?
+            </Typography>
+            
             <Typography
               variant="body1"
               sx={{
                 mb: { xs: 3, md: 4 },
-                color: "text.secondary",
+                color: "#374151",
                 fontSize: { xs: "14px", sm: "16px" },
                 lineHeight: 1.6,
               }}
             >
-              Không chỉ là một văn bằng học và luyện tập IELTS, @ILTS Checkmate mang đến trải nghiệm học tập thông minh
-              với phương pháp học tốt hơn và chiến nghệ AI, giúp bạn rèn luyện kỹ năng, phát triển tư duy và có thêm một
-              người bạn đồng hành trên con đường chinh phục kỳ thi IELTS đầy thú vị.
+              IELTS Checkmate – <Box component="em" sx={{ fontStyle: "italic" }}>Make your move.</Box>
             </Typography>
+            
             <Stack
               direction={{ xs: "column", sm: "row" }}
               spacing={{ xs: 2, sm: 3 }}
               sx={{ mb: { xs: 3, md: 4 }, width: "100%" }}
             >
-              {/* <Button
-                variant="contained"
-                size="large"
-                sx={{
-                  background: "linear-gradient(90deg, #F25022 -4.76%, #FFBA33 100%)",
-                  borderRadius: "25px",
-                  px: { xs: 3, sm: 4 },
-                  py: 1.5,
-                  width: { xs: "100%", sm: "auto" },
-                  minWidth: { sm: "200px" },
-                  fontSize: { xs: "14px", sm: "16px" },
-                }}
-                onClick={scrollToAIAssistant}
-              >
-                Thiết kế lộ trình học
-              </Button> */}
               <Button
                 variant="contained"
                 size="large"
@@ -101,7 +203,7 @@ export default function IELTSCheckmateIntro() {
             sx={{
               position: "relative",
               width: { xs: "100%", md: "45%" },
-              height: { xs: "250px", sm: "300px", md: "400px" },
+              height: { xs: "300px", sm: "400px", md: "550px" },
               marginTop: { xs: 2, md: 0 },
             }}
           >
