@@ -255,7 +255,7 @@ export default function TestimonialSlider() {
         py: { xs: 3, md: 6 },
         px: { xs: 2, md: 4 },
         backgroundColor: "#F9F9F9",
-        minHeight: "100vh",
+        // minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",

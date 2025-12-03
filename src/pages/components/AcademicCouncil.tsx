@@ -7,13 +7,13 @@ import MrBachImage from "../../assets/Mr-Bach.jpg";
 
 const councilMembers = [
   {
-    name: "Cô Liên Phạm",
+    name: "Cô Phạm Ngọc Liên",
     image: MsLienImage,
     credentials: [
       "👩‍🎓 Thủ khoa đầu vào ngành Ngôn ngữ Anh ULIS, Bằng Giỏi Cử nhân NNA",
       "👩‍🎓 Thạc sĩ Ngôn ngữ Anh, Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội",
-      "⭐IELTS: 8.5",
-      "🏵 Cựu giảng viên khoa Tiếng Anh - Đại học Mở Hà Nội với kinh nghiệm dạy IELTS 10 năm",
+      "⭐ Cựu giảng viên khoa Tiếng Anh - Đại học Mở Hà Nội với kinh nghiệm dạy IELTS 10 năm",
+      "⭐ IELTS: 8.5",
       "📖 Biên dịch sách 'Buddha's Diet' - 'Ăn kiêng kiểu Đức Phật'",
     ],
   },
@@ -23,8 +23,8 @@ const councilMembers = [
     credentials: [
       "👩‍🎓 Nghiên cứu sinh (Tiến Sĩ) ngành Ngôn Ngữ Học Tính Toán tại đại học Leuven (học bổng MSCA của EU)",
       "👩‍🎓 Thủ khoa đầu ra khoá Thạc Sĩ Ngôn Ngữ Học tại đại học Stirling",
-      "⭐ IELTS 8.5",
       "⭐ 7 năm kinh nghiệm dạy IELTS",
+      "⭐ IELTS 8.5",
     ],
   },
 ];
@@ -83,7 +83,7 @@ export default function AcademicCouncil() {
               px: { xs: 2, md: 0 },
             }}
           >
-            Tại IELTS Checkmate, đội ngũ chuyên gia học thuật của chúng tôi vừa giỏi chuyên môn, vừa xuất sắc trong truyền đạt, và luôn khao khát đổi mới cách người Việt học tiếng Anh. Họ tiên phong kết hợp sư phạm và công nghệ AI để tạo ra phương pháp giúp người học hiểu sâu, luyện chắc và tiến bộ thực sự.
+            Tại IELTS Checkmate, đội ngũ cố vấn học thuật của chúng tôi vừa giỏi chuyên môn, vừa xuất sắc trong truyền đạt, và luôn khao khát đổi mới cách người Việt học tiếng Anh. Họ tiên phong kết hợp sư phạm và công nghệ AI để tạo ra phương pháp giúp người học hiểu sâu, luyện chắc và tiến bộ thực sự.
           </Typography>
         </Box>
 
@@ -123,7 +123,7 @@ export default function AcademicCouncil() {
                       display: "flex",
                       flexDirection: "column",
                       gap: 2,
-                      justifyContent: "center",
+                      justifyContent: "flex-start",
                     }}
                   >
                     {/* Name */}
