@@ -100,7 +100,7 @@ export default function AcademicCouncil() {
               >
                 <Card
                   sx={{
-                    height: "500px",
+                    height: { xs: "auto", md: "500px" },
                     display: "flex",
                     flexDirection: { xs: "column", md: "row" },
                     bgcolor: "#FFFFFF",
@@ -167,8 +167,8 @@ export default function AcademicCouncil() {
                   <Box
                     sx={{
                       position: "relative",
-                      flex: { xs: "1", md: "0 0 45%" },
-                      height: { xs: "250px", md: "100%" },
+                      flex: { xs: "0 0 auto", md: "0 0 45%" },
+                      height: { xs: "400px", md: "100%" },
                       overflow: "hidden",
                     }}
                   >
@@ -179,8 +179,8 @@ export default function AcademicCouncil() {
                       sx={{
                         width: "100%",
                         height: "100%",
-                        objectFit: "cover",
-                        objectPosition: "center 15%",
+                        objectFit: { xs: "cover", md: "cover" },
+                        objectPosition: { xs: "center center", md: "center 15%" },
                         display: "block",
                         filter: "brightness(0.95)",
                       }}
