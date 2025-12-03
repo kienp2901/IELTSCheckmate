@@ -42,6 +42,7 @@ import IELTSLearningVideos from "./components/IELTSLearningVideos";
 import IELTSCheckmateIntro from "./components/IELTSCheckmateIntro";
 import HowToLearnIELTS from "./components/HowToLearnIELTS";
 import CheckmateTestimonials from "./components/CheckmateTestimonials";
+import AcademicCouncil from "./components/AcademicCouncil";
 import { useScroll } from "@/contexts/ScrollContext";
 
 export default function LandingPage() {
@@ -60,6 +61,9 @@ export default function LandingPage() {
 
       {/* IELTSCheckmateIntro */}
       <IELTSCheckmateIntro/>
+
+      {/* Academic Council Section */}
+      <AcademicCouncil/>
 
       {/* <Box ref={aiAssistantRef} sx={{ p: 4, bgcolor: "#f9f9f9" }}>
         <HowToLearnIELTS/>

@@ -45,7 +45,7 @@ function App() {
             <DialogProvider>
               <Routes>
                 {/* <Route index Component={LandingPage}  /> */}
-                {/* <Route path="/wordpress/" Component={Layout}>
+                <Route path="/wordpress/" Component={Layout}>
                   <Route index Component={LandingPage} />
                 </Route>
                 <Route path="/wordpress/contact" Component={ContactLayout}>
@@ -65,9 +65,9 @@ function App() {
                 </Route>
                 <Route path="/wordpress/payment" Component={PaymentLayout}>
                   <Route index Component={PaymentContent} />
-                </Route> */}
+                </Route>
 
-                <Route path="/" Component={Layout}>
+                {/* <Route path="/" Component={Layout}>
                   <Route index Component={LandingPage} />
                 </Route>
                 <Route path="/contact" Component={ContactLayout}>
@@ -87,7 +87,7 @@ function App() {
                 </Route>
                 <Route path="/payment" Component={PaymentLayout}>
                   <Route index Component={PaymentContent} />
-                </Route>
+                </Route> */}
               </Routes>
             </DialogProvider>
           </BrowserRouter>
