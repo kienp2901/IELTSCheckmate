@@ -100,9 +100,9 @@ export default function AcademicCouncil() {
               >
                 <Card
                   sx={{
-                    height: "100%",
+                    height: "500px",
                     display: "flex",
-                    flexDirection: "column",
+                    flexDirection: { xs: "column", md: "row" },
                     bgcolor: "#FFFFFF",
                     borderRadius: "12px",
                     boxShadow: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
@@ -118,10 +118,12 @@ export default function AcademicCouncil() {
                   {/* Text Content Section */}
                   <Box
                     sx={{
+                      flex: { xs: "1", md: "0 0 55%" },
                       p: { xs: 3, md: 4 },
                       display: "flex",
                       flexDirection: "column",
                       gap: 2,
+                      justifyContent: "center",
                     }}
                   >
                     {/* Name */}
@@ -161,14 +163,13 @@ export default function AcademicCouncil() {
                     </Box>
                   </Box>
 
-                  {/* Image Section - Bottom Part */}
+                  {/* Image Section - Right Side */}
                   <Box
                     sx={{
                       position: "relative",
-                      width: "100%",
-                      height: { xs: "300px", sm: "300px", md: "350px" },
+                      flex: { xs: "1", md: "0 0 45%" },
+                      height: { xs: "250px", md: "100%" },
                       overflow: "hidden",
-                      mt: "auto",
                     }}
                   >
                     <Box
@@ -185,16 +186,18 @@ export default function AcademicCouncil() {
                       }}
                     />
 
-                    {/* Subtle gradient overlay at bottom */}
+                    {/* Subtle gradient overlay */}
                     <Box
                       sx={{
                         position: "absolute",
+                        top: 0,
                         bottom: 0,
                         left: 0,
                         right: 0,
-                        height: "60px",
-                        background:
-                          "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 100%)",
+                        background: {
+                          xs: "linear-gradient(to top, rgba(0,0,0,0.15) 0%, transparent 100%)",
+                          md: "linear-gradient(to right, rgba(0,0,0,0.1) 0%, transparent 20%)",
+                        },
                       }}
                     />
                   </Box>
