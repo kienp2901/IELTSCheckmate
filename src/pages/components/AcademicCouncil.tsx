@@ -14,7 +14,8 @@ const councilMembers = [
       "👩‍🎓 Thạc sĩ Ngôn ngữ Anh, Đại học Ngoại ngữ - Đại học Quốc gia Hà Nội",
       "⭐ Cựu giảng viên khoa Tiếng Anh - Đại học Mở Hà Nội với kinh nghiệm dạy IELTS 10 năm",
       "⭐ IELTS: 8.5",
-      "📖 Biên dịch sách 'Buddha's Diet' - 'Ăn kiêng kiểu Đức Phật'",
+      // "📖 Biên dịch sách 'Buddha's Diet' - 'Ăn kiêng kiểu Đức Phật'",
+      "📖 Phiên dịch viên các hội thảo chuyên ngành của chính phủ, NGOs, và các tập đoàn quốc tế (Google, FPT...)",
     ],
   },
   {
