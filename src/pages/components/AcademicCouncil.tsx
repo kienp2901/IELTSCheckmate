@@ -81,7 +81,11 @@ export default function AcademicCouncil() {
   const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
   const isLgUp = useMediaQuery(theme.breakpoints.up("lg"));
   const itemsPerPage = isMdUp ? 2 : 1;
-  const slideCount = Math.ceil(councilMembers.length / itemsPerPage);
+  // Calculate slide count with overlap: slideCount = totalItems - itemsPerPage + 1
+  // For 3 items with 2 per page: 3 - 2 + 1 = 2 slides (slide 1: [0,1], slide 2: [1,2])
+  const slideCount = isMdUp && councilMembers.length > itemsPerPage 
+    ? councilMembers.length - itemsPerPage + 1 
+    : Math.ceil(councilMembers.length / itemsPerPage);
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -106,9 +110,14 @@ export default function AcademicCouncil() {
   };
 
   const visibleMembers = useMemo(() => {
-    const start = activeSlide * itemsPerPage;
+    // For overlap mode: start = activeSlide (not activeSlide * itemsPerPage)
+    // Slide 0: start = 0, slice(0, 2) = [0, 1]
+    // Slide 1: start = 1, slice(1, 3) = [1, 2]
+    const start = isMdUp && councilMembers.length > itemsPerPage 
+      ? activeSlide 
+      : activeSlide * itemsPerPage;
     return councilMembers.slice(start, start + itemsPerPage);
-  }, [activeSlide, itemsPerPage]);
+  }, [activeSlide, itemsPerPage, isMdUp]);
 
   const slideVariants = {
     enter: (dir: number) => ({
@@ -203,6 +212,7 @@ export default function AcademicCouncil() {
                 display: "grid",
                 gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
                 gap: { xs: 3, md: 4 },
+                alignItems: "stretch",
               }}
             >
               {visibleMembers.map((member, index) => (
@@ -211,7 +221,8 @@ export default function AcademicCouncil() {
                   component={motion.div}
                   whileHover={{ scale: 1.01, transition: { duration: 0.15 } }}
                   sx={{
-                    height: "100%",
+                    height: { xs: "auto", md: "500px" },
+                    minHeight: { xs: "auto", md: "500px" },
                     display: "flex",
                     flexDirection: { xs: "column", md: "row" },
                     bgcolor: "#FFFFFF",
