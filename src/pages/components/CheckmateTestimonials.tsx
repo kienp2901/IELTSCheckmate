@@ -10,6 +10,11 @@ import boonImage from "../../assets/boon.png"
 import maiImage from "../../assets/mai-tran.png"
 import aliImage from "../../assets/ali.png"
 import vangieImage from "../../assets/vangie.png"
+import ducnamImage from "../../assets/duc-nam.jpg"
+import thibichImage from "../../assets/thi-bich.jpg"
+import vanhungImage from "../../assets/van-hung.jpg"
+import myduyenImage from "../../assets/my-duyen.jpg"
+import thanhmaiImage from "../../assets/thanh-mai.jpg"
 
 const SlideContainer = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -138,7 +143,7 @@ const testimonials = [
     location: "Hà Nội",
     content: "Tính năng chấm Writing AI nhanh và chính xác không ngờ. Mình không còn phải chờ giáo viên hàng tuần khi học trên trung tâm nữa nữa. Các gợi ý từ vựng và cấu trúc câu rất giá trị.",
     rating: 7.5,
-    avatar: "",
+    avatar: thanhmaiImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -162,7 +167,7 @@ const testimonials = [
     location: "Cần Thơ",
     content: "Luyện đề Mock Test full 4 kỹ năng trong môi trường mô phỏng thi thật giúp mình quen với áp lực thời gian. Kết quả thi thật rất sát với điểm Mock mình làm trên Checkmate.",
     rating: 6.0,
-    avatar: "",
+    avatar: vanhungImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -170,7 +175,7 @@ const testimonials = [
     location: "Bình Dương",
     content: "Mình là người đi làm, không có nhiều thời gian. Các bài giảng ngắn gọn, súc tích và AI hỗ trợ hỏi đáp bài học rất phù hợp để mình học tranh thủ.",
     rating: 7.0,
-    avatar: "",
+    avatar: myduyenImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -194,7 +199,7 @@ const testimonials = [
     location: "Huế",
     content: "Bộ đề IELTS được cập nhật liên tục giúp mình chuẩn bị kỹ lưỡng cho phần Speaking Part 2 và Part 3. Mình đã gặp lại chủ đề đã luyện trong phòng thi!",
     rating: 7.0,
-    avatar: "",
+    avatar: ducnamImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -202,7 +207,7 @@ const testimonials = [
     location: "Quảng Ninh",
     content: "Mình chỉ dùng gói Test Pass để luyện đề, và 10 lượt chấm Speaking/Writing AI giới hạn ban đầu đã đủ để mình hiểu được tiêu chí chấm điểm và tự điều chỉnh. Đạt được band 6.0 sau 4 tháng!",
     rating: 6.0,
-    avatar: "",
+    avatar: thibichImage,
     testType: "IELTS ACADEMIC",
   },
 ]
