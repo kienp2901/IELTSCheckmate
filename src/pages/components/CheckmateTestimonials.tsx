@@ -6,6 +6,15 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useMediaQuery } from "@mui/material"
 import { useSwipeable } from "react-swipeable"
 import { ChevronLeft, ChevronRight } from "lucide-react"
+import boonImage from "../../assets/boon.png"
+import maiImage from "../../assets/mai-tran.png"
+import aliImage from "../../assets/ali.png"
+import vangieImage from "../../assets/vangie.png"
+import ducnamImage from "../../assets/duc-nam.jpg"
+import thibichImage from "../../assets/thi-bich.jpg"
+import vanhungImage from "../../assets/van-hung.jpg"
+import myduyenImage from "../../assets/my-duyen.jpg"
+import thanhmaiImage from "../../assets/thanh-mai.jpg"
 
 const SlideContainer = styled(Box)(({ theme }) => ({
   width: "100%",
@@ -26,6 +35,7 @@ const TestimonialContainer = styled(motion.div)(({ theme }) => ({
   width: "100%",
   marginTop: "2rem",
   willChange: "transform, opacity",
+  alignItems: "stretch",
   [theme.breakpoints.up("md")]: {
     gridTemplateColumns: "repeat(2, 1fr)",
   },
@@ -43,12 +53,17 @@ const TestimonialCard = styled(motion.div)(({ theme }) => ({
   // boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.05)",
   border: "1px solid #E5E7EB",
   willChange: "transform, opacity",
-  height: "100%",
+  height: "auto",
+  minHeight: "auto",
   // transition: "all 0.3s ease",
   [theme.breakpoints.down("md")]: {
     width: "100%",
     maxWidth: "400px",
     margin: "0 auto",
+  },
+  [theme.breakpoints.up("md")]: {
+    height: "400px",
+    minHeight: "400px",
   },
 }))
 
@@ -120,7 +135,7 @@ const testimonials = [
     location: "TP. Hồ Chí Minh",
     content: "Phòng luyện Speaking AI thực sự là cứu cánh cho mình. Phản hồi chi tiết về phát âm và ngữ pháp giúp mình tự tin hơn hẳn. Từ 5.5 lên 7.0 chỉ sau 3 tháng!",
     rating: 7.0,
-    avatar: "https://lumetest.com/assets/avatar/student/ali.png",
+    avatar: aliImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -128,7 +143,7 @@ const testimonials = [
     location: "Hà Nội",
     content: "Tính năng chấm Writing AI nhanh và chính xác không ngờ. Mình không còn phải chờ giáo viên hàng tuần khi học trên trung tâm nữa nữa. Các gợi ý từ vựng và cấu trúc câu rất giá trị.",
     rating: 7.5,
-    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/91194/avatar-bpfull.jpg",
+    avatar: thanhmaiImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -144,7 +159,7 @@ const testimonials = [
     location: "Hải Phòng",
     content: "Checkmate Pass đúng là khoản đầu tư xứng đáng! Có tất cả mọi thứ và buổi chữa bài trực tiếp với giáo viên đã giúp mình xác định và sửa triệt để các lỗi sai cố hữu.",
     rating: 8.0,
-    avatar: "https://lumetest.com/assets/avatar/student/mai-tran.png",
+    avatar: maiImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -152,7 +167,7 @@ const testimonials = [
     location: "Cần Thơ",
     content: "Luyện đề Mock Test full 4 kỹ năng trong môi trường mô phỏng thi thật giúp mình quen với áp lực thời gian. Kết quả thi thật rất sát với điểm Mock mình làm trên Checkmate.",
     rating: 6.0,
-    avatar: "",
+    avatar: vanhungImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -160,7 +175,7 @@ const testimonials = [
     location: "Bình Dương",
     content: "Mình là người đi làm, không có nhiều thời gian. Các bài giảng ngắn gọn, súc tích và AI hỗ trợ hỏi đáp bài học rất phù hợp để mình học tranh thủ.",
     rating: 7.0,
-    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/91037/avatar-bpfull.jpg",
+    avatar: myduyenImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -168,7 +183,7 @@ const testimonials = [
     location: "Đồng Nai",
     content: "Tính năng Topic Talk vô cùng tiện lợi! Mình có thể luyện nói các chủ đề bất cứ lúc nào, bất cứ nơi đâu mà không sợ ai đánh giá. Phân tích kết quả rất chuyên nghiệp.",
     rating: 6.5,
-    avatar: "https://lumetest.com/assets/avatar/student/boon.png",
+    avatar: boonImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -176,7 +191,7 @@ const testimonials = [
     location: "Nghệ An",
     content: "Các tính năng ở Checkmate được cập nhật liên tục và rất thú vị. Giá thì hạt rẻ nữa",
     rating: 7.5,
-    avatar: "",
+    avatar: vangieImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -184,7 +199,7 @@ const testimonials = [
     location: "Huế",
     content: "Bộ đề IELTS được cập nhật liên tục giúp mình chuẩn bị kỹ lưỡng cho phần Speaking Part 2 và Part 3. Mình đã gặp lại chủ đề đã luyện trong phòng thi!",
     rating: 7.0,
-    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/100297/avatar-bpfull.jpg",
+    avatar: ducnamImage,
     testType: "IELTS ACADEMIC",
   },
   {
@@ -192,12 +207,12 @@ const testimonials = [
     location: "Quảng Ninh",
     content: "Mình chỉ dùng gói Test Pass để luyện đề, và 10 lượt chấm Speaking/Writing AI giới hạn ban đầu đã đủ để mình hiểu được tiêu chí chấm điểm và tự điều chỉnh. Đạt được band 6.0 sau 4 tháng!",
     rating: 6.0,
-    avatar: "https://ieltsscience.fun/wp-content/uploads/avatars/100298/avatar-bpfull.jpg",
+    avatar: thibichImage,
     testType: "IELTS ACADEMIC",
   },
 ]
 
-const AUTO_SLIDE_INTERVAL = 3000 // 5 seconds between slides
+const AUTO_SLIDE_INTERVAL = 4000 // 5 seconds between slides
 
 // Helper function to get initials from name
 const getInitials = (name: string) => {
