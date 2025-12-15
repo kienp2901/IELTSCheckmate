@@ -18,6 +18,7 @@ import { useScroll } from "@/contexts/ScrollContext"
 import Header from "@/components/Header"
 import SidebarContent from "@/components/SidebarContent"
 import Footer from "@/components/Footer"
+import ChatButtons from "@/components/ChatButtons"
 
 interface LayoutProps {
   children: ReactNode
@@ -332,6 +333,7 @@ const ContactLayout = () => {
           </Box>
 
           <Footer />
+          <ChatButtons />
         </Box>
       </CustomBreadcrumbProvider>
     </>

@@ -11,6 +11,7 @@ import BannerBottom from "../assets/banner-bottom.png"
 import BannerRight from "../assets/banner-right.png"
 import BannerAvatar from "../assets/banner-avatar.png"
 import Footer from "./Footer"
+import ChatButtons from "./ChatButtons"
 import { CustomBreadcrumbProvider } from "@/contexts/CustomBreadcrumb"
 import { useUser } from "@/contexts/UserContext"
 import { useAlert } from "@/contexts/AlertContext"
@@ -370,6 +371,7 @@ const Layout = () => {
           </Box>
 
           <Footer />
+          <ChatButtons />
         </Box>
       </CustomBreadcrumbProvider>
     </>

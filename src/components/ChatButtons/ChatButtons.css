@@ -1,0 +1,176 @@
+@media (max-width: 576px) {
+  .fb-customerchat {
+    display: none;
+  }
+}
+
+/*.zalo-chat-widget {*/
+/*    left: 0!important;*/
+/*}*/
+
+/* Container chứa tất cả chat buttons */
+.chat-buttons-container {
+  position: fixed;
+  bottom: 15px;
+  right: 10px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+/* Text bubble phía trên */
+.chat-bubble-text {
+  background-color: #ffffff;
+  color: #333333;
+  padding: 10px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  margin-bottom: 5px;
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zalome {
+  position: relative;
+  margin: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  background-color: #004A7F;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 20px;
+  padding: -10px -10px;
+  text-align: center;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.messengerme {
+  position: relative;
+  margin: 0;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  background-color: #004A7F;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 20px;
+  padding: -10px -10px;
+  text-align: center;
+  text-decoration: none;
+  z-index: 9999;
+}
+
+.zalome img,
+.messengerme img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@-webkit-keyframes glowing {
+  0% {
+    background-color: #004A7F;
+    -webkit-box-shadow: 0 0 3px #004A7F;
+  }
+  50% {
+    background-color: #0094FF;
+    -webkit-box-shadow: 0 0 10px #0094FF;
+  }
+  100% {
+    background-color: #004A7F;
+    -webkit-box-shadow: 0 0 3px #004A7F;
+  }
+}
+
+@-moz-keyframes glowing {
+  0% {
+    background-color: #004A7F;
+    -moz-box-shadow: 0 0 3px #004A7F;
+  }
+  50% {
+    background-color: #0094FF;
+    -moz-box-shadow: 0 0 10px #0094FF;
+  }
+  100% {
+    background-color: #004A7F;
+    -moz-box-shadow: 0 0 3px #004A7F;
+  }
+}
+
+@-o-keyframes glowing {
+  0% {
+    background-color: #004A7F;
+    box-shadow: 0 0 3px #004A7F;
+  }
+  50% {
+    background-color: #0094FF;
+    box-shadow: 0 0 10px #0094FF;
+  }
+  100% {
+    background-color: #004A7F;
+    box-shadow: 0 0 3px #004A7F;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    background-color: #004A7F;
+    box-shadow: 0 0 3px #004A7F;
+  }
+  50% {
+    background-color: #0094FF;
+    box-shadow: 0 0 10px #0094FF;
+  }
+  100% {
+    background-color: #004A7F;
+    box-shadow: 0 0 3px #004A7F;
+  }
+}
+
+.zalome {
+  -webkit-animation: glowing 1500ms infinite 0ms;
+  -moz-animation: glowing 1500ms infinite 0ms;
+  -o-animation: glowing 1500ms infinite 0ms;
+  animation: glowing 1500ms infinite 0ms;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.messengerme {
+  -webkit-animation: glowing 1500ms infinite 0ms;
+  -moz-animation: glowing 1500ms infinite 0ms;
+  -o-animation: glowing 1500ms infinite 0ms;
+  animation: glowing 1500ms infinite 0ms;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  -o-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+

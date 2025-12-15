@@ -6,6 +6,7 @@ import { Outlet } from "react-router"
 import { CustomBreadcrumbProvider } from "@/contexts/CustomBreadcrumb"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
+import ChatButtons from "@/components/ChatButtons"
 
 interface LayoutProps {
   children: ReactNode
@@ -61,6 +62,7 @@ const PaymentLayout = () => {
           </Box>
 
           <Footer />
+          <ChatButtons />
         </Box>
       </CustomBreadcrumbProvider>
     </>
