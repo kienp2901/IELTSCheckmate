@@ -14,6 +14,9 @@ Text Domain:custom-form
 define('IELTS_CHECKMATE_PREFIX_PATH', 'wordpress');
 // define('IELTS_CHECKMATE_PREFIX_PATH', '');
 define('WIDGET_URL_CHECKMATE_DASHBOARD', plugins_url('/ielts_checkmate_dashboard'));
+
+// API Configuration
+define('IELTS_CHECKMATE_API_BASE_URL', 'https://ai.microgem.io.vn/');
 function add_my_custom_page_ielts_checkmate_dashboard()
 {
 
@@ -243,6 +246,128 @@ function checkmate_custom_500_page() {
         exit;
     }
 }
+
+// Check maintenance status from API
+function checkmate_get_maintenance_status($domain) {
+    // Get API URL from WordPress options or use constant
+    $api_url = get_option('checkmate_api_url', IELTS_CHECKMATE_API_BASE_URL);
+    if (empty($api_url)) {
+        $api_url = IELTS_CHECKMATE_API_BASE_URL;
+    }
+    
+    // Prepare API endpoint
+    $endpoint = rtrim($api_url, '/') . '/api/domain-maintenance/check';
+    
+    // Prepare request body
+    $body = json_encode(array(
+        'domain' => $domain
+    ));
+    
+    // Make API request
+    $response = wp_remote_post($endpoint, array(
+        'headers' => array(
+            'Content-Type' => 'application/json',
+        ),
+        'body' => $body,
+        'timeout' => 10,
+        'sslverify' => true,
+    ));
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        error_log('Maintenance check API error: ' . $response->get_error_message());
+        return array(
+            'success' => false,
+            'is_maintenance' => false,
+        );
+    }
+    
+    // Get response body
+    $response_body = wp_remote_retrieve_body($response);
+    $response_code = wp_remote_retrieve_response_code($response);
+    
+    // Parse JSON response
+    if ($response_code === 200 && !empty($response_body)) {
+        $data = json_decode($response_body, true);
+        if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+            return $data;
+        } else {
+            // Log JSON parse error
+            if (defined('WP_DEBUG') && WP_DEBUG) {
+                error_log('Maintenance API - JSON parse error: ' . json_last_error_msg());
+                error_log('Maintenance API - Response body: ' . $response_body);
+            }
+        }
+    } else {
+        // Log API call failure
+        if (defined('WP_DEBUG') && WP_DEBUG) {
+            error_log('Maintenance API - HTTP Code: ' . $response_code);
+            error_log('Maintenance API - Response body: ' . $response_body);
+        }
+    }
+    
+    // Default response if API call fails
+    return array(
+        'success' => false,
+        'is_maintenance' => false,
+    );
+}
+
+// Check and display maintenance page if needed
+function checkmate_check_maintenance_mode() {
+    // Skip maintenance check for admin pages
+    if (is_admin()) {
+        return;
+    }
+    
+    // Skip maintenance check for login/logout pages
+    if (in_array($GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php'))) {
+        return;
+    }
+    
+    // Get current domain
+    $domain = home_url();
+    
+    // Clear any existing cache (in case cache exists from previous version)
+    $cache_key = 'checkmate_maintenance_status';
+    delete_transient($cache_key);
+    
+    // Check maintenance status (realtime - no caching)
+    $maintenance_data = checkmate_get_maintenance_status($domain);
+    
+    // Debug logging (optional - can be removed in production)
+    if (defined('WP_DEBUG') && WP_DEBUG) {
+        error_log('Maintenance check - Domain: ' . $domain);
+        error_log('Maintenance check - Response: ' . print_r($maintenance_data, true));
+    }
+    
+    // Check if maintenance mode is enabled
+    if (isset($maintenance_data['is_maintenance']) && $maintenance_data['is_maintenance'] === true) {
+        // Check allowed IPs if configured
+        $allowed_ips = isset($maintenance_data['data']['allowed_ips']) ? $maintenance_data['data']['allowed_ips'] : array();
+        
+        if (!empty($allowed_ips)) {
+            $client_ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
+            // If IP is in allowed list, skip maintenance page
+            if (!empty($client_ip) && in_array($client_ip, $allowed_ips)) {
+                return;
+            }
+        }
+        
+        // Set global variable for template to use
+        global $checkmate_maintenance_data;
+        $checkmate_maintenance_data = $maintenance_data;
+        
+        // Show maintenance page
+        $maintenance_template = dirname(__FILE__) . '/templates/maintenance-checkmate.php';
+        if (file_exists($maintenance_template)) {
+            include($maintenance_template);
+            exit;
+        }
+    }
+}
+// Hook to check maintenance mode early (before template_redirect, priority 0 to run before other redirects)
+add_action('template_redirect', 'checkmate_check_maintenance_mode', 0);
 
 // Hook to display error pages when needed
 function checkmate_handle_custom_errors() {

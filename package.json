@@ -8,6 +8,7 @@
     "buildold": "tsc && vite build",
     "prod": "dotenv -e .env.prod -- webpack --mode production --progress",
     "qa": "dotenv -e .env.qa -- webpack --mode production --progress",
+    "local": "dotenv -e .env.local -- webpack --mode production --progress",
     "build": "dotenv -e .env.qa -- webpack --watch --mode development --progress",
     "watch": "vite build --watch",
     "preview": "vite preview"
