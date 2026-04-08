@@ -9,6 +9,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import MsLienImage from "../../assets/Ms-Lien.jpg";
 import MrBachImage from "../../assets/Mr-Bach.jpg";
 import MsThaoImage from "../../assets/Ms-Thao.jpg";
+import MrDuyAnhImage from "../../assets/Mr-DuyAnh1.jpg";
 
 const councilMembers = [
   {
@@ -74,6 +75,28 @@ const councilMembers = [
     ],
     profileLink: "https://www.linkedin.com/in/phuongthaovu1005/",
   },
+  {
+    name: "Thầy Nguyễn Duy Anh",
+    image: MrDuyAnhImage,
+    sections: [
+      {
+        title: "🎓 Học thuật",
+        items: [
+          "👩‍🎓 Cử nhân Học viện báo chí và tuyên truyền - Khoa Quan Hệ Quốc Tế",
+          "👩‍🎓 Chứng chỉ giảng dạy TESOL"
+        ],
+      },
+      {
+        title: "💼 Kinh nghiệm & Vai trò",
+        items: [
+          "⭐ Giám đốc học thuật IELTS Checkmate",
+          "⭐ 4 năm kinh nghiệm giảng dạy IELTS tại các trung tâm lớn. Đã hỗ trợ 100+ học sinh đạt band 6.5+ IELTS",
+          "⭐ 5 năm kinh nghiệm Quản lý Chất lượng học tập & Sản phẩm – Galaxy Education",
+          "⭐ IELTS 8.0",
+        ],
+      },
+    ],
+  },
 ];
 
 export default function AcademicCouncil() {
@@ -83,8 +106,8 @@ export default function AcademicCouncil() {
   const itemsPerPage = isMdUp ? 2 : 1;
   // Calculate slide count with overlap: slideCount = totalItems - itemsPerPage + 1
   // For 3 items with 2 per page: 3 - 2 + 1 = 2 slides (slide 1: [0,1], slide 2: [1,2])
-  const slideCount = isMdUp && councilMembers.length > itemsPerPage 
-    ? councilMembers.length - itemsPerPage + 1 
+  const slideCount = isMdUp && councilMembers.length > itemsPerPage
+    ? councilMembers.length - itemsPerPage + 1
     : Math.ceil(councilMembers.length / itemsPerPage);
   const [activeSlide, setActiveSlide] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -113,8 +136,8 @@ export default function AcademicCouncil() {
     // For overlap mode: start = activeSlide (not activeSlide * itemsPerPage)
     // Slide 0: start = 0, slice(0, 2) = [0, 1]
     // Slide 1: start = 1, slice(1, 3) = [1, 2]
-    const start = isMdUp && councilMembers.length > itemsPerPage 
-      ? activeSlide 
+    const start = isMdUp && councilMembers.length > itemsPerPage
+      ? activeSlide
       : activeSlide * itemsPerPage;
     return councilMembers.slice(start, start + itemsPerPage);
   }, [activeSlide, itemsPerPage, isMdUp]);
