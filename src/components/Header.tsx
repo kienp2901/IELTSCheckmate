@@ -222,7 +222,7 @@ export default function Header() {
                   ))}
                   {!isAuthenticated ? (
                     <>
-                      <ListItem sx={{ padding: "4px 0", mt: 2 }}>
+                      {/* <ListItem sx={{ padding: "4px 0", mt: 2 }}>
                         <Button
                           fullWidth
                           variant="outlined"
@@ -249,7 +249,7 @@ export default function Header() {
                         >
                           Đăng ký
                         </Button>
-                      </ListItem>
+                      </ListItem> */}
                       <ListItem sx={{ padding: "4px 0" }}>
                         <Button
                           fullWidth
@@ -310,7 +310,7 @@ export default function Header() {
             <Box sx={{ display: "flex", gap: "12px" }}>
               {!isAuthenticated ? (
                 <>
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     onClick={() => {
                       window.location.href = `${process.env.DOMAIN_FE}/register`;
@@ -333,7 +333,7 @@ export default function Header() {
                     }}
                   >
                     Đăng ký
-                  </Button>
+                  </Button> */}
                   <Button
                     variant="contained"
                     onClick={login}
