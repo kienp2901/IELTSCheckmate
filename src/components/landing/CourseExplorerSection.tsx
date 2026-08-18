@@ -11,6 +11,7 @@ const COURSES = [
     title: "Xây nền tảng để bắt đầu hành trình IELTS.",
     desc: "Dành cho học viên cần xây dựng lại nền tảng tiếng Anh và từng bước làm quen với tư duy, cấu trúc và kỹ năng IELTS.",
     target: "Foundation / 2.5+",
+    sessionsPerWeek: 2,
     features: [
       { label: "✓ Adaptive Learning", text: "Nội dung học được định hướng theo năng lực và tiến độ." },
       { label: "✓ Thư viện luyện tập", text: "Practicing for IELTS · Vocabulary · Reading Techniques & Strategies." },
@@ -26,6 +27,7 @@ const COURSES = [
     title: "Từ nền tảng lên năng lực IELTS cơ bản.",
     desc: "Tập trung xây kỹ năng theo cấu trúc bài thi và tạo nền tảng đủ chắc để tiến tới band 3.5.",
     target: "IELTS 3.5",
+    sessionsPerWeek: 2,
     features: [
       { label: "✓ Học theo kỹ năng", text: "Reading · Listening · Writing · Speaking và kiến thức nền." },
       { label: "✓ Luyện tập trên nền tảng", text: "Bài luyện và thư viện học tập đi kèm khóa." },
@@ -41,6 +43,7 @@ const COURSES = [
     title: "Chuẩn hóa kỹ năng để chạm band 4.5.",
     desc: "Hệ thống hóa chiến lược làm bài, củng cố từ vựng và ngữ pháp, đồng thời tăng độ chính xác ở cả 4 kỹ năng.",
     target: "IELTS 4.5",
+    sessionsPerWeek: 2,
     features: [
       { label: "✓ Adaptive Learning", text: "Ưu tiên luyện tập theo dữ liệu và điểm nghẽn." },
       { label: "✓ Thư viện IELTS", text: "Practicing · Vocabulary · Reading Techniques & Strategies." },
@@ -56,6 +59,7 @@ const COURSES = [
     title: "Tăng tốc từ nền tảng lên band 5.5.",
     desc: "Tập trung vào chiến lược làm bài, độ chính xác và khả năng vận dụng ngôn ngữ để tạo bước nhảy band rõ ràng.",
     target: "IELTS 5.5",
+    sessionsPerWeek: 3,
     features: [
       { label: "✓ Học theo điểm nghẽn", text: "Dữ liệu luyện tập giúp xác định kỹ năng cần ưu tiên." },
       { label: "✓ AI Practice", text: "Luyện Speaking/Writing và nhận phản hồi trên nền tảng." },
@@ -71,6 +75,7 @@ const COURSES = [
     title: "Chinh phục band 6.5 bằng chiến lược đúng.",
     desc: "Đi sâu vào tiêu chí chấm điểm, chiến lược xử lý bài và khả năng kiểm soát chất lượng đầu ra ở cả 4 kỹ năng.",
     target: "IELTS 6.5+",
+    sessionsPerWeek: 3,
     features: [
       { label: "✓ Band-specific", text: "Nội dung tập trung vào yêu cầu của band mục tiêu." },
       { label: "✓ Feedback chuyên sâu", text: "Phân tích lỗi và phản hồi để cải thiện chất lượng bài." },
@@ -111,8 +116,15 @@ export default function CourseExplorerSection() {
             {COURSES.map((c) => (
               <button
                 key={c.id}
+                type="button"
                 className={`course-tab${activeTab === c.id ? " active" : ""}`}
-                onClick={() => setActiveTab(c.id)}
+                aria-pressed={activeTab === c.id}
+                onClick={(event) => {
+                  setActiveTab(c.id)
+                  event.currentTarget.closest(".course-list")?.querySelectorAll(".course-tab").forEach((tab) => {
+                    ;(tab as HTMLButtonElement).blur()
+                  })
+                }}
               >
                 <span className={`course-dot ${c.dot}`} />
                 <span>
@@ -147,7 +159,7 @@ export default function CourseExplorerSection() {
                 <div>
                   <span>Thời lượng</span>
                   <b>10 tuần / khóa</b>
-                  <small>2 buổi / tuần</small>
+                  <small>{activeCourse.sessionsPerWeek} buổi / tuần</small>
                 </div>
                 <div>
                   <span>Phòng tự học</span>

@@ -264,7 +264,7 @@
 
   .consult-visual {
     min-height: 0;
-    padding: 28px 24px 0;
+    padding: 28px 24px 24px;
   }
 
   .consult-visual h2 {
@@ -277,22 +277,7 @@
   }
 
   .consult-visual-art {
-    margin-top: 18px;
-  }
-
-  .consult-art-ellipse {
-    width: 160px;
-    bottom: 8%;
-  }
-
-  .consult-art-group {
-    width: 180px;
-    left: auto;
-    bottom: 6%;
-  }
-
-  .consult-art-character {
-    width: min(100%, 180px);
+    display: none;
   }
 
   .consult-form-panel {

@@ -472,13 +472,28 @@
     cursor: pointer;
     color: var(--ink);
     transition: 0.18s;
+    font: inherit;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .course-tab:hover {
-    background: #fff;
+  .course-tab:focus {
+    outline: none;
   }
 
-  .course-tab.active {
+  .course-tab:focus-visible {
+    outline: 3px solid var(--jade-2);
+    outline-offset: 2px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .course-tab:not(.active):hover {
+      background: #fff;
+    }
+  }
+
+  .course-tab.active,
+  .course-tab.active:hover,
+  .course-tab.active:focus {
     background: #fff;
     border-color: var(--line);
     box-shadow: 0 8px 20px rgba(6, 45, 35, 0.07);
