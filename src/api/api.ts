@@ -41,8 +41,10 @@ apiClient.interceptors.response.use(
 export interface IContactForm {
     name: string;
     phone: string;
-    email: string;
-    timeSlot: string;
+    email?: string;
+    timeSlot?: string;
+    currentBand?: string;
+    target?: string;
     message: string;
 }
 

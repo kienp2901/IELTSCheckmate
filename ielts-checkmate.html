@@ -1,0 +1,1000 @@
+<!-- Redesign note: sample score/testimonial pairs are placeholder content, matching the original file — swap for verified student results before production. -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Checkmate — Từ band hiện tại đến band mục tiêu</title>
+<meta name="description" content="IELTS Checkmate — học IELTS có chiến lược, kết hợp lớp live, AI và nền tảng luyện tập để tiến tới band mục tiêu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --paper:#ffffff;
+  --mint:#eefaf3;
+  --mint-2:#e2f4e9;
+  --ink:#0c231d;
+  --muted:#5f7169;
+  --muted-2:#8b9b93;
+  --jade:#00a37e;
+  --jade-2:#00c191;
+  --jade-dark:#046b53;
+  --jade-deep:#053f32;
+  --jade-pale:#e4f7ee;
+  --coral:#ff5a38;
+  --coral-2:#ff8a5c;
+  --coral-pale:#ffece4;
+  --sun:#ffd23f;
+  --sun-pale:#fff6db;
+  --line:#e2ebe3;
+  --shadow-sm:0 6px 22px rgba(6,45,35,.06);
+  --shadow:0 26px 64px rgba(6,45,35,.13);
+  --radius:22px;
+  --max:1200px;
+  --display:'Be Vietnam Pro',ui-sans-serif,system-ui,sans-serif;
+  --mono:'Space Grotesk',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);background:var(--paper);
+  font-family:var(--display);line-height:1.6;-webkit-font-smoothing:antialiased
+}
+a{text-decoration:none;color:inherit} button,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--jade-2);outline-offset:2px}
+.container{width:min(var(--max),calc(100% - 48px));margin:auto}
+.mono{font-family:var(--mono)}
+
+/* ---------- checker pattern utility ---------- */
+.checker{
+  background-image:
+    linear-gradient(45deg,var(--mint-2) 25%,transparent 25%),
+    linear-gradient(-45deg,var(--mint-2) 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,var(--mint-2) 75%),
+    linear-gradient(-45deg,transparent 75%,var(--mint-2) 75%);
+  background-size:34px 34px;background-position:0 0,0 17px,17px -17px,-17px 0;
+}
+
+/* ---------- nav ---------- */
+.nav{height:80px;position:sticky;top:0;z-index:100;display:flex;align-items:center;background:rgba(255,255,255,.9);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav>.container{display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:38px;height:38px;border-radius:10px;overflow:hidden;flex:0 0 auto;box-shadow:0 6px 16px rgba(6,45,35,.18)}
+.logo-mark svg{display:block;width:100%;height:100%}
+.logo-text strong{display:block;font-family:var(--mono);font-size:16px;font-weight:700;letter-spacing:.5px;line-height:1}
+.logo-text span{display:block;font-size:9px;color:var(--muted-2);letter-spacing:2.5px;margin-top:4px;font-weight:700}
+.nav-links{display:flex;align-items:center;gap:26px;font-size:13px;font-weight:600;color:#33463e}
+.nav-links a{position:relative;padding:4px 0}
+.nav-links a:after{content:"";position:absolute;left:0;right:100%;bottom:-2px;height:2px;background:var(--coral);transition:right .18s ease}
+.nav-links a:hover:after{right:0}
+.nav-links a:hover{color:var(--jade-dark)}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{border:0;border-radius:999px;padding:13px 20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:13px;cursor:pointer;transition:.18s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--coral);color:#fff;box-shadow:0 10px 24px rgba(255,90,56,.28)}
+.btn-primary:hover{background:#ff6b45}
+.btn-teal{background:var(--jade);color:#fff;box-shadow:0 10px 24px rgba(0,163,126,.24)}
+.btn-outline{background:#fff;border:1.5px solid var(--line);color:var(--jade-dark)}
+.btn-outline:hover{border-color:var(--jade)}
+.btn-ghost{background:rgba(255,255,255,.5);border:1.5px solid var(--line);color:var(--ink)}
+.mobile-menu{display:none;border:0;background:none;font-size:22px;cursor:pointer}
+
+/* ---------- kicker / section head ---------- */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:12px;text-transform:uppercase;letter-spacing:2.5px;font-weight:700;color:var(--jade-dark)}
+.kicker:before{content:"";width:7px;height:7px;background:var(--coral);border-radius:2px;transform:rotate(45deg)}
+.section{padding:104px 0}
+.section-mint{background:var(--mint)}
+.section-head{max-width:740px;margin:0 auto 46px;text-align:center}
+.section-head.left{text-align:left;margin:0 0 40px;max-width:none}
+.section h2{font-size:clamp(32px,4vw,48px);line-height:1.08;letter-spacing:-1.5px;margin:14px 0 14px;font-weight:800}
+.section-head p{font-size:15px;color:var(--muted);line-height:1.75;margin:0}
+.mark{background:linear-gradient(transparent 62%,var(--sun) 62%);padding:0 2px}
+.mark-coral{color:var(--coral)}
+.mark-jade{color:var(--jade-dark)}
+
+/* ---------- buttons row ---------- */
+.center-cta{text-align:center;margin-top:34px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;background:var(--paper)}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-bg .blob{position:absolute;border-radius:50%;filter:blur(2px)}
+.hero-bg .blob1{width:520px;height:520px;right:-160px;top:-200px;background:radial-gradient(circle,rgba(0,193,145,.16),transparent 70%)}
+.hero-bg .blob2{width:420px;height:420px;left:-180px;bottom:-220px;background:radial-gradient(circle,rgba(255,90,56,.10),transparent 70%)}
+.hero-bg .checkzone{position:absolute;right:0;top:0;width:46%;height:100%;opacity:.55;mask-image:linear-gradient(to bottom left,black,transparent 72%)}
+.hero-inner{min-height:660px;display:grid;grid-template-columns:1.05fr .95fr;gap:60px;align-items:center;position:relative;z-index:1;padding:64px 0 40px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:12px;font-weight:700;color:var(--jade-dark);box-shadow:var(--shadow-sm)}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--coral);box-shadow:0 0 0 4px var(--coral-pale)}
+.hero h1{font-size:clamp(42px,5vw,66px);line-height:1.04;letter-spacing:-2.6px;margin:24px 0 20px;max-width:640px;font-weight:900}
+.hero h1 span.line2{display:block;color:var(--jade-dark)}
+.hero p{max-width:560px;font-size:17px;line-height:1.75;color:var(--muted);margin:0 0 30px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-strip{display:flex;flex-wrap:wrap;gap:9px;margin-top:26px}
+.hero-strip span{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border:1px solid var(--line);background:#fff;border-radius:999px;font-size:11px;font-weight:600;color:#3c4f47}
+.hero-strip i{font-style:normal;color:var(--jade);font-weight:900}
+
+/* ---------- moveboard (hero visual, signature element) ---------- */
+.hero-visual{position:relative;min-height:500px}
+.board-shadow{position:absolute;inset:14px -10px -10px 24px;border-radius:26px}
+.board-shadow .ck{width:100%;height:100%;border-radius:26px}
+.moveboard{position:relative;background:#fff;border-radius:26px;box-shadow:var(--shadow);border:1px solid var(--line);overflow:hidden;transform:rotate(-1deg)}
+.mb-top{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#fbfdfc,#fff)}
+.mb-brand{display:flex;gap:9px;align-items:center;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.4px}
+.mb-brand i{width:8px;height:8px;background:var(--coral);border-radius:2px;transform:rotate(45deg)}
+.mb-top small{color:var(--muted-2);font-size:10px;font-weight:600}
+.mb-body{padding:22px}
+.clock{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;background:var(--jade-deep);border-radius:18px;padding:16px;color:#fff}
+.clock-box{text-align:center}
+.clock-box b{display:block;font-family:var(--mono);font-size:30px;font-weight:700;line-height:1}
+.clock-box span{display:block;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,.6);margin-top:6px;font-weight:700}
+.clock-arrow{font-size:18px;color:var(--sun)}
+.mb-chart{border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:14px}
+.mb-chart-head{display:flex;justify-content:space-between;align-items:center;font-size:11px}
+.mb-chart-head b{font-weight:700}.mb-chart-head span{color:var(--jade-dark);font-weight:700;font-family:var(--mono)}
+.pawns{display:flex;align-items:end;gap:8px;height:78px;margin-top:12px}
+.pawns i{flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(to top,var(--jade),var(--jade-2))}
+.pawns i:nth-child(1){height:44%}.pawns i:nth-child(2){height:56%}.pawns i:nth-child(3){height:50%}.pawns i:nth-child(4){height:68%}.pawns i:nth-child(5){height:80%}.pawns i:nth-child(6){height:96%;background:linear-gradient(to top,var(--coral),var(--sun))}
+.mb-skills{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:14px}
+.sq{border:1px solid var(--line);border-radius:12px;padding:10px 8px;text-align:center}
+.sq:nth-child(odd){background:var(--mint)}
+.sq b{display:block;font-size:11px;font-weight:700}.sq span{display:block;font-size:11px;color:var(--muted);margin-top:4px;font-family:var(--mono);font-weight:600}
+.up{color:var(--jade-dark)!important}.down{color:var(--coral)!important}
+.mb-insight{display:flex;gap:10px;align-items:flex-start;background:var(--coral-pale);border:1px solid #ffd6c4;border-radius:14px;padding:12px 13px;margin-top:14px;font-size:11.5px;color:#7a4128;line-height:1.6}
+.mb-insight strong{color:var(--coral)}
+
+.section{position:relative}
+
+/* ---------- pain grid ---------- */
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow-sm);transition:.2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.icon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-size:19px;margin-bottom:18px}
+.icon.orange{background:var(--coral-pale)}.icon.teal{background:var(--jade-pale)}.icon.sun{background:var(--sun-pale)}
+.card h3{font-size:18px;line-height:1.35;margin:0 0 9px;font-weight:750}
+.card p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.75}
+
+/* ---------- positioning ---------- */
+.position-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.position-card{position:relative;background:#fff;border:1px solid var(--line);border-radius:23px;padding:30px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.position-badge{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:13px;margin-bottom:16px;color:#fff}
+.position-badge.t{background:var(--coral)}.position-badge.ai{background:var(--jade)}.position-badge.b{background:var(--jade-dark)}
+.position-card h3{font-size:20px;margin:0 0 6px;font-weight:800}
+.position-card strong{font-size:13px;color:var(--jade-dark);font-weight:700}
+.position-card p{margin-top:10px;color:var(--muted);font-size:13px;line-height:1.75}
+
+/* ---------- checkmate system (signature) ---------- */
+.cmate{background:var(--jade-deep);color:#fff;border-radius:30px;padding:52px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.cmate:before{content:"";position:absolute;width:1px;background:none}
+.cmate-checker{position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(45deg,rgba(255,255,255,.035) 25%,transparent 25%),linear-gradient(-45deg,rgba(255,255,255,.035) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,rgba(255,255,255,.035) 75%),linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.035) 75%);
+  background-size:46px 46px;background-position:0 0,0 23px,23px -23px,-23px 0;mask-image:radial-gradient(circle at 80% 10%,black,transparent 60%)}
+.cmate-head{max-width:740px;position:relative;z-index:2}
+.cmate-head h2{margin:12px 0 12px;color:#fff}
+.cmate-head p{color:rgba(255,255,255,.68);font-size:14px}
+.spell{display:flex;flex-wrap:wrap;gap:10px;margin-top:36px;position:relative;z-index:2}
+.spell-sq{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:17px;padding:20px 16px;flex:1;min-width:150px}
+.spell-sq .letter{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-family:var(--mono);font-weight:700;font-size:15px;margin-bottom:14px;background:var(--sun);color:var(--jade-deep)}
+.spell-sq:nth-child(2) .letter{background:var(--coral);color:#fff}
+.spell-sq:nth-child(3) .letter{background:#fff;color:var(--jade-deep)}
+.spell-sq:nth-child(4) .letter{background:var(--jade-2);color:var(--jade-deep)}
+.spell-sq:nth-child(5) .letter{background:#f4bd37;color:var(--jade-deep)}
+.spell-sq b{display:block;font-size:13.5px;margin-bottom:5px}
+.spell-sq span{font-size:11.5px;line-height:1.6;color:rgba(255,255,255,.65)}
+.spell-word{margin-top:22px;position:relative;z-index:2;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:15px 18px;font-size:13px;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.spell-word b{font-family:var(--mono);font-size:15px;letter-spacing:2px;color:var(--sun);font-weight:700}
+
+/* ---------- ai demo ---------- */
+.demo-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:20px}
+.demo-panel{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-sm)}
+.demo-panel h3{margin-top:0;font-weight:800}
+.metric{display:flex;align-items:center;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--line);font-size:13.5px}
+.metric:last-of-type{border-bottom:0}.metric span{color:var(--muted)}.metric b{font-family:var(--mono);font-size:16px}
+.adjust{background:var(--coral-pale);border:1px solid #ffd6c4;border-radius:16px;padding:17px;margin-top:16px}
+.adjust b{font-size:13px}.adjust ul{margin:8px 0 0;padding-left:17px;color:#7a4128;font-size:12px;line-height:1.85}
+.badge{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:7px 11px;font-size:10.5px;font-weight:700}
+.badge.live{background:var(--coral-pale);color:var(--coral)}
+.teach-box{margin:20px 0;background:var(--mint);border-radius:18px;padding:20px}
+.teach-box .row{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.teach-box .row b{color:var(--jade-dark);font-family:var(--mono)}
+.progress-bar{height:9px;background:#d7ece2;border-radius:99px;margin-top:12px;overflow:hidden}
+.progress-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--jade),var(--jade-2));border-radius:99px}
+.demo-panel ul.plain{padding-left:19px;color:#455a52;font-size:14px;line-height:1.95;margin:0}
+
+/* ---------- schedule ---------- */
+.schedule-head-row{display:flex;justify-content:space-between;gap:30px;align-items:end;margin-bottom:38px}
+.schedule-count{font-weight:800;color:var(--jade-dark);white-space:nowrap;font-family:var(--mono)}
+.schedule-wrap{background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);overflow:hidden}
+.schedule-toolbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:19px 20px;border-bottom:1px solid var(--line)}
+.filter{padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:#5c6f68;font-size:11.5px;font-weight:700;cursor:pointer;transition:.15s}
+.filter.active{background:var(--jade);border-color:var(--jade);color:#fff}
+.schedule-table{width:100%;border-collapse:collapse}
+.schedule-table th,.schedule-table td{padding:15px;border-bottom:1px solid #edf3ef;text-align:left;font-size:12.5px;vertical-align:middle}
+.schedule-table th{background:#fafcfb;color:#7a8a83;font-size:10px;text-transform:uppercase;letter-spacing:.6px}
+.schedule-table tbody tr:hover{background:var(--mint)}
+.schedule-table tr:last-child td{border-bottom:0}
+.schedule-actions{display:flex;align-items:center;gap:9px}
+.schedule-actions a{color:#0879e9;font-weight:700}
+.schedule-actions a:last-child{color:var(--jade-dark);border-left:1px solid var(--line);padding-left:9px}
+.schedule-more{text-align:center;padding:18px;border-top:1px solid var(--line)}
+
+/* ---------- courses ---------- */
+.course-heading{display:flex;align-items:end;justify-content:space-between;gap:30px;margin-bottom:36px}
+.course-heading>div{max-width:740px}
+.course-heading p{font-size:14px;color:var(--muted);max-width:680px;margin:0;line-height:1.75}
+.course-explorer{display:grid;grid-template-columns:290px 1fr;gap:18px;background:#fff;border:1px solid var(--line);border-radius:27px;padding:12px;box-shadow:var(--shadow)}
+.course-list{background:var(--mint);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:7px}
+.course-list-label{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1.6px;color:#7f938a;font-weight:700;padding:8px 10px 10px}
+.course-tab{width:100%;display:grid;grid-template-columns:10px 1fr auto;align-items:center;gap:10px;border:1px solid transparent;background:transparent;border-radius:14px;padding:13px 12px;text-align:left;cursor:pointer;color:var(--ink);transition:.18s}
+.course-tab:hover{background:#fff}
+.course-tab.active{background:#fff;border-color:var(--line);box-shadow:0 8px 20px rgba(6,45,35,.07)}
+.course-tab b{display:block;font-size:12.5px;font-weight:700}
+.course-tab small{display:block;color:var(--muted);font-size:10px;margin-top:2px;font-family:var(--mono)}
+.course-arrow{color:#9fb0a7;font-size:14px}
+.course-tab.active .course-arrow{color:var(--coral);font-weight:900}
+.course-dot{width:9px;height:9px;border-radius:2px;display:block;transform:rotate(45deg)}
+.course-dot.c1{background:var(--coral)}.course-dot.c2{background:#ff9166}.course-dot.c3{background:#4185d8}.course-dot.c4{background:var(--jade)}.course-dot.c5{background:#7660ce}.course-dot.c6{background:var(--sun)}
+.course-list-note{margin-top:auto;background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px 14px}
+.course-list-note strong{display:block;font-size:11.5px;line-height:1.45}
+.course-list-note span{display:block;color:var(--muted);font-size:10.5px;line-height:1.6;margin:6px 0 9px}
+.course-list-note a{font-size:10.5px;color:var(--coral);font-weight:800}
+.course-detail{min-height:580px;background:var(--paper);border-radius:20px;padding:30px;position:relative;overflow:hidden}
+.course-panel{display:none;position:relative;z-index:2}
+.course-panel.active{display:block;animation:courseIn .22s ease}
+@keyframes courseIn{from{opacity:.2;transform:translateY(5px)}to{opacity:1;transform:none}}
+.course-detail-top{display:grid;grid-template-columns:1fr 210px;gap:30px;align-items:start}
+.course-eyebrow{display:inline-flex;padding:7px 11px;background:var(--jade-pale);color:var(--jade-dark);border-radius:999px;font-size:10.5px;font-weight:800}
+.course-detail-top h3{font-size:29px;line-height:1.16;letter-spacing:-1px;margin:14px 0 10px;max-width:620px;font-weight:800}
+.course-detail-top p{font-size:13.5px;line-height:1.75;color:var(--muted);max-width:650px;margin:0}
+.course-target{background:var(--jade-deep);color:#fff;border-radius:17px;padding:17px}
+.course-target small{display:block;color:rgba(255,255,255,.55);font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+.course-target strong{display:block;font-size:17px;line-height:1.35;margin-top:7px;font-family:var(--mono)}
+.course-info-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:28px}
+.course-info-grid>div{background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px}
+.course-info-grid span{display:block;color:var(--muted-2);font-size:9.5px;text-transform:uppercase;letter-spacing:.7px;font-weight:700}
+.course-info-grid b{display:block;font-size:13.5px;margin-top:7px}
+.course-info-grid small{display:block;color:var(--muted);font-size:9.5px;margin-top:3px}
+.course-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}
+.course-features>div{background:#fff;border-radius:15px;padding:16px;border:1px solid var(--line)}
+.course-features b{display:block;color:var(--jade-dark);font-size:11.5px;margin-bottom:5px}
+.course-features span{display:block;color:var(--muted);font-size:10.5px;line-height:1.65}
+.course-bottom{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-top:26px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.course-bottom>div{display:flex;gap:8px}
+.course-bottom .btn{padding:12px 17px;font-size:11.5px}
+.class-size-highlight{display:flex;align-items:center;gap:11px;padding:11px 14px;background:var(--sun-pale);border:1px solid #ffe6a3;border-radius:14px;min-width:210px}
+.class-size-icon{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;background:var(--coral);color:#fff;font-size:13px;font-weight:800;font-family:var(--mono)}
+.class-size-highlight small{display:block;font-size:8.5px;letter-spacing:.8px;color:#8a6a2a;font-weight:800}
+.class-size-highlight strong{display:block;font-size:12.5px;color:#5c451c;margin-top:2px}
+
+/* ---------- learning experience ---------- */
+.experience{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.exp-card{background:#fff;border:1px solid var(--line);border-radius:21px;padding:24px;box-shadow:var(--shadow-sm)}
+.exp-card .icon{margin-bottom:15px}
+.exp-card h3{font-size:16px;margin:0 0 7px;font-weight:750}
+.exp-card p{font-size:12px;color:var(--muted);margin:0;line-height:1.75}
+.same-class{margin-top:20px;background:var(--jade-deep);border-radius:24px;padding:30px;display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:14px;color:#fff}
+.student{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:18px}
+.student strong{display:block;font-size:13.5px;margin-bottom:9px}
+.student span{font-size:11px;color:rgba(255,255,255,.62);font-family:var(--mono)}
+.mini-progress{height:7px;background:rgba(255,255,255,.14);border-radius:99px;overflow:hidden;margin:9px 0}
+.mini-progress i{display:block;height:100%;border-radius:99px;background:var(--sun)}
+.student small{font-size:10.5px;color:rgba(255,255,255,.55)}
+
+/* ---------- proof ---------- */
+.proof{display:grid;grid-template-columns:repeat(5,1fr);background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-sm)}
+.proof-item{text-align:center;border-right:1px solid var(--line);padding:4px 15px}
+.proof-item:last-child{border-right:0}
+.proof-item b{display:block;font-size:14px;color:var(--jade-dark);font-family:var(--mono);font-weight:700}
+.proof-item span{font-size:11px;color:var(--muted)}
+.proof-stats{margin-top:26px;background:#fff;border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm);display:grid;grid-template-columns:repeat(3,1fr);gap:20px;text-align:center;padding:28px}
+.proof-stats b{display:block;font-size:30px;font-weight:800;font-family:var(--mono)}
+.proof-stats span{font-size:12px;color:var(--muted)}
+
+/* ---------- feedback ---------- */
+.feedback-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.feedback-card{background:#fff;border:1px solid var(--line);border-radius:21px;padding:22px;min-height:320px;display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:.2s}
+.feedback-card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.feedback-top{display:flex;align-items:center;gap:11px}
+.feedback-avatar{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:var(--coral-pale);color:var(--coral);font-size:12px;font-weight:800;font-family:var(--mono)}
+.teal-avatar{background:var(--jade-pale);color:var(--jade-dark)}
+.purple-avatar{background:#ece5fd;color:#5930bd}
+.sun-avatar{background:var(--sun-pale);color:#95700a}
+.feedback-top strong{display:block;font-size:13.5px}
+.feedback-top span{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}
+.stars{color:var(--sun);letter-spacing:2px;font-size:12px;margin:18px 0 10px;filter:drop-shadow(0 1px 0 rgba(0,0,0,.1))}
+.feedback-card p{font-size:12.5px;line-height:1.8;color:#455a52;margin:0}
+.feedback-result{margin-top:auto;padding-top:17px;border-top:1px solid var(--line);display:grid;grid-template-columns:100px 1fr;gap:14px;align-items:end}
+.feedback-result>div:first-child{padding-right:12px;border-right:1px solid var(--line)}
+.feedback-result span{display:block;font-size:8.5px;line-height:1.4;letter-spacing:.6px;color:var(--muted-2);font-weight:800}
+.feedback-result b{display:block;color:var(--jade-dark);font-size:25px;line-height:1;margin-top:6px;font-family:var(--mono)}
+.feedback-result strong{display:block;color:var(--ink);font-size:11px;line-height:1.4;margin-top:6px}
+.feedback-disclaimer{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:22px;color:var(--muted);font-size:11px;font-weight:600}
+.feedback-disclaimer span:first-child{color:var(--jade-dark)}
+
+/* ---------- teachers ---------- */
+.teacher-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.teacher{background:#fff;border:1px solid var(--line);border-radius:21px;padding:21px;display:flex;gap:16px;align-items:center;box-shadow:var(--shadow-sm)}
+.avatar{width:68px;height:68px;border-radius:16px;background:var(--mint);display:grid;place-items:center;font-size:28px;flex:0 0 auto}
+.teacher h3{margin:0 0 4px;font-size:16px;font-weight:750}
+.teacher p{margin:0;font-size:11.5px;color:var(--muted)}
+
+/* ---------- commitment ---------- */
+.commitment{background:var(--jade-deep);color:#fff;border-radius:26px;padding:38px;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
+.commitment .kicker{color:var(--sun)}.commitment .kicker:before{background:var(--sun)}
+.commitment h2{font-size:31px;line-height:1.15;margin:10px 0 10px;color:#fff}
+.commitment p{font-size:13.5px;color:rgba(255,255,255,.68);max-width:700px;margin:0}
+.commitment ul{font-size:11.5px;color:rgba(255,255,255,.6);line-height:1.95;margin:15px 0 0;padding-left:18px}
+.foot-star{font-size:11px;color:rgba(255,255,255,.5);margin:15px 4px 0}
+
+/* ---------- final cta ---------- */
+.final-cta{position:relative;overflow:hidden;background:var(--coral);color:#fff;border-radius:29px;padding:66px;text-align:center;box-shadow:var(--shadow)}
+.final-cta .checker-fade{position:absolute;inset:0;opacity:.5;
+  background-image:linear-gradient(45deg,rgba(255,255,255,.08) 25%,transparent 25%),linear-gradient(-45deg,rgba(255,255,255,.08) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,rgba(255,255,255,.08) 75%),linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.08) 75%);
+  background-size:50px 50px;background-position:0 0,0 25px,25px -25px,-25px 0;mask-image:radial-gradient(circle at 20% 20%,black,transparent 65%)}
+.final-cta>*{position:relative;z-index:2}
+.final-cta .kicker{color:#fff}.final-cta .kicker:before{background:var(--jade-deep)}
+.final-cta h2{font-size:clamp(34px,5vw,54px);line-height:1.05;letter-spacing:-2px;margin:14px 0 14px;color:#fff}
+.final-cta p{max-width:680px;margin:0 auto 26px;color:rgba(255,255,255,.85);font-size:14.5px}
+.final-cta .btn-primary{background:#fff;color:var(--coral);box-shadow:0 12px 26px rgba(0,0,0,.16)}
+
+/* ---------- contact ---------- */
+.contact-form{max-width:720px;margin:auto;background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px;box-shadow:var(--shadow)}
+.contact-form .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.contact-form input,.contact-form select,.contact-form textarea{padding:14px;border:1.5px solid var(--line);border-radius:13px;font:inherit;outline:none;transition:.18s;width:100%;background:#fff}
+.contact-form input:focus,.contact-form select:focus,.contact-form textarea:focus{border-color:var(--jade-2);box-shadow:0 0 0 4px var(--jade-pale)}
+.contact-form textarea{width:100%;margin-top:14px;resize:vertical}
+.contact-form select{margin-top:0}
+.contact-form .btn{width:100%;margin-top:14px}
+
+/* ---------- faq ---------- */
+.faq{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:15px;padding:17px 18px}
+.faq details[open]{border-color:var(--jade-2)}
+.faq summary{cursor:pointer;font-size:13.5px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";font-size:19px;color:var(--coral);flex:0 0 auto}
+.faq details[open] summary:after{content:"–"}
+.faq p{font-size:11.5px;color:var(--muted);line-height:1.75;margin:11px 0 0}
+
+/* ---------- footer ---------- */
+.footer{background:var(--jade-deep);color:#fff;margin-top:0;padding:50px 0 26px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px}
+.footer h4{margin:0 0 11px;font-size:13px;font-family:var(--mono)}
+.footer p,.footer a{font-size:11.5px;color:rgba(255,255,255,.56);line-height:1.9}
+.footer a:hover{color:#fff}
+.footer-bottom{margin-top:32px;padding-top:19px;border-top:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;font-size:10.5px;color:rgba(255,255,255,.4);font-family:var(--mono)}
+
+/* ---------- consult modal ---------- */
+.consult-overlay{position:fixed;inset:0;background:rgba(5,30,24,.7);backdrop-filter:blur(5px);z-index:9999;display:none;align-items:center;justify-content:center;padding:22px}
+.consult-overlay.open{display:flex;animation:fadeIn .18s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.consult-modal{position:relative;width:min(900px,100%);max-height:min(820px,calc(100vh - 44px));display:grid;grid-template-columns:43% 57%;overflow:hidden;border-radius:20px;background:#fff;box-shadow:0 30px 90px rgba(0,0,0,.3)}
+.consult-close{position:absolute;right:10px;top:10px;z-index:5;width:32px;height:32px;border:0;border-radius:10px;background:rgba(255,255,255,.85);color:var(--jade-deep);font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center}
+.consult-visual{position:relative;overflow:hidden;min-height:650px;background:var(--jade-deep);padding:55px 28px 0}
+.consult-visual .cchecker{position:absolute;inset:0;opacity:.5;background-image:linear-gradient(45deg,rgba(255,255,255,.05) 25%,transparent 25%),linear-gradient(-45deg,rgba(255,255,255,.05) 25%,transparent 25%),linear-gradient(45deg,transparent 75%,rgba(255,255,255,.05) 75%),linear-gradient(-45deg,transparent 75%,rgba(255,255,255,.05) 75%);background-size:40px 40px;background-position:0 0,0 20px,20px -20px,-20px 0}
+.consult-visual-copy{position:relative;z-index:3;max-width:300px;color:#fff}
+.consult-mini-label{font-family:var(--mono);font-size:10px;letter-spacing:1.6px;font-weight:700;color:var(--sun);margin-bottom:17px}
+.consult-visual h2{font-size:28px;line-height:1.12;letter-spacing:-1px;margin:0 0 13px;color:#fff}
+.consult-visual p{font-size:13px;line-height:1.65;margin:0;max-width:275px;color:rgba(255,255,255,.72)}
+.consult-badge-row{position:relative;z-index:3;display:flex;gap:8px;margin-top:30px;flex-wrap:wrap}
+.consult-badge-row span{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:7px 11px;font-size:10px;color:#fff;font-weight:600}
+.consult-form-panel{padding:44px 32px 26px;background:#fff;overflow:auto}
+.consult-form-panel form{max-width:510px;margin:auto}
+.consult-form-panel label{display:block;font-size:13px;font-weight:650;color:#17282d;margin-bottom:18px}
+.consult-form-panel input,.consult-form-panel select,.consult-form-panel textarea{display:block;width:100%;margin-top:8px;padding:11px 13px;border:1.5px solid var(--line);border-radius:13px;background:#fff;color:#26373b;font:inherit;font-size:13px;outline:none;transition:.18s}
+.consult-form-panel input,.consult-form-panel select{height:44px}
+.consult-form-panel textarea{border-radius:14px;resize:vertical;min-height:110px}
+.consult-form-panel input:focus,.consult-form-panel select:focus,.consult-form-panel textarea:focus{border-color:var(--jade-2);box-shadow:0 0 0 3px var(--jade-pale)}
+.consult-submit{width:100%;height:46px;border-radius:14px;margin-top:0;font-size:12.5px}
+.consult-note{font-size:9.5px!important;color:#96a1a4!important;text-align:center;margin:10px 0 0!important;line-height:1.5;font-weight:400}
+@media(max-width:700px){
+  .consult-modal{grid-template-columns:1fr;max-height:calc(100vh - 28px);overflow:auto}
+  .consult-visual{min-height:200px;padding:28px 24px 24px}
+  .consult-visual h2{font-size:23px}.consult-visual p{font-size:11px;max-width:none}
+  .consult-form-panel{padding:26px 20px}
+}
+
+form input,form select,form textarea{outline:none}
+
+/* ---------- responsive ---------- */
+@media(max-width:1050px){
+  .nav-links{display:none}.mobile-menu{display:block}
+  .hero-inner{grid-template-columns:1fr;gap:20px;padding:56px 0 24px}
+  .hero-visual{min-height:auto;margin-top:10px}
+  .moveboard{transform:none}
+  .spell{flex-direction:column}
+  .pain-grid,.position-grid,.teacher-grid{grid-template-columns:1fr}
+  .experience{grid-template-columns:repeat(2,1fr)}
+  .same-class{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .schedule-wrap{overflow-x:auto}.schedule-table{min-width:920px}
+  .course-explorer{grid-template-columns:1fr}
+  .course-list{display:grid;grid-template-columns:repeat(2,1fr);align-content:start}
+  .course-list-label,.course-list-note{grid-column:1/-1}
+  .course-detail-top{grid-template-columns:1fr}
+  .course-target{max-width:260px}
+  .course-info-grid{grid-template-columns:repeat(2,1fr)}
+  .course-features{grid-template-columns:1fr}
+  .commitment{grid-template-columns:1fr}
+  .proof,.feedback-grid{grid-template-columns:repeat(2,1fr)}
+  .proof-item{border-right:0;border-bottom:1px solid var(--line);padding:12px 4px}
+  .demo-grid{grid-template-columns:1fr}
+}
+@media(max-width:650px){
+  .container{width:min(var(--max),calc(100% - 26px))}
+  .nav{height:66px}.nav-actions .btn-outline{display:none}.nav-actions .btn{padding:10px 14px;font-size:11px}
+  .hero h1{font-size:38px;letter-spacing:-1.6px}.hero p{font-size:14.5px}
+  .section{padding:70px 0}.section h2{font-size:30px}.section-head{margin-bottom:32px}
+  .schedule-head-row,.course-heading{display:block}
+  .schedule-head-row>*:last-child,.course-heading>.btn{margin-top:14px}
+  .faq,.proof-stats{grid-template-columns:1fr}
+  .cmate{padding:28px 20px}.commitment{padding:26px}.final-cta{padding:44px 22px}
+  .footer-grid{grid-template-columns:1fr}.footer-bottom{flex-direction:column;gap:8px}
+  .feedback-grid{grid-template-columns:1fr}
+  .mb-skills{grid-template-columns:repeat(2,1fr)}
+  .clock-box b{font-size:23px}
+  .course-detail{padding:20px}.course-detail-top h3{font-size:24px}.course-info-grid{grid-template-columns:1fr 1fr}
+  .course-bottom{display:block}.course-bottom>div{margin-top:14px;flex-wrap:wrap}.course-bottom .btn{flex:1}
+  .contact-form .grid2{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="container">
+    <a href="#top" class="logo" aria-label="IELTS Checkmate">
+      <span class="logo-mark">
+        <svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+          <rect width="38" height="38" fill="#053f32"/>
+          <rect x="0" y="0" width="19" height="19" fill="#00c191"/>
+          <rect x="19" y="19" width="19" height="19" fill="#00c191"/>
+          <rect x="19" y="0" width="19" height="19" fill="#ff5a38"/>
+          <rect x="0" y="19" width="19" height="19" fill="#ff5a38"/>
+          <path d="M12 20 L17 25 L27 13" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="logo-text"><strong>CHECKMATE</strong><span>IELTS</span></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#system">IELTS Checkmate</a>
+      <a href="#schedule">Lịch khai giảng</a>
+      <a href="#courses">Khóa học</a>
+      <a href="#platform">Nền tảng</a>
+      <a href="#teachers">Giảng viên</a>
+      <a href="#feedback">Học viên</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-outline" href="#contact">Liên hệ tư vấn</a>
+      <a class="btn btn-primary" href="#test">Làm test miễn phí</a>
+    </div>
+    <button class="mobile-menu" onclick="alert('Menu: IELTS Checkmate · Lịch khai giảng · Khóa học · Nền tảng · Giảng viên · Học viên')" aria-label="Mở menu">☰</button>
+  </div>
+</header>
+
+<div class="consult-overlay" id="consultModal" aria-hidden="true">
+  <div class="consult-modal" role="dialog" aria-modal="true" aria-labelledby="consultTitle">
+    <button class="consult-close" id="consultClose" aria-label="Đóng">×</button>
+    <div class="consult-visual">
+      <div class="cchecker"></div>
+      <div class="consult-visual-copy">
+        <div class="consult-mini-label">IELTS CHECKMATE</div>
+        <h2 id="consultTitle">Tư vấn<br>chương trình học</h2>
+        <p>Bạn để lại thông tin, Checkmate sẽ liên hệ tư vấn lộ trình phù hợp ngay nhé.</p>
+      </div>
+      <div class="consult-badge-row"><span>✓ Miễn phí</span><span>✓ Không ràng buộc</span><span>✓ Phản hồi trong 24h</span></div>
+    </div>
+    <div class="consult-form-panel">
+      <form id="consultForm">
+        <label>Họ và tên (*)<input name="name" required placeholder="Nhập họ và tên"></label>
+        <label>Số điện thoại (*)<input name="phone" required inputmode="tel" placeholder="+84"></label>
+        <label>Email<input name="email" type="email" placeholder="Nhập địa chỉ email"></label>
+        <label>Khung giờ nhận tư vấn (*)
+          <select name="time" required>
+            <option value="">Chọn khung giờ</option>
+            <option>9h - 11h sáng</option>
+            <option>11h - 13h</option>
+            <option>14h - 16h</option>
+            <option>16h - 18h</option>
+            <option>19h - 21h</option>
+          </select>
+        </label>
+        <label>Nội dung
+          <textarea name="message" rows="5" placeholder="Bạn có câu hỏi gì?&#10;• Hãy cho Checkmate biết trình độ hiện tại của bạn?&#10;• Mục tiêu mong muốn"></textarea>
+        </label>
+        <button class="btn btn-teal consult-submit" type="submit">Liên hệ ngay</button>
+        <p class="consult-note">Thông tin của bạn chỉ được sử dụng để liên hệ tư vấn chương trình học.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<main id="top">
+
+<section class="hero">
+  <div class="hero-bg">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="checkzone checker"></div>
+  </div>
+  <div class="container hero-inner">
+    <div>
+      <span class="eyebrow"><i></i> Học có người dẫn · Luyện có AI · Học theo band</span>
+      <h1>Luyện IELTS<br>có chiến lược.<span class="line2">Từ band hiện tại đến <span class="mark">band mục tiêu</span>.</span></h1>
+      <p>IELTS Checkmate kết hợp giảng viên, AI và dữ liệu học tập để xác định đúng điểm nghẽn, xây lộ trình theo band và liên tục điều chỉnh cách học theo tiến bộ thực tế.</p>
+      <div class="hero-actions">
+        <a href="#test" class="btn btn-primary">Làm test đầu vào miễn phí →</a>
+        <a href="#system" class="btn btn-ghost">Khám phá IELTS Checkmate</a>
+      </div>
+      <div class="hero-strip">
+        <span><i>✓</i> Test đầu vào</span>
+        <span><i>✓</i> Live Class</span>
+        <span><i>✓</i> AI Practice</span>
+        <span><i>✓</i> Theo dõi tiến bộ</span>
+      </div>
+    </div>
+
+    <div class="hero-visual" aria-label="Minh họa bảng theo dõi tiến bộ">
+      <div class="moveboard">
+        <div class="mb-top">
+          <div class="mb-brand"><i></i> BẢNG THEO DÕI TIẾN BỘ</div>
+          <small>Cập nhật hôm nay</small>
+        </div>
+        <div class="mb-body">
+          <div class="clock">
+            <div class="clock-box"><b>5.5</b><span>Band hiện tại</span></div>
+            <div class="clock-arrow">→</div>
+            <div class="clock-box"><b>6.5</b><span>Mục tiêu</span></div>
+          </div>
+          <div class="mb-chart">
+            <div class="mb-chart-head"><b>Xu hướng tiến bộ theo tuần</b><span>+0.4 / 6 tuần</span></div>
+            <div class="pawns"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+          <div class="mb-skills">
+            <div class="sq"><b>Listening</b><span class="up">↗ 6.0</span></div>
+            <div class="sq"><b>Reading</b><span class="up">↗ 6.5</span></div>
+            <div class="sq"><b>Speaking</b><span>→ 5.5</span></div>
+            <div class="sq"><b>Writing</b><span class="down">↓ 5.0</span></div>
+          </div>
+          <div class="mb-insight"><span>♟</span><span><strong>Điểm nghẽn:</strong> Writing · Task Response — giáo viên ưu tiên luyện tập tuần này.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Mất bản đồ?</div>
+      <h2>Bạn không mất gốc.<br><span class="mark-coral">Bạn đang mất bản đồ.</span></h2>
+      <p>Học nhiều nhưng không biết đang ở đâu, đang yếu gì và cần làm gì tiếp theo là lý do rất nhiều người đứng band.</p>
+    </div>
+    <div class="pain-grid">
+      <div class="card"><div class="icon orange">🧭</div><h3>Học nhiều nhưng không biết mình đang ở đâu</h3><p>Không có dữ liệu trình độ đủ rõ, bạn dễ học theo cảm giác và chọn sai điểm bắt đầu.</p></div>
+      <div class="card"><div class="icon teal">📉</div><h3>Học mãi nhưng band không tăng</h3><p>Cày thêm đề không đồng nghĩa với tiến bộ nếu bạn chưa biết kỹ năng nào đang kéo điểm xuống.</p></div>
+      <div class="card"><div class="icon sun">🎯</div><h3>Biết mục tiêu nhưng không biết đường đi</h3><p>Bạn cần 5.5, 6.5 hay 7.0 — nhưng chưa biết ưu tiên kỹ năng nào để đi tới đó.</p></div>
+    </div>
+    <div class="center-cta"><a href="#test" class="btn btn-teal">Kiểm tra band hiện tại miễn phí →</a></div>
+  </div>
+</section>
+
+<section class="section section-mint">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Why IELTS Checkmate</div>
+      <h2>Một hệ thống học IELTS,<br>không chỉ một khóa học.</h2>
+      <p>Teacher-led × AI-informed × Band-specific — con người dẫn đường, công nghệ giúp việc theo sát chính xác hơn.</p>
+    </div>
+    <div class="position-grid">
+      <div class="position-card"><div class="position-badge t">T</div><h3>Teacher-led</h3><strong>Giảng viên là người ra quyết định.</strong><p>Đọc dữ liệu, xác định điểm nghẽn và điều chỉnh ưu tiên học tập cho từng học viên.</p></div>
+      <div class="position-card"><div class="position-badge ai">AI</div><h3>AI-informed</h3><strong>AI biến mỗi lần luyện tập thành dữ liệu.</strong><p>AI hỗ trợ Speaking/Writing, ghi nhận bài tập và phát hiện lỗi, xu hướng lặp lại.</p></div>
+      <div class="position-card"><div class="position-badge b">B</div><h3>Band-specific</h3><strong>Mỗi chặng học có một mục tiêu rõ ràng.</strong><p>Không học IELTS chung chung. Bạn học những gì cần thiết để tiến tới band tiếp theo.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="system">
+  <div class="container">
+    <div class="cmate">
+      <div class="cmate-checker"></div>
+      <div class="cmate-head">
+        <div class="kicker" style="color:var(--sun)">IELTS Checkmate Learning System</div>
+        <h2>Học tập tạo dữ liệu.<br>Dữ liệu thay đổi cách bạn được học.</h2>
+        <p>IELTS Checkmate là cơ chế vận hành biến dữ liệu học tập thành quyết định dạy học cá nhân hóa.</p>
+      </div>
+      <div class="spell">
+        <div class="spell-sq"><div class="letter">C</div><b>Check</b><span>Test đầu vào và đánh giá từng kỹ năng.</span></div>
+        <div class="spell-sq"><div class="letter">M</div><b>Map</b><span>Tạo lộ trình ban đầu theo band và mục tiêu.</span></div>
+        <div class="spell-sq"><div class="letter">A</div><b>AI Practice</b><span>AI hỗ trợ luyện và phản hồi Speaking/Writing.</span></div>
+        <div class="spell-sq"><div class="letter">T</div><b>Track &amp; Teach</b><span>Theo dõi xu hướng để giáo viên điều chỉnh.</span></div>
+        <div class="spell-sq"><div class="letter">E</div><b>Evaluate &amp; Evolve</b><span>Kiểm tra định kỳ và cập nhật chặng tiếp theo.</span></div>
+      </div>
+      <div class="spell-word">Check → Map → AI Practice → Track &amp; Teach → Evaluate. Ghép các bước lại, bạn được <b>CHECK + M·A·T·E = CHECKMATE.</b></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-mint">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">IELTS Checkmate in action</div>
+      <h2>AI nhìn thấy gì.<br><span class="mark-coral">Giảng viên làm gì.</span></h2>
+      <p>AI cung cấp dữ liệu và phản hồi. Giảng viên vẫn là người quyết định cách dạy.</p>
+    </div>
+    <div class="demo-grid">
+      <div class="demo-panel">
+        <h3>Xu hướng kỹ năng</h3>
+        <div class="metric"><span>Listening</span><b class="up">6.0 ↗</b></div>
+        <div class="metric"><span>Reading</span><b class="up">6.5 ↗</b></div>
+        <div class="metric"><span>Speaking</span><b>5.5 →</b></div>
+        <div class="metric"><span>Writing</span><b class="down">5.0 ↓</b></div>
+        <div class="adjust"><b>Điểm nghẽn được phát hiện</b><ul><li>Task Response</li><li>Ý tưởng chưa phát triển đủ</li><li>Lỗi lặp lại trong cấu trúc bài</li></ul></div>
+      </div>
+      <div class="demo-panel">
+        <div style="display:flex;justify-content:space-between;gap:20px;align-items:center"><h3>Giảng viên điều chỉnh</h3><span class="badge live">Dữ liệu tuần 5</span></div>
+        <div class="teach-box">
+          <div class="row"><span>Writing Task Response</span><b>5.0 → 6.0</b></div>
+          <div class="progress-bar"><i style="width:72%"></i></div>
+        </div>
+        <ul class="plain">
+          <li>Tăng Writing practice</li>
+          <li>Tập trung Task Response</li>
+          <li>Bổ sung feedback theo lỗi lặp lại</li>
+          <li>Kiểm tra lại sau 7 ngày</li>
+        </ul>
+        <a href="#platform" class="btn btn-primary" style="margin-top:12px">Xem nền tảng học tập →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="schedule">
+  <div class="container">
+    <div class="schedule-head-row">
+      <div><div class="kicker">Live class</div><h2>Lịch khai giảng sắp tới</h2><p>Chọn theo trình độ và lịch phù hợp. Tất cả lớp đều học live qua nền tảng IELTS Checkmate.</p></div>
+      <div class="schedule-count">Tháng 8 · 94 lớp</div>
+    </div>
+    <div class="schedule-wrap">
+      <div class="schedule-toolbar">
+        <button class="filter active" data-filter="all">Tất cả</button>
+        <button class="filter" data-filter="2.5">Band 2.5</button>
+        <button class="filter" data-filter="3.5">Band 3.5</button>
+        <button class="filter" data-filter="4.5">Band 4.5</button>
+        <button class="filter" data-filter="5.5">Band 5.5</button>
+        <button class="filter" data-filter="6.5">Band 6.5</button>
+        <button class="filter" data-filter="7.5">Band 7.5</button>
+        <button class="filter" data-filter="online">Học Online</button>
+        <button class="filter" data-filter="offline">Học tại lớp</button>
+      </div>
+      <table class="schedule-table">
+        <thead><tr><th>Khóa học</th><th>Khai giảng</th><th>Buổi</th><th>Ca học</th><th>Hình thức học</th><th></th></tr></thead>
+        <tbody id="scheduleBody">
+          <tr data-level="5.5" data-format="offline"><td><b>IELTS Level 5.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>19:45–21:15<br>19:15–20:45</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="5.5" data-format="offline"><td><b>IELTS Level 5.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>19:15–21:15</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="4.5" data-format="offline"><td><b>IELTS Level 4.5</b></td><td>18/08/2026</td><td>Thứ 2, 6</td><td>19:00–20:30<br>19:15–20:45</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="3.5" data-format="offline"><td><b>IELTS Level 3.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>18:00–19:30</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="5.5" data-format="offline"><td><b>IELTS Level 5.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>19:30–21:00</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="4.5" data-format="offline"><td><b>IELTS Level 4.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>19:30–21:00</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="2.5" data-format="offline"><td><b>IELTS Level 2.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>19:00–20:30</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="2.5" data-format="online"><td><b>IELTS Level 2.5</b></td><td>18/08/2026</td><td>Thứ 2, 6</td><td>20:00–21:30<br>19:30–21:00</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="7.5" data-format="offline"><td><b>IELTS Level 7.5</b></td><td>18/08/2026</td><td>Thứ 3, 5</td><td>17:30–19:30</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+          <tr data-level="6.5" data-format="offline"><td><b>IELTS Level 6.5</b></td><td>18/08/2026</td><td>Thứ 3, 6</td><td>15:00–16:30</td><td><span class="badge live">● Học live qua nền tảng</span></td><td><div class="schedule-actions"><a href="#contact">Đăng ký</a><a href="#contact">Tư vấn</a></div></td></tr>
+        </tbody>
+      </table>
+      <div class="schedule-more"><a href="#contact" class="btn btn-outline">Xem tất cả lịch khai giảng →</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-mint" id="courses">
+  <div class="container">
+    <div class="course-heading">
+      <div>
+        <div class="kicker">Chương trình học</div>
+        <h2>Chọn đúng khóa học<br><span class="mark-jade">cho band tiếp theo.</span></h2>
+        <p>IELTS Checkmate thiết kế lộ trình theo từng mốc band, kết hợp lớp học live và hệ thống luyện tập trên nền tảng.</p>
+      </div>
+      <a href="#schedule" class="btn btn-outline">Xem lịch khai giảng →</a>
+    </div>
+    <div class="course-explorer">
+      <aside class="course-list">
+        <div class="course-list-label">IELTS Checkmate</div>
+        <button class="course-tab active" data-course="foundation"><span class="course-dot c1"></span><span><b>Foundation</b><small>0 → 2.5+</small></span><span class="course-arrow">→</span></button>
+        <button class="course-tab" data-course="level35"><span class="course-dot c2"></span><span><b>IELTS Level 3.5</b><small>2.5 → 3.5</small></span><span class="course-arrow">→</span></button>
+        <button class="course-tab" data-course="level45"><span class="course-dot c3"></span><span><b>IELTS Level 4.5</b><small>3.5 → 4.5</small></span><span class="course-arrow">→</span></button>
+        <button class="course-tab" data-course="level55"><span class="course-dot c4"></span><span><b>IELTS Level 5.5</b><small>4.5 → 5.5</small></span><span class="course-arrow">→</span></button>
+        <button class="course-tab" data-course="level65"><span class="course-dot c5"></span><span><b>IELTS Level 6.5</b><small>5.5 → 6.5</small></span><span class="course-arrow">→</span></button>
+        <button class="course-tab" data-course="level75"><span class="course-dot c6"></span><span><b>IELTS Level 7.5</b><small>6.5 → 7.5</small></span><span class="course-arrow">→</span></button>
+        <div class="course-list-note"><strong>Chưa biết mình phù hợp band nào?</strong><span>Làm bài test đầu vào để được tư vấn khóa học phù hợp.</span><a href="#test">Test đầu vào miễn phí →</a></div>
+      </aside>
+
+      <div class="course-detail">
+        <article class="course-panel active" data-panel="foundation">
+          <div class="course-detail-top"><div><span class="course-eyebrow">Foundation · Nền tảng</span><h3>Xây nền tảng để bắt đầu hành trình IELTS.</h3><p>Dành cho học viên cần xây dựng lại nền tảng tiếng Anh và từng bước làm quen với tư duy, cấu trúc và kỹ năng IELTS.</p></div><div class="course-target"><small>Đầu ra</small><strong>Foundation / 2.5+</strong></div></div>
+          <div class="course-info-grid"><div><span>Thời lượng</span><b>48 giờ / khóa</b><small>+ 24 giờ học bổ trợ</small></div><div><span>Phòng tự học</span><b>1 năm</b><small>Truy cập nền tảng</small></div><div><span>Học phí</span><b>Từ 3.900.000đ</b><small>/ khóa</small></div><div><span>Hình thức</span><b>Live qua nền tảng</b><small>Giảng viên đồng hành</small></div></div>
+          <div class="course-features"><div><b>✓ Adaptive Learning</b><span>Nội dung học được định hướng theo năng lực và tiến độ.</span></div><div><b>✓ Thư viện luyện tập</b><span>Practicing for IELTS · Vocabulary · Reading Techniques & Strategies.</span></div><div><b>✓ Thi thử không giới hạn</b><span>Thực hành và kiểm tra thường xuyên trên hệ thống.</span></div></div>
+          <div class="course-bottom"><div class="class-size-highlight"><span class="class-size-icon">10</span><span><small>QUY MÔ LỚP</small><strong>10 học viên / lớp</strong></span></div><div><a href="#contact" class="btn btn-primary">Đăng ký khóa học →</a><a href="#contact" class="btn btn-outline">Tư vấn khóa học</a></div></div>
+        </article>
+
+        <article class="course-panel" data-panel="level35">
+          <div class="course-detail-top"><div><span class="course-eyebrow">IELTS Level 3.5</span><h3>Từ nền tảng lên năng lực IELTS cơ bản.</h3><p>Tập trung xây kỹ năng theo cấu trúc bài thi và tạo nền tảng đủ chắc để tiến tới band 3.5.</p></div><div class="course-target"><small>Đầu ra</small><strong>IELTS 3.5</strong></div></div>
+          <div class="course-info-grid"><div><span>Thời lượng</span><b>48 giờ / khóa</b><small>+ 24 giờ học bổ trợ</small></div><div><span>Phòng tự học</span><b>1 năm</b><small>Truy cập nền tảng</small></div><div><span>Học phí</span><b>Từ 3.900.000đ</b><small>/ khóa</small></div><div><span>Hình thức</span><b>Live qua nền tảng</b><small>Giảng viên đồng hành</small></div></div>
+          <div class="course-features"><div><b>✓ Học theo kỹ năng</b><span>Reading · Listening · Writing · Speaking và kiến thức nền.</span></div><div><b>✓ Luyện tập trên nền tảng</b><span>Bài luyện và thư viện học tập đi kèm khóa.</span></div><div><b>✓ Thi thử không giới hạn</b><span>Kiểm tra mức độ sẵn sàng và theo dõi tiến bộ.</span></div></div>
+          <div class="course-bottom"><div class="class-size-highlight"><span class="class-size-icon">10</span><span><small>QUY MÔ LỚP</small><strong>10 học viên / lớp</strong></span></div><div><a href="#contact" class="btn btn-primary">Đăng ký khóa học →</a><a href="#contact" class="btn btn-outline">Tư vấn khóa học</a></div></div>
+        </article>
+
+        <article class="course-panel" data-panel="level45">
+          <div class="course-detail-top"><div><span class="course-eyebrow">IELTS Level 4.5</span><h3>Chuẩn hóa kỹ năng để chạm band 4.5.</h3><p>Hệ thống hóa chiến lược làm bài, củng cố từ vựng và ngữ pháp, đồng thời tăng độ chính xác ở cả 4 kỹ năng.</p></div><div class="course-target"><small>Đầu ra</small><strong>IELTS 4.5</strong></div></div>
+          <div class="course-info-grid"><div><span>Thời lượng</span><b>48 giờ / khóa</b><small>+ 24 giờ học bổ trợ</small></div><div><span>Phòng tự học</span><b>1 năm</b><small>Truy cập nền tảng</small></div><div><span>Học phí</span><b>Từ 3.900.000đ</b><small>/ khóa</small></div><div><span>Hình thức</span><b>Live qua nền tảng</b><small>Giảng viên đồng hành</small></div></div>
+          <div class="course-features"><div><b>✓ Adaptive Learning</b><span>Ưu tiên luyện tập theo dữ liệu và điểm nghẽn.</span></div><div><b>✓ Thư viện IELTS</b><span>Practicing · Vocabulary · Reading Techniques & Strategies.</span></div><div><b>✓ Chấm bài thực hành</b><span>Hỗ trợ phản hồi và cải thiện bài làm.</span></div></div>
+          <div class="course-bottom"><div class="class-size-highlight"><span class="class-size-icon">10</span><span><small>QUY MÔ LỚP</small><strong>10 học viên / lớp</strong></span></div><div><a href="#contact" class="btn btn-primary">Đăng ký khóa học →</a><a href="#contact" class="btn btn-outline">Tư vấn khóa học</a></div></div>
+        </article>
+
+        <article class="course-panel" data-panel="level55">
+          <div class="course-detail-top"><div><span class="course-eyebrow">IELTS Level 5.5</span><h3>Tăng tốc từ nền tảng lên band 5.5.</h3><p>Tập trung vào chiến lược làm bài, độ chính xác và khả năng vận dụng ngôn ngữ để tạo bước nhảy band rõ ràng.</p></div><div class="course-target"><small>Đầu ra</small><strong>IELTS 5.5</strong></div></div>
+          <div class="course-info-grid"><div><span>Thời lượng</span><b>48 giờ / khóa</b><small>+ 24 giờ học bổ trợ</small></div><div><span>Phòng tự học</span><b>1 năm</b><small>Truy cập nền tảng</small></div><div><span>Học phí</span><b>Từ 3.900.000đ</b><small>/ khóa</small></div><div><span>Hình thức</span><b>Live qua nền tảng</b><small>Giảng viên đồng hành</small></div></div>
+          <div class="course-features"><div><b>✓ Học theo điểm nghẽn</b><span>Dữ liệu luyện tập giúp xác định kỹ năng cần ưu tiên.</span></div><div><b>✓ AI Practice</b><span>Luyện Speaking/Writing và nhận phản hồi trên nền tảng.</span></div><div><b>✓ Thi thử không giới hạn</b><span>Liên tục kiểm tra mức độ sẵn sàng cho band mục tiêu.</span></div></div>
+          <div class="course-bottom"><div class="class-size-highlight"><span class="class-size-icon">10</span><span><small>QUY MÔ LỚP</small><strong>10 học viên / lớp</strong></span></div><div><a href="#contact" class="btn btn-primary">Đăng ký khóa học →</a><a href="#contact" class="btn btn-outline">Tư vấn khóa học</a></div></div>
+        </article>
+
+        <article class="course-panel" data-panel="level65">
+          <div class="course-detail-top"><div><span class="course-eyebrow">IELTS Level 6.5</span><h3>Chinh phục band 6.5 bằng chiến lược đúng.</h3><p>Đi sâu vào tiêu chí chấm điểm, chiến lược xử lý bài và khả năng kiểm soát chất lượng đầu ra ở cả 4 kỹ năng.</p></div><div class="course-target"><small>Đầu ra</small><strong>IELTS 6.5</strong></div></div>
+          <div class="course-info-grid"><div><span>Thời lượng</span><b>48 giờ / khóa</b><small>+ 24 giờ học bổ trợ</small></div><div><span>Phòng tự học</span><b>1 năm</b><small>Truy cập nền tảng</small></div><div><span>Học phí</span><b>Từ 3.900.000đ</b><small>/ khóa</small></div><div><span>Hình thức</span><b>Live qua nền tảng</b><small>Giảng viên đồng hành</small></div></div>
+          <div class="course-features"><div><b>✓ Band-specific</b><span>Nội dung tập trung vào yêu cầu của band mục tiêu.</span></div><div><b>✓ Feedback chuyên sâu</b><span>Phân tích lỗi và phản hồi để cải thiện chất lượng bài.</span></div><div><b>✓ Thi thử không giới hạn</b><span>Đo độ ổn định trước khi bước vào kỳ thi.</span></div></div>
+          <div class="course-bottom"><div class="class-size-highlight"><span class="class-size-icon">10</span><span><small>QUY MÔ LỚP</small><strong>10 học viên / lớp</strong></span></div><div><a href="#contact" class="btn btn-primary">Đăng ký khóa học →</a><a href="#contact" class="btn btn-outline">Tư vấn khóa học</a></div></div>
+        </article>
+
+        <article class="course-panel" data-panel="level75">
+          <div class="course-detail-top"><div><span class="course-eyebrow">IELTS Level 7.5</span><h3>Hoàn thiện chiến thuật để chạm band cao.</h3><p>Tập trung vào độ chính xác, độ sâu của ngôn ngữ và những khác biệt nhỏ quyết định band cao.</p></div><div class="course-target"><small>Đầu ra</small><strong>IELTS 7.5</strong></div></div>
+          <div class="course-info-grid"><div><span>Thời lượng</span><b>48 giờ / khóa</b><small>+ 24 giờ học bổ trợ</small></div><div><span>Phòng tự học</span><b>1 năm</b><small>Truy cập nền tảng</small></div><div><span>Học phí</span><b>Từ 3.900.000đ</b><small>/ khóa</small></div><div><span>Hình thức</span><b>Live qua nền tảng</b><small>Giảng viên đồng hành</small></div></div>
+          <div class="course-features"><div><b>✓ Chiến lược band cao</b><span>Tập trung vào chất lượng và độ ổn định của đầu ra.</span></div><div><b>✓ Luyện tập chuyên sâu</b><span>Thư viện học tập và bài thực hành đi kèm.</span></div><div><b>✓ Theo dõi tiến bộ</b><span>Dữ liệu luyện tập hỗ trợ điều chỉnh ưu tiên học.</span></div></div>
+          <div class="course-bottom"><div class="class-size-highlight"><span class="class-size-icon">10</span><span><small>QUY MÔ LỚP</small><strong>10 học viên / lớp</strong></span></div><div><a href="#contact" class="btn btn-primary">Đăng ký khóa học →</a><a href="#contact" class="btn btn-outline">Tư vấn khóa học</a></div></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="platform">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Learning experience</div>
+      <h2>Trải nghiệm học tập toàn diện</h2>
+      <p>Live class là nơi giảng viên dẫn đường. Nền tảng là nơi toàn bộ quá trình luyện tập được ghi nhận.</p>
+    </div>
+    <div class="experience">
+      <div class="exp-card"><div class="icon teal">🧑‍🏫</div><h3>Live Class</h3><p>Học trực tiếp cùng giảng viên IELTS, tương tác và nhận phản hồi ngay trong buổi học.</p></div>
+      <div class="exp-card"><div class="icon orange">🤖</div><h3>AI Practice</h3><p>Luyện Speaking/Writing với AI, ghi nhận kết quả và lỗi cần cải thiện.</p></div>
+      <div class="exp-card"><div class="icon teal">📊</div><h3>Skill Tracking</h3><p>Theo dõi xu hướng từng kỹ năng và mức độ hoàn thành theo thời gian.</p></div>
+      <div class="exp-card"><div class="icon orange">🏁</div><h3>Progress Evaluation</h3><p>Kiểm tra định kỳ và cập nhật lộ trình theo band tiếp theo.</p></div>
+    </div>
+    <div class="same-class">
+      <div><div class="kicker" style="color:var(--sun)">Personalized by data</div><h3 style="font-size:26px;margin:9px 0;font-weight:800">Cùng một lớp.<br>Không nhất thiết cùng một ưu tiên.</h3><p style="color:rgba(255,255,255,.62);font-size:13px">Dữ liệu ngoài giờ học giúp giáo viên biết mỗi học viên đang cần gì tiếp theo.</p></div>
+      <div class="student"><strong>Học viên A</strong><span>Writing</span><div class="mini-progress"><i style="width:58%"></i></div><small>Ưu tiên Task Response</small></div>
+      <div class="student"><strong>Học viên B</strong><span>Speaking</span><div class="mini-progress"><i style="width:73%"></i></div><small>Ưu tiên Fluency & Coherence</small></div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-mint">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Proof</div>
+      <h2>Tiến bộ phải có biên lai.</h2>
+      <p>Không chỉ kể cảm nhận. Theo dõi bằng bài tập, biểu đồ kỹ năng, kiểm tra định kỳ và kết quả thật.</p>
+    </div>
+    <div class="proof">
+      <div class="proof-item"><b>Before</b><span>Band / skill ban đầu</span></div>
+      <div class="proof-item"><b>Week 1–5</b><span>Dữ liệu luyện tập</span></div>
+      <div class="proof-item"><b>Feedback</b><span>Lỗi được xác định</span></div>
+      <div class="proof-item"><b>Adjust</b><span>Giáo viên điều chỉnh</span></div>
+      <div class="proof-item"><b>After</b><span>Kết quả kiểm tra</span></div>
+    </div>
+    <div class="proof-stats">
+      <div><b style="color:var(--coral)">4 kỹ năng</b><span>được theo dõi xuyên suốt</span></div>
+      <div><b style="color:var(--jade-dark)">IELTS Checkmate</b><span>vòng lặp học tập – dữ liệu – điều chỉnh</span></div>
+      <div><b style="color:var(--coral)">1 → 1</b><span>tư vấn lộ trình theo band</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="feedback">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">User feedback</div>
+      <h2>Học viên nói gì về<br><span class="mark-coral">IELTS Checkmate?</span></h2>
+      <p>Những phản hồi đi cùng kết quả thực tế: học viên học khóa nào và đạt band bao nhiêu trong kỳ thi.</p>
+    </div>
+
+    <div class="feedback-grid">
+      <article class="feedback-card">
+        <div class="feedback-top"><div class="feedback-avatar">MK</div><div><strong>Minh Khang</strong><span>TP. Hồ Chí Minh</span></div></div>
+        <div class="stars">★★★★★</div>
+        <p>"Phòng luyện Speaking AI thực sự là cứu cánh cho mình. Phần phản hồi về phát âm và ngữ pháp giúp mình tự tin hơn hẳn. Mình biết rõ lỗi nào cần sửa sau mỗi lần luyện."</p>
+        <div class="feedback-result"><div><span>ĐIỂM THI THỰC TẾ</span><b>5.0</b></div><div><span>KHÓA ĐÃ HỌC</span><strong>IELTS Level 5.5</strong></div></div>
+      </article>
+      <article class="feedback-card">
+        <div class="feedback-top"><div class="feedback-avatar teal-avatar">TM</div><div><strong>Thanh Mai</strong><span>Hà Nội</span></div></div>
+        <div class="stars">★★★★★</div>
+        <p>"Mình thích nhất là việc luyện Writing được phản hồi nhanh. Không còn phải chờ đến buổi học mới biết mình sai ở đâu. Cả từ vựng và cấu trúc câu cũng được gợi ý rất rõ."</p>
+        <div class="feedback-result"><div><span>ĐIỂM THI THỰC TẾ</span><b>5.5</b></div><div><span>KHÓA ĐÃ HỌC</span><strong>IELTS Level 5.5</strong></div></div>
+      </article>
+      <article class="feedback-card">
+        <div class="feedback-top"><div class="feedback-avatar purple-avatar">QB</div><div><strong>Quốc Bảo</strong><span>Đà Nẵng</span></div></div>
+        <div class="stars">★★★★★</div>
+        <p>"IELTS Checkmate giúp mình xác định rõ những lỗi sai có hệ thống. Sau mỗi lần luyện, mình biết cần sửa gì thay vì chỉ làm thêm thật nhiều đề."</p>
+        <div class="feedback-result"><div><span>ĐIỂM THI THỰC TẾ</span><b>6.0</b></div><div><span>KHÓA ĐÃ HỌC</span><strong>IELTS Level 6.5</strong></div></div>
+      </article>
+      <article class="feedback-card">
+        <div class="feedback-top"><div class="feedback-avatar sun-avatar">NA</div><div><strong>Ngọc Anh</strong><span>Hải Phòng</span></div></div>
+        <div class="stars">★★★★★</div>
+        <p>"Điều mình đánh giá cao là bài tập và dữ liệu luyện tập không bị bỏ lại sau mỗi buổi học. Mình biết mình đang yếu ở đâu để tập trung đúng trọng tâm."</p>
+        <div class="feedback-result"><div><span>ĐIỂM THI THỰC TẾ</span><b>6.5</b></div><div><span>KHÓA ĐÃ HỌC</span><strong>IELTS Level 7.5</strong></div></div>
+      </article>
+    </div>
+
+    <div class="feedback-disclaimer">
+      <span>✓ Kết quả hiển thị theo từng học viên</span>
+      <span>✓ Điểm thi thực tế</span>
+      <span>✓ Khóa học đã tham gia</span>
+    </div>
+  </div>
+</section>
+
+<section class="section section-mint" id="teachers">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Teacher-led</div>
+      <h2>Công nghệ giúp giáo viên<br>nhìn thấy nhiều hơn.</h2>
+      <p>Đội ngũ giảng viên là người chịu trách nhiệm đọc dữ liệu, điều chỉnh ưu tiên và dẫn học viên tới band tiếp theo.</p>
+    </div>
+    <div class="teacher-grid">
+      <div class="teacher"><div class="avatar">👨🏻‍🏫</div><div><h3>Nguyễn Duy Anh</h3><p>Giám đốc học thuật · TESOL · IELTS 8.0</p></div></div>
+      <div class="teacher"><div class="avatar">👩🏻‍🏫</div><div><h3>Vũ Phương Thảo</h3><p>IELTS 8.5 · Applied Data Science · EdTech</p></div></div>
+      <div class="teacher"><div class="avatar">👨🏻‍🏫</div><div><h3>Đội ngũ IELTS Checkmate</h3><p>Giảng viên nội bộ · theo sát dữ liệu và tiến độ từng học viên</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="commitment">
+      <div><div class="kicker">Commitment</div><h2>Cam kết đồng hành đến khi bạn đạt band mục tiêu*</h2><p>Cam kết đầu ra có điều kiện; hỗ trợ bổ sung và duy trì quyền website theo chính sách đến khi đạt band.</p><ul><li>Điều kiện cam kết được công khai rõ ràng.</li><li>Tiến độ được theo dõi trong hệ thống.</li><li>Hình thức hỗ trợ bổ sung theo chính sách từng chương trình.</li></ul></div>
+      <a href="#contact" class="btn btn-primary">Tìm hiểu chính sách cam kết →</a>
+    </div>
+    <p class="foot-star" style="color:#879499">* Áp dụng theo điều kiện và chính sách công khai của từng chương trình.</p>
+  </div>
+</section>
+
+<section class="section" id="test">
+  <div class="container">
+    <div class="final-cta">
+      <div class="checker-fade"></div>
+      <div class="kicker">Bắt đầu từ trình độ của bạn</div>
+      <h2>Đừng đoán band của bạn.<br>Hãy đo nó.</h2>
+      <p>Test đầu vào miễn phí để biết bạn đang ở đâu, điểm nghẽn nằm ở đâu và chặng tiếp theo của bạn là gì.</p>
+      <a href="#contact" class="btn btn-primary">Làm test đầu vào miễn phí →</a>
+    </div>
+  </div>
+</section>
+
+<section class="section section-mint" id="contact" style="padding-top:20px">
+  <div class="container">
+    <div class="section-head">
+      <div class="kicker">Tư vấn lộ trình</div>
+      <h2>Bắt đầu bằng một cuộc trò chuyện đúng vấn đề.</h2>
+      <p>Để lại thông tin. Đội ngũ Checkmate sẽ tư vấn band hiện tại, mục tiêu và lớp phù hợp.</p>
+    </div>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('Đã nhận yêu cầu tư vấn demo. Hãy kết nối form này với CRM/API của bạn.');">
+      <div class="grid2">
+        <input required placeholder="Họ và tên">
+        <input required placeholder="Số điện thoại">
+        <select><option>Band hiện tại</option><option>Chưa biết</option><option>0–2.5</option><option>2.5–3.5</option><option>3.5–4.5</option><option>4.5–5.5</option><option>5.5+</option></select>
+        <select><option>Mục tiêu</option><option>5.5</option><option>6.0</option><option>6.5</option><option>7.0+</option></select>
+      </div>
+      <textarea placeholder="Bạn đang gặp khó khăn gì?" rows="4"></textarea>
+      <button class="btn btn-primary">Nhận tư vấn lộ trình →</button>
+    </form>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head left"><div class="kicker">FAQ</div><h2>Câu hỏi thường gặp</h2></div>
+    <div class="faq">
+      <details><summary>Checkmate có phải app tự học không?</summary><p>Không. Checkmate kết hợp lớp IELTS trực tiếp với website học tập và dữ liệu để giảng viên theo sát tiến độ.</p></details>
+      <details><summary>AI có thay giáo viên không?</summary><p>Không. AI cung cấp dữ liệu và phản hồi; giảng viên vẫn là người đưa ra quyết định dạy học.</p></details>
+      <details><summary>Tôi không biết band hiện tại thì sao?</summary><p>Bắt đầu bằng bài test đầu vào để xác định trình độ và điểm nghẽn theo từng kỹ năng.</p></details>
+      <details><summary>Tôi đang band 4.0 thì nên học khóa nào?</summary><p>Khóa phù hợp được xác định từ kết quả test và ngưỡng học thuật, không chỉ dựa trên tự đánh giá.</p></details>
+      <details><summary>Tôi có thể xem lịch khai giảng trước không?</summary><p>Có. Lịch khai giảng được cập nhật theo trình độ và khung giờ học. Tất cả lớp đều học live qua nền tảng IELTS Checkmate.</p></details>
+      <details><summary>Cam kết đầu ra hoạt động thế nào?</summary><p>Cam kết có điều kiện và theo chính sách công khai của từng chương trình. Hãy xem chi tiết trước khi đăng ký.</p></details>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="#top">
+          <span class="logo-mark">
+            <svg viewBox="0 0 38 38" xmlns="http://www.w3.org/2000/svg">
+              <rect width="38" height="38" fill="#00c191"/>
+              <rect x="0" y="0" width="19" height="19" fill="#053f32"/>
+              <rect x="19" y="19" width="19" height="19" fill="#053f32"/>
+              <rect x="19" y="0" width="19" height="19" fill="#ff5a38"/>
+              <rect x="0" y="19" width="19" height="19" fill="#ff5a38"/>
+              <path d="M12 20 L17 25 L27 13" stroke="#fff" stroke-width="3.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="logo-text"><strong style="color:#fff">CHECKMATE</strong><span>IELTS</span></span>
+        </a>
+        <p style="margin-top:16px;max-width:340px">Học có người dẫn. Luyện có AI. Lộ trình thay đổi theo chính bạn.</p>
+      </div>
+      <div><h4>Sản phẩm</h4><p><a href="#courses">Khóa học</a></p><p><a href="#platform">Nền tảng học tập</a></p><p><a href="#system">IELTS Checkmate</a></p></div>
+      <div><h4>Hỗ trợ</h4><p><a href="#schedule">Lịch khai giảng</a></p><p><a href="#contact">Tư vấn lộ trình</a></p><p><a href="#test">Test đầu vào</a></p></div>
+      <div><h4>IELTS Checkmate</h4><p><a href="#teachers">Đội ngũ</a></p><p><a href="#contact">Liên hệ</a></p><p>© 2026 IELTS Checkmate · Make your move.</p></div>
+    </div>
+    <div class="footer-bottom"><span>Teacher-led × AI-informed × Band-specific</span><span>Make your move.</span></div>
+  </div>
+</footer>
+
+<script>
+const consultModal = document.getElementById('consultModal');
+const consultClose = document.getElementById('consultClose');
+const consultForm = document.getElementById('consultForm');
+
+function openConsultModal(e){
+  if(e) e.preventDefault();
+  consultModal.classList.add('open');
+  consultModal.setAttribute('aria-hidden','false');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>consultModal.querySelector('input[name="name"]')?.focus(),120);
+}
+function closeConsultModal(){
+  consultModal.classList.remove('open');
+  consultModal.setAttribute('aria-hidden','true');
+  document.body.style.overflow='';
+}
+document.querySelectorAll('a[href="#contact"]').forEach(el=>el.addEventListener('click',openConsultModal));
+consultClose?.addEventListener('click',closeConsultModal);
+consultModal?.addEventListener('click',e=>{if(e.target===consultModal) closeConsultModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape' && consultModal.classList.contains('open')) closeConsultModal()});
+consultForm?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const btn=consultForm.querySelector('button[type="submit"]');
+  btn.textContent='Đã nhận thông tin ✓';
+  btn.disabled=true;
+  btn.style.opacity='.75';
+  setTimeout(()=>{closeConsultModal(); consultForm.reset(); btn.textContent='Liên hệ ngay'; btn.disabled=false; btn.style.opacity='1'},1800);
+});
+
+const courseTabs=document.querySelectorAll('.course-tab');
+const coursePanels=document.querySelectorAll('.course-panel');
+courseTabs.forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    const id=tab.dataset.course;
+    courseTabs.forEach(t=>t.classList.toggle('active',t===tab));
+    coursePanels.forEach(panel=>panel.classList.toggle('active',panel.dataset.panel===id));
+  });
+});
+
+const filters=document.querySelectorAll('.filter');
+const rows=document.querySelectorAll('#scheduleBody tr');
+filters.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    filters.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.filter;
+    rows.forEach(row=>{
+      const ok=f==='all' || row.dataset.level===f || (f==='online' && row.dataset.format==='online') || (f==='offline' && row.dataset.format==='offline');
+      row.style.display=ok?'':'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

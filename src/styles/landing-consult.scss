@@ -1,0 +1,301 @@
+/* Consult modal lives outside Layout (.landing-page), so these stay unscoped. */
+.consult-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 30, 24, 0.7);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 22px;
+}
+
+.consult-overlay.open {
+  display: flex;
+  animation: fadeIn 0.18s ease;
+}
+
+.consult-modal {
+  position: relative;
+  width: min(900px, 100%);
+  max-height: min(820px, calc(100vh - 44px));
+  display: grid;
+  grid-template-columns: 43% 57%;
+  overflow: auto;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+}
+
+.consult-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 5;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--jade-deep);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.consult-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--jade-deep);
+  padding: 40px 24px 0;
+}
+
+.consult-visual .cchecker {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(255, 255, 255, 0.05) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(255, 255, 255, 0.05) 75%);
+  background-size: 40px 40px;
+  background-position: 0 0, 0 20px, 20px -20px, -20px 0;
+}
+
+.consult-visual-copy {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  max-width: 300px;
+  color: #fff;
+}
+
+.consult-mini-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 1.6px;
+  font-weight: 700;
+  color: var(--sun);
+  margin-bottom: 17px;
+}
+
+.consult-visual h2 {
+  font-size: 28px;
+  line-height: 1.12;
+  letter-spacing: -1px;
+  margin: 0 0 13px;
+  color: #fff;
+}
+
+.consult-visual p {
+  font-size: 13px;
+  line-height: 1.65;
+  margin: 0;
+  max-width: 275px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.consult-badge-row {
+  position: relative;
+  z-index: 3;
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.consult-visual-art {
+  position: relative;
+  flex-shrink: 0;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  pointer-events: none;
+}
+
+.consult-art-ellipse,
+.consult-art-group,
+.consult-art-character {
+  object-fit: contain;
+}
+
+.consult-art-ellipse {
+  position: absolute;
+  width: 72%;
+  left: 50%;
+  bottom: 10%;
+  transform: translateX(-50%);
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.consult-art-group {
+  position: absolute;
+  width: 88%;
+  left: 6%;
+  bottom: 8%;
+  z-index: 2;
+}
+
+.consult-art-character {
+  position: relative;
+  z-index: 3;
+  width: min(100%, 280px);
+  height: auto;
+  display: block;
+}
+
+.consult-badge-row span {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  padding: 7px 11px;
+  font-size: 10px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.consult-form-panel {
+  padding: 44px 32px 26px;
+  background: #fff;
+  overflow: auto;
+}
+
+.consult-form-panel form {
+  max-width: 510px;
+  margin: auto;
+}
+
+.consult-form-panel label {
+  display: block;
+  font-size: 13px;
+  font-weight: 650;
+  color: #17282d;
+  margin-bottom: 18px;
+}
+
+.consult-form-panel input,
+.consult-form-panel select,
+.consult-form-panel textarea {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px 13px;
+  border: 1.5px solid var(--line);
+  border-radius: 13px;
+  background: #fff;
+  color: #26373b;
+  font: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: 0.18s;
+}
+
+.consult-form-panel input,
+.consult-form-panel select {
+  height: 44px;
+}
+
+.consult-form-panel textarea {
+  border-radius: 14px;
+  resize: vertical;
+  min-height: 110px;
+}
+
+.consult-form-panel input:focus,
+.consult-form-panel select:focus,
+.consult-form-panel textarea:focus {
+  border-color: var(--jade-2);
+  box-shadow: 0 0 0 3px var(--jade-pale);
+}
+
+.consult-submit {
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #fff;
+  background: var(--jade);
+  box-shadow: 0 10px 24px rgba(0, 163, 126, 0.24);
+  transition: 0.18s ease;
+  width: 100%;
+  height: 46px;
+  border-radius: 14px;
+  margin-top: 0;
+  font-size: 12.5px;
+}
+
+.consult-submit:hover {
+  transform: translateY(-2px);
+}
+
+.consult-submit:disabled {
+  opacity: 0.75;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.consult-note {
+  font-size: 9.5px !important;
+  color: #96a1a4 !important;
+  text-align: center;
+  margin: 10px 0 0 !important;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+@media (max-width: 700px) {
+  .consult-modal {
+    grid-template-columns: 1fr;
+    max-height: calc(100vh - 28px);
+    overflow: auto;
+  }
+
+  .consult-visual {
+    min-height: 0;
+    padding: 28px 24px 0;
+  }
+
+  .consult-visual h2 {
+    font-size: 23px;
+  }
+
+  .consult-visual p {
+    font-size: 11px;
+    max-width: none;
+  }
+
+  .consult-visual-art {
+    margin-top: 18px;
+  }
+
+  .consult-art-ellipse {
+    width: 160px;
+    bottom: 8%;
+  }
+
+  .consult-art-group {
+    width: 180px;
+    left: auto;
+    bottom: 6%;
+  }
+
+  .consult-art-character {
+    width: min(100%, 180px);
+  }
+
+  .consult-form-panel {
+    padding: 26px 20px;
+  }
+}

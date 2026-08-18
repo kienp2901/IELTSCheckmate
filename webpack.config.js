@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackProvidePlugin = require('webpack').ProvidePlugin;
 const WebpackDefinePlugin = require('webpack').DefinePlugin;
 require('dotenv').config();
-require('dotenv').config({path:'.env.local'});
+require('dotenv').config({ path: '.env.local' });
 
 
 
@@ -22,13 +22,13 @@ module.exports = {
         filename: '[name]-[contenthash].js',
         path: path.resolve(__dirname, 'dist'),
         clean: true, // Clean the output directory before each build
-        // publicPath: '/wp-content/plugins/ielts_checkmate_dashboard/dist/',
-        publicPath: '/wordpress/wp-content/plugins/ielts_checkmate_dashboard/dist/',
+        publicPath: '/wp-content/plugins/ielts_checkmate_dashboard/dist/',
+        // publicPath: '/wordpress/wp-content/plugins/ielts_checkmate_dashboard/dist/',
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js', '.jsx', '.scss'], // Added .scss for SCSS files
-        alias:{
-            "@":path.resolve(__dirname,"src")
+        alias: {
+            "@": path.resolve(__dirname, "src")
         }
     },
     module: {
@@ -67,14 +67,13 @@ module.exports = {
             template: './src/index.html', // Adjust this to your HTML template
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].css', // Output filename for extracted CSS
-            // chunkFilename: '[id].css',
+            filename: '[name]-[contenthash].css',
         }),
         new WebpackProvidePlugin({
             React: 'react',
         }),
         new WebpackDefinePlugin({
-            "process.env":JSON.stringify(process.env)
+            "process.env": JSON.stringify(process.env)
         }),
     ],
     devtool: 'source-map',

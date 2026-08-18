@@ -1,77 +1,37 @@
-"use client";
+"use client"
 
-import {
-  AppBar,
-  Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
-  Container,
-  Grid,
-  IconButton,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  TextField,
-  Toolbar,
-  Typography,
-  useTheme,
-  useMediaQuery,
-  Stack,
-  List,
-  ListItem,
-  ListItemText,
-  Avatar,
-  LinearProgress,
-  ListItemAvatar,
-} from "@mui/material";
-import {
-  Star,
-  Users,
-  Brain,
-  PlayCircle,
-  Download,
-  ThumbsUp,
-  ChevronRight,
-  ChevronLeft,
-} from "lucide-react";
-import IELTSExperienceSection from "./components/IELTSExperienceSection";
-import IELTSLearningVideos from "./components/IELTSLearningVideos";
-import IELTSCheckmateIntro from "./components/IELTSCheckmateIntro";
-import HowToLearnIELTS from "./components/HowToLearnIELTS";
-import CheckmateTestimonials from "./components/CheckmateTestimonials";
-import AcademicCouncil from "./components/AcademicCouncil";
-import { useScroll } from "@/contexts/ScrollContext";
+import PainSection from "@/components/landing/PainSection"
+import PositioningSection from "@/components/landing/PositioningSection"
+import CheckmateSystemSection from "@/components/landing/CheckmateSystemSection"
+import AIDemoSection from "@/components/landing/AIDemoSection"
+import ScheduleSection from "@/components/landing/ScheduleSection"
+import CourseExplorerSection from "@/components/landing/CourseExplorerSection"
+import PlatformSection from "@/components/landing/PlatformSection"
+import ProofSection from "@/components/landing/ProofSection"
+import FeedbackSection from "@/components/landing/FeedbackSection"
+import TeachersSection from "@/components/landing/TeachersSection"
+import CommitmentSection from "@/components/landing/CommitmentSection"
+import FinalCTASection from "@/components/landing/FinalCTASection"
+import ContactSection from "@/components/landing/ContactSection"
+import FAQSection from "@/components/landing/FAQSection"
 
 export default function LandingPage() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.down("md"));
-  const { aiAssistantRef } = useScroll();
-
   return (
-    <Box>
-      {/* IELTSExperienceSection */}
-      <IELTSExperienceSection/>
-
-      {/* Upcoming Workshops */}
-      <IELTSLearningVideos/>
-
-      {/* IELTSCheckmateIntro */}
-      <IELTSCheckmateIntro/>
-
-      {/* Academic Council Section */}
-      <AcademicCouncil/>
-
-      {/* <Box ref={aiAssistantRef} sx={{ p: 4, bgcolor: "#f9f9f9" }}>
-        <HowToLearnIELTS/>
-      </Box> */}
-      
-
-      <CheckmateTestimonials/>
-
-    </Box>
-  );
+    <>
+      <PainSection />
+      <PositioningSection />
+      <CheckmateSystemSection />
+      <AIDemoSection />
+      <ScheduleSection />
+      <CourseExplorerSection />
+      <PlatformSection />
+      <ProofSection />
+      <FeedbackSection />
+      <TeachersSection />
+      <CommitmentSection />
+      <FinalCTASection />
+      <ContactSection />
+      <FAQSection />
+    </>
+  )
 }

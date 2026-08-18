@@ -1,90 +1,94 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
-import {
-  Dialog,
-  TextField,
-  Button,
-  Box,
-  Typography,
-  FormControlLabel,
-  Checkbox,
-  useMediaQuery,
-  useTheme,
-  FormGroup,
-  IconButton,
-  MenuItem,
-  InputAdornment,
-} from "@mui/material"
+import { useEffect, useRef, useState } from "react"
+import { Dialog } from "@mui/material"
+import { api } from "../api"
 import girl3d1 from "../assets/girl3d1.png"
 import Group3 from "../assets/Group3.png"
 import Ellipse2553 from "../assets/Ellipse2553.png"
-import { Close } from "@mui/icons-material"
-import {  useLocation, useNavigate } from 'react-router';
-import { api } from '../api';
 
 interface ConsultationDialogProps {
   open: boolean
   onClose: () => void
 }
 
+type FormState = {
+  name: string
+  phone: string
+  email: string
+  message: string
+  timeSlot: string
+}
+
+const INITIAL_FORM: FormState = {
+  name: "",
+  phone: "",
+  email: "",
+  message: "",
+  timeSlot: "",
+}
+
+const INITIAL_ERRORS = {
+  phone: "",
+  email: "",
+}
+
 export default function ConsultationDialog({ open, onClose }: ConsultationDialogProps) {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"))
-  const isSmallMobile = useMediaQuery(theme.breakpoints.down("sm"))
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    message: "",
-    timeSlot: "9h-11h", // Set default value to first option
-    agreeTerms: false,
-    receiveUpdates: false,
-  })
-  const [errors, setErrors] = useState({
-    phone: "",
-    email: "",
-  })
+  const [formData, setFormData] = useState<FormState>(INITIAL_FORM)
+  const [errors, setErrors] = useState(INITIAL_ERRORS)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const navigate = useNavigate();
+  const nameInputRef = useRef<HTMLInputElement>(null)
 
-  const validatePhone = (phone: string) => {
-    const phoneRegex = /^(0|\+84)(\d{9,10})$/
-    return phoneRegex.test(phone)
-  }
+  useEffect(() => {
+    if (!open) return
 
-  const validateEmail = (email: string) => {
-    if (!email) return true // Email is optional
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return emailRegex.test(email)
-  }
+    const timeout = window.setTimeout(() => {
+      nameInputRef.current?.focus({ preventScroll: true })
+    }, 120)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, checked, type } = e.target
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    })
+    return () => window.clearTimeout(timeout)
+  }, [open])
 
-    // Validate on change
+  const validatePhone = (phone: string) => /^(0|\+84)(\d{9,10})$/.test(phone)
+  const validateEmail = (email: string) => !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = event.target
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+
     if (name === "phone") {
-      setErrors({
-        ...errors,
+      setErrors((prev) => ({
+        ...prev,
         phone: validatePhone(value) ? "" : "Số điện thoại không hợp lệ",
-      })
-    } else if (name === "email") {
-      setErrors({
-        ...errors,
+      }))
+    }
+
+    if (name === "email") {
+      setErrors((prev) => ({
+        ...prev,
         email: validateEmail(value) ? "" : "Email không hợp lệ",
-      })
+      }))
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const resetForm = () => {
+    setFormData(INITIAL_FORM)
+    setErrors(INITIAL_ERRORS)
+  }
 
-    // Validate all fields before submission
+  const handleClose = () => {
+    if (isSubmitting) return
+    onClose()
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
     const phoneValid = validatePhone(formData.phone)
     const emailValid = validateEmail(formData.email)
 
@@ -93,15 +97,12 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
       email: emailValid ? "" : "Email không hợp lệ",
     })
 
-    if (!phoneValid || !emailValid) {
-      return // Don't submit if validation fails
-    }
+    if (!phoneValid || !emailValid) return
 
     setIsSubmitting(true)
 
     try {
-      // Submit form data to API
-      const response = await api.contact.create({
+      await api.contact.create({
         name: formData.name,
         phone: formData.phone,
         email: formData.email,
@@ -109,395 +110,137 @@ export default function ConsultationDialog({ open, onClose }: ConsultationDialog
         message: formData.message,
       })
 
-      console.log("Form submitted successfully:", response)
-      
-      // Close dialog and redirect to contact page
+      resetForm()
       onClose()
       window.location.href = `${process.env.PREFIX}/contact`
     } catch (error: any) {
-      console.error("Error submitting form:", error)
-      // Show error message from API or generic message
-      alert(error.message || "Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại!")
+      alert(error?.message || "Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại!")
     } finally {
       setIsSubmitting(false)
     }
   }
 
-  const hanldeContact = (()=>{
-    // navigate(`${process.env.PREFIX}/contact`);
-    // window.location.reload();
-    // window.location.href = `/wordpress/contact`;
-   
-  })
-
   return (
     <Dialog
       open={open}
-      onClose={onClose}
-      maxWidth="md"
-      fullWidth
-      scroll="paper"
-      PaperProps={{
-        sx: {
-          borderRadius: 3,
-          overflow: "hidden",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
-          m: { xs: 1, sm: 2, md: 4 },
-          // width: "100%",
-          // maxWidth: { xs: "95%", sm: "90%", md: "80%" },
-          width: { xs: "95%", sm: "90%", md: "900px" },
-          height: "auto",
-          p: 0,
-          background: "linear-gradient(90deg, #9FF8E8 -5.95%, #62CDC7 100%)",
-          pt: { xs: 3, md: 6 },
-          overflowY: "auto", // Cho phép cuộn
-          scrollbarWidth: "none", // Ẩn scrollbar trên Firefox
-          "&::-webkit-scrollbar": {
-            display: "none", // Ẩn scrollbar trên Chrome, Edge
+      onClose={handleClose}
+      maxWidth={false}
+      slotProps={{
+        backdrop: {
+          sx: {
+            background: "rgba(5, 30, 24, 0.7)",
+            backdropFilter: "blur(5px)",
           },
         },
       }}
+      PaperProps={{
+        sx: {
+          width: "min(900px, calc(100vw - 44px))",
+          maxWidth: "none",
+          background: "transparent",
+          boxShadow: "none",
+          overflow: "visible",
+          m: 0,
+        },
+      }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", md: "row" },
-          height: "100%",
-        }}
-      >
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: "grey.500",
-            zIndex: 10,
-            p: 0,
-            bgcolor: "rgba(255, 255, 255, 0.7)",
-            "&:hover": {
-              bgcolor: "rgba(255, 255, 255, 0.9)",
-            },
-          }}
-        >
-          <Close />
-        </IconButton>
+      <div className="consult-modal" role="dialog" aria-modal="true" aria-labelledby="consultTitle">
+        <button className="consult-close" onClick={handleClose} aria-label="Đóng" type="button">
+          ×
+        </button>
 
-        {/* Left side with background and character */}
-        <Box
-          sx={{
-            width: { xs: "100%", md: "40%" },
-            position: "relative",
-            p: { xs: 1, sm: 2 },
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "flex-start",
-            minHeight: { xs: "180px", sm: "220px", md: "auto" },
-          }}
-        >
-          <Typography
-            variant="h5"
-            component="h2"
-            sx={{
-              color: "#000",
-              fontWeight: "bold",
-              mb: 1,
-              fontSize: { xs: "1.2rem", sm: "1.5rem" },
-            }}
-          >
-            Tư vấn Chương Trình Học
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              color: "#000",
-              mb: 2,
-              maxWidth: "80%",
-              fontSize: { xs: "0.8rem", sm: "0.875rem" },
-            }}
-          >
-            Bạn hãy để lại thông tin, Checkmate sẽ liên hệ tư vấn cho mình ngay nha
-          </Typography>
+        <div className="consult-visual">
+          <div className="cchecker" />
+          <div className="consult-visual-copy">
+            <div className="consult-mini-label">IELTS CHECKMATE</div>
+            <h2 id="consultTitle">
+              Tư vấn
+              <br />
+              chương trình học
+            </h2>
+            <p>Bạn để lại thông tin, Checkmate sẽ liên hệ tư vấn lộ trình phù hợp ngay nhé.</p>
+          </div>
+          <div className="consult-badge-row">
+            <span>✓ Miễn phí</span>
+            <span>✓ Không ràng buộc</span>
+            <span>✓ Phản hồi trong 24h</span>
+          </div>
+          <div className="consult-visual-art">
+            <img src={Ellipse2553} alt="" className="consult-art-ellipse" />
+            <img src={Group3} alt="" className="consult-art-group" />
+            <img src={girl3d1} alt="IELTS Checkmate" className="consult-art-character" />
+          </div>
+        </div>
 
-          <Box
-            sx={{
-              position: { xs: "absolute", md: "absolute" },
-              bottom: { xs: "-30px", sm: "-40px", md: "0" },
-              left: 0,
-              width: "100%",
-              height: { xs: "180px", sm: "220px", md: "100%" },
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "flex-end",
-              overflow: "hidden",
-              zIndex: 1,
-            }}
-          >
-            <Box
-              component="img"
-              src={Ellipse2553}
-              alt="Background"
-              sx={{
-                objectFit: "contain",
-                width: { xs: "200px", sm: "250px", md: "300px" },
-                position: "absolute",
-                bottom: { xs: "-20px", md: "100px" },
-                opacity: 0.9,
-              }}
-            />
-            <Box
-              component="img"
-              src={Group3}
-              alt="Background Element"
-              sx={{
-                objectFit: "contain",
-                width: { xs: "110px", sm: "280px", md: "350px" },
-                position: "absolute",
-                left: { sm: "30px", md: "50px" },
-                bottom: { md: "100px" },
-                zIndex: 2,
-              }}
-            />
-            <Box
-              component="img"
-              src={girl3d1}
-              alt="IELTS Rook Course"
-              sx={{
-                objectFit: "contain",
-                width: { xs: "90px", sm: "220px", md: "300px" },
-                position: "relative",
-                bottom: { xs: "0", md: "100px" },
-                zIndex: 3,
-              }}
-            />
-          </Box>
-        </Box>
+        <div className="consult-form-panel">
+          <form onSubmit={handleSubmit}>
+            <label>
+              Họ và tên (*)
+              <input
+                ref={nameInputRef}
+                name="name"
+                required
+                placeholder="Nhập họ và tên"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </label>
 
-        {/* Right side with form */}
-        <Box
-          sx={{
-            width: { xs: "100%", md: "60%" },
-            p: { xs: 1, sm: 2 },
-            // pt: { xs: 4, sm: 5, md: 3 }, // Add extra padding on top for mobile to account for image overlap
-            position: "relative",
-            zIndex: 5,
-          }}
-        >
-          <Box
-            sx={{
-              background: "#fff",
-              p: { xs: 2, sm: 3, md: 4 },
-              borderRadius: "15px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.05)",
-            }}
-          >
-            <form onSubmit={handleSubmit}>
-              <Box sx={{ mb: { xs: 2, md: 3 } }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                >
-                  Họ và tên (*)
-                </Typography>
-                <TextField
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  fullWidth
-                  placeholder="Nhập họ và tên"
-                  variant="outlined"
-                  size="small"
-                  required
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 5,
-                    },
-                  }}
-                />
-              </Box>
+            <label>
+              Số điện thoại (*)
+              <input
+                name="phone"
+                required
+                inputMode="tel"
+                placeholder="+84"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+              {errors.phone ? <small style={{ color: "#d14343", display: "block", marginTop: 8 }}>{errors.phone}</small> : null}
+            </label>
 
-              <Box sx={{ mb: { xs: 2, md: 3 } }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                >
-                  Số điện thoại (*)
-                </Typography>
-                <TextField
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  fullWidth
-                  // placeholder="+84"
-                  variant="outlined"
-                  size="small"
-                  required
-                  error={!!errors.phone}
-                  helperText={errors.phone}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 5,
-                    },
-                  }}
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">+84</InputAdornment>,
-                  }}
-                />
-              </Box>
+            <label>
+              Email
+              <input
+                name="email"
+                type="email"
+                placeholder="Nhập địa chỉ email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+              {errors.email ? <small style={{ color: "#d14343", display: "block", marginTop: 8 }}>{errors.email}</small> : null}
+            </label>
 
-              <Box sx={{ mb: { xs: 2, md: 3 } }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                >
-                  Email
-                </Typography>
-                <TextField
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  fullWidth
-                  placeholder="Nhập địa chỉ email"
-                  variant="outlined"
-                  size="small"
-                  error={!!errors.email}
-                  helperText={errors.email}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 5,
-                    },
-                  }}
-                />
-              </Box>
+            <label>
+              Khung giờ nhận tư vấn (*)
+              <select name="timeSlot" required value={formData.timeSlot} onChange={handleChange}>
+                <option value="">Chọn khung giờ</option>
+                <option value="9h - 11h sáng">9h - 11h sáng</option>
+                <option value="11h - 13h">11h - 13h</option>
+                <option value="14h - 16h">14h - 16h</option>
+                <option value="16h - 18h">16h - 18h</option>
+                <option value="19h - 21h">19h - 21h</option>
+              </select>
+            </label>
 
-              <Box sx={{ mb: { xs: 2, md: 3 } }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                >
-                  Khung giờ nhận tư vấn (*)
-                </Typography>
-                <TextField
-                  select
-                  name="timeSlot"
-                  value={formData.timeSlot}
-                  onChange={handleChange}
-                  fullWidth
-                  placeholder="Chọn khung giờ"
-                  variant="outlined"
-                  size="small"
-                  required
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 5,
-                    },
-                  }}
-                >
-                  <MenuItem value="9h-11h">9h - 11h sáng</MenuItem>
-                  <MenuItem value="14h-17h30">14h - 17h30 chiều</MenuItem>
-                  <MenuItem value="19h-21h30">19h - 21h30 tối</MenuItem>
-                </TextField>
-              </Box>
+            <label>
+              Nội dung
+              <textarea
+                name="message"
+                rows={5}
+                placeholder={"Bạn có câu hỏi gì?\n• Hãy cho Checkmate biết trình độ hiện tại của bạn?\n• Mục tiêu mong muốn"}
+                value={formData.message}
+                onChange={handleChange}
+              />
+            </label>
 
-              <Box sx={{ mb: { xs: 2, md: 3 } }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{ mb: 0.5, fontWeight: 500, fontSize: { xs: "0.9rem", sm: "1rem" } }}
-                >
-                  Nội dung
-                </Typography>
-                <TextField
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  fullWidth
-                  placeholder="Bạn có câu hỏi gì?
-• Hãy cho Checkmate biết trình độ hiện tại của bạn?
-• Mục tiêu mong muốn"
-                  variant="outlined"
-                  size="small"
-                  multiline
-                  rows={isSmallMobile ? 7 : 8}
-                  sx={{
-                    "& .MuiOutlinedInput-root": {
-                      borderRadius: 3,
-                    },
-                  }}
-                />
-              </Box>
-
-              {/* <FormGroup sx={{ mb: { xs: 2, md: 3 } }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="agreeTerms"
-                      checked={formData.agreeTerms}
-                      onChange={handleChange}
-                      sx={{
-                        color: "#4DD0C9",
-                        "&.Mui-checked": {
-                          color: "#4DD0C9",
-                        },
-                        padding: { xs: "4px", md: "9px" },
-                      }}
-                    />
-                  }
-                  label={
-                    <Typography variant="body2" sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                      Tôi đã đọc và đồng ý với các điều khoản của quý công ty
-                    </Typography>
-                  }
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      name="receiveUpdates"
-                      checked={formData.receiveUpdates}
-                      onChange={handleChange}
-                      sx={{
-                        color: "#4DD0C9",
-                        "&.Mui-checked": {
-                          color: "#4DD0C9",
-                        },
-                        padding: { xs: "4px", md: "9px" },
-                      }}
-                    />
-                  }
-                  label={
-                    <Typography variant="body2" sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem" } }}>
-                      Nhận thông tin mới
-                    </Typography>
-                  }
-                />
-              </FormGroup> */}
-
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                disabled={isSubmitting}
-                sx={{
-                  bgcolor: "#4DD0C9",
-                  borderRadius: 6,
-                  py: { xs: 1, md: 1.5 },
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  "&:hover": {
-                    bgcolor: "#3CB0AA",
-                  },
-                  "&:disabled": {
-                    bgcolor: "#B0E0DE",
-                  },
-                }}
-              >
-                {isSubmitting ? "Đang gửi..." : "Liên hệ ngay"}
-              </Button>
-            </form>
-          </Box>
-        </Box>
-      </Box>
+            <button className="btn btn-teal consult-submit" type="submit" disabled={isSubmitting}>
+              {isSubmitting ? "Đang gửi..." : "Liên hệ ngay"}
+            </button>
+            <p className="consult-note">Thông tin của bạn chỉ được sử dụng để liên hệ tư vấn chương trình học.</p>
+          </form>
+        </div>
+      </div>
     </Dialog>
   )
 }
-

@@ -1,391 +1,136 @@
 "use client"
 
-import {
-  AppBar,
-  Container,
-  Toolbar,
-  Button,
-  Box,
-  useMediaQuery,
-  useTheme,
-  Drawer,
-  List,
-  ListItem,
-  IconButton,
-} from "@mui/material"
-import { MenuIcon, DoorClosedIcon as CloseIcon } from "lucide-react"
-import { useEffect, useState } from "react"
-import type { ReactNode } from "react"
-import { useNavigate } from "react-router"
+import { useState } from "react"
+import { Drawer, IconButton } from "@mui/material"
+import { Menu, X } from "lucide-react"
 import logo from "../assets/logo.png"
-import { useLocation } from "react-router-dom"
+import { useLocation } from "react-router"
 import { useDialog } from "@/contexts/DialogContext"
-import { useScroll } from "@/contexts/ScrollContext"
 import { useAuth } from "@/contexts/AuthContext"
 
-const HeaderBtn = ({
-  children,
-  href,
-  isActive = false,
-  onClick,
-}: {
-  children: ReactNode
+type MenuItem = {
+  label: string
   href: string
-  isActive?: boolean
   onClick?: () => void
-}) => {
-  const navigate = useNavigate()
-
-  // const handleClick = () => {
-  //   // if (href.startsWith("http")) {
-  //   //   window.location.href = href
-  //   // } else if (href === "/") {
-  //   //   window.location.href = "/"
-  //   // } else {
-  //   //   navigate(href)
-  //   // }
-  //   if (href.startsWith("http")) {
-  //     window.location.href = href
-  //   } else {
-  //     navigate(href)
-  //   }
-  //   if (onClick) onClick()
-  // }
-
-  const handleClick = () => {
-    if (onClick) {
-      onClick()
-    } else if (href) {
-      if (href.startsWith("http")) {
-        window.location.href = href
-      } else {
-        navigate(href)
-      }
-    }
-  }
-
-  return (
-    <Button
-      color="inherit"
-      sx={{
-        fontSize: "14px",
-        textTransform: "none",
-        fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-        fontStyle: "normal",
-        lineHeight: "20px",
-        color: isActive ? "#0EA882" : "#000",
-        fontWeight: 500,
-        padding: "8px 16px",
-        backgroundColor: isActive ? "#FFFFFF" : "transparent",
-        borderRadius: isActive ? "24px" : "6px",
-        boxShadow: isActive ? "0px 1px 3px 0px #525D6633" : "unset",
-        minWidth: "unset",
-        "&:hover": {
-          color: "#10B981",
-        },
-      }}
-      onClick={handleClick}
-    >
-      {children}
-    </Button>
-  )
 }
 
 export default function Header() {
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down("lg"))
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const location = useLocation()
-  const navigate = useNavigate()
-
-  const { scrollToAIAssistant } = useScroll()
   const { openDialog } = useDialog()
-  const { isAuthenticated, login, user } = useAuth()
+  const { isAuthenticated, login } = useAuth()
+  const location = useLocation()
+  const sectionHref = (hash: string) => (location.pathname === "/" ? hash : `/${hash}`)
 
-  // Debug log
-  // useEffect(() => {
-  //   console.log('🎯 Header - Auth state:', { isAuthenticated, user });
-  // }, [isAuthenticated, user]);
-
-  const handleMobileMenuToggle = () => {
-    setMobileMenuOpen(!mobileMenuOpen)
-  }
-
-  const menuItems = [
-    { label: "Trang chủ", href: "/" },
-    // { label: "Lộ trình", onClick: scrollToAIAssistant },
-    { label: "Liên hệ tư vấn", onClick: openDialog },
+  const menuItems: MenuItem[] = [
+    { label: "IELTS Checkmate", href: sectionHref("#system") },
+    { label: "Lịch khai giảng", href: sectionHref("#schedule") },
+    { label: "Khóa học", href: sectionHref("#courses") },
+    { label: "Nền tảng", href: sectionHref("#platform") },
+    { label: "Giảng viên", href: sectionHref("#teachers") },
+    { label: "Học viên", href: sectionHref("#feedback") },
   ]
 
-  // useEffect(()=>{
-  //   console.log(location.pathname)
-  // })
+  const closeDrawer = () => setMobileMenuOpen(false)
+  const handleAuthAction = () => {
+    if (isAuthenticated) {
+      window.location.href = `${process.env.DOMAIN_FE}/dashboard`
+      return
+    }
+    login()
+  }
 
   return (
-    <AppBar
-      position="sticky"
-      elevation={0}
-      sx={{
-        backgroundColor: "#fff",
-        borderBottom: "1px solid #E5E7EB",
-      }}
-    >
-      <Container maxWidth="lg">
-        <Toolbar
-          sx={{
-            height: "64px",
-            maxWidth: "1280px",
-            width: "100%",
-            margin: "0 auto",
-            // padding: {
-            //   xs: "0 12px",
-            //   sm: "0 20px",
-            // },
-            padding: {
-              xs: "0 0",
-              sm: "0 0",
-            },
-            display: "flex",
-            justifyContent: "space-between",
-            gap: "32px",
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: "32px" }}>
-            <img
-              src={logo || "/placeholder.svg"}
-              alt="logo"
-              style={{
-                height: "32px",
-                width: "auto",
-                marginRight: "16px",
+    <header className="nav">
+      <div className="container">
+        <a href={sectionHref("#top")} className="logo" aria-label="IELTS Checkmate">
+          <img src={logo} alt="IELTS Checkmate" style={{ height: "32px", width: "auto", display: "block" }} />
+        </a>
+
+        <nav className="nav-links">
+          {menuItems.map((item) => (
+            <a key={item.label} href={item.href} onClick={item.onClick}>
+              {item.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="nav-actions">
+          <button className="btn btn-outline" type="button" onClick={openDialog}>
+            Liên hệ tư vấn
+          </button>
+          <a
+            className="btn btn-primary"
+            href="#login"
+            onClick={(event) => {
+              event.preventDefault()
+              handleAuthAction()
+            }}
+          >
+            {isAuthenticated ? "Vào học" : "Đăng nhập"}
+          </a>
+        </div>
+
+        <IconButton className="mobile-menu" onClick={() => setMobileMenuOpen(true)} aria-label="Mở menu">
+          <Menu size={22} />
+        </IconButton>
+      </div>
+
+      <Drawer
+        anchor="right"
+        open={mobileMenuOpen}
+        onClose={closeDrawer}
+        className="nav-mobile-drawer-root"
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: "min(320px, 100vw - 32px)",
+            border: 0,
+            boxShadow: "0 24px 64px rgba(6, 45, 35, 0.18)",
+          },
+        }}
+      >
+        <div className="nav-mobile-drawer">
+          <div className="nav-mobile-header">
+            <a href={sectionHref("#top")} onClick={closeDrawer} aria-label="IELTS Checkmate">
+              <img src={logo} alt="IELTS Checkmate" className="nav-mobile-logo" />
+            </a>
+            <button type="button" className="nav-mobile-close" onClick={closeDrawer} aria-label="Đóng menu">
+              <X size={20} />
+            </button>
+          </div>
+
+          <nav className="nav-mobile-links" aria-label="Menu chính">
+            {menuItems.map((item) => (
+              <a key={item.label} href={item.href} onClick={closeDrawer}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+
+          <div className="nav-mobile-actions">
+            <button
+              className="btn btn-outline"
+              type="button"
+              onClick={() => {
+                openDialog()
+                closeDrawer()
               }}
-            />
-
-            {!isMobile && (
-              <Box sx={{ display: "flex", gap: "8px" }}>
-                {menuItems.map((item) => (
-                  <HeaderBtn
-                    key={item.label}
-                    href={item.href || ""}
-                    isActive={location.pathname === item.href}
-                    onClick={item.onClick} // Chỉ gọi hàm nếu có
-                  >
-                    {item.label}
-                  </HeaderBtn>
-                ))}
-              </Box>
-            )}
-          </Box>
-
-          <Box sx={{ flexGrow: 1 }} />
-
-          {isMobile ? (
-            <>
-              <IconButton
-                onClick={handleMobileMenuToggle}
-                sx={{
-                  color: "#374151",
-                  padding: "8px",
-                }}
-              >
-                {mobileMenuOpen ? <CloseIcon /> : <MenuIcon />}
-              </IconButton>
-
-              <Drawer
-                anchor="right"
-                open={mobileMenuOpen}
-                onClose={handleMobileMenuToggle}
-                sx={{
-                  "& .MuiDrawer-paper": {
-                    width: "280px",
-                    pt: 2,
-                    px: 2,
-                  },
-                }}
-              >
-                <List>
-                  {menuItems.map((item) => (
-                    <ListItem key={item.label} sx={{ padding: "4px 0" }}>
-                      <HeaderBtn
-                        href={item.href || ""} 
-                        onClick={() => {
-                          if (item.onClick) {
-                            item.onClick() // Gọi hàm scrollToAIAssistant hoặc openDialog nếu có
-                          }
-                          setMobileMenuOpen(false) // Đóng menu khi click
-                        }}
-                        isActive={item.href ? location.pathname === item.href : false}
-                      >
-                        {item.label}
-                      </HeaderBtn>
-                    </ListItem>
-                  ))}
-                  {!isAuthenticated ? (
-                    <>
-                      {/* <ListItem sx={{ padding: "4px 0", mt: 2 }}>
-                        <Button
-                          fullWidth
-                          variant="outlined"
-                          onClick={() => {
-                            window.location.href = `${process.env.DOMAIN_FE}/register`;
-                          }}
-                          sx={{
-                            textTransform: "none",
-                            borderRadius: "6px",
-                            borderColor: "#0E9F97",
-                            color: "#0E9F97",
-                            "&:hover": {
-                              borderColor: "#0C8C87",
-                              backgroundColor: "rgba(14, 159, 151, 0.04)",
-                            },
-                            fontFamily:
-                              "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            lineHeight: "20px",
-                            padding: "8px 16px",
-                            mb: 1,
-                          }}
-                        >
-                          Đăng ký
-                        </Button>
-                      </ListItem> */}
-                      <ListItem sx={{ padding: "4px 0" }}>
-                        <Button
-                          fullWidth
-                          variant="contained"
-                          onClick={login}
-                          sx={{
-                            textTransform: "none",
-                            borderRadius: "6px",
-                            backgroundColor: "#10B981",
-                            "&:hover": {
-                              backgroundColor: "#059669",
-                            },
-                            fontFamily:
-                              "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                            fontWeight: 500,
-                            fontSize: "14px",
-                            lineHeight: "20px",
-                            color: "white",
-                            padding: "8px 16px",
-                          }}
-                        >
-                          Đăng nhập
-                        </Button>
-                      </ListItem>
-                    </>
-                  ) : (
-                    <ListItem sx={{ padding: "4px 0", mt: 2 }}>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        onClick={() => {
-                          window.location.href = `${process.env.DOMAIN_FE}/dashboard`;
-                        }}
-                        sx={{
-                          textTransform: "none",
-                          borderRadius: "6px",
-                          backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
-                          "&:hover": {
-                            backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
-                          },
-                          fontFamily:
-                            "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                          fontWeight: 500,
-                          fontSize: "14px",
-                          lineHeight: "20px",
-                          color: "white",
-                          padding: "8px 16px",
-                        }}
-                      >
-                        Vào học
-                      </Button>
-                    </ListItem>
-                  )}
-                </List>
-              </Drawer>
-            </>
-          ) : (
-            <Box sx={{ display: "flex", gap: "12px" }}>
-              {!isAuthenticated ? (
-                <>
-                  {/* <Button
-                    variant="outlined"
-                    onClick={() => {
-                      window.location.href = `${process.env.DOMAIN_FE}/register`;
-                    }}
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "25px",
-                      borderColor: "#0E9F97",
-                      color: "#0E9F97",
-                      "&:hover": {
-                        borderColor: "#0C8C87",
-                        backgroundColor: "rgba(14, 159, 151, 0.04)",
-                      },
-                      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      lineHeight: "20px",
-                      padding: "8px 16px",
-                      minWidth: "120px",
-                    }}
-                  >
-                    Đăng ký
-                  </Button> */}
-                  <Button
-                    variant="contained"
-                    onClick={login}
-                    sx={{
-                      textTransform: "none",
-                      borderRadius: "25px",
-                      backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
-                      "&:hover": {
-                        backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
-                      },
-                      fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                      fontWeight: 500,
-                      fontSize: "14px",
-                      lineHeight: "20px",
-                      color: "white",
-                      padding: "8px 16px",
-                      minWidth: "120px",
-                    }}
-                  >
-                    Đăng nhập
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  variant="contained"
-                  onClick={() => {
-                    window.location.href = `${process.env.DOMAIN_FE}/dashboard`;
-                  }}
-                  sx={{
-                    textTransform: "none",
-                    borderRadius: "25px",
-                    backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
-                    "&:hover": {
-                      backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
-                    },
-                    fontFamily: "-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, sans-serif",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    lineHeight: "20px",
-                    color: "white",
-                    padding: "8px 16px",
-                    minWidth: "120px",
-                  }}
-                >
-                  Vào học
-                </Button>
-              )}
-            </Box>
-          )}
-        </Toolbar>
-      </Container>
-    </AppBar>
+            >
+              Liên hệ tư vấn
+            </button>
+            <button
+              className="btn btn-primary"
+              type="button"
+              onClick={() => {
+                handleAuthAction()
+                closeDrawer()
+              }}
+            >
+              {isAuthenticated ? "Vào học" : "Đăng nhập"}
+            </button>
+          </div>
+        </div>
+      </Drawer>
+    </header>
   )
 }
 

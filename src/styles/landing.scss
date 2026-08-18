@@ -1,0 +1,212 @@
+@import "./checkmate-tokens";
+@import "./checkmate-base";
+@import "./checkmate-components";
+@import "./landing-hero";
+@import "./landing-sections";
+@import "./landing-consult";
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes courseIn {
+  from {
+    opacity: 0.2;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.landing-page {
+  @media (max-width: 1050px) {
+    .nav-links {
+      display: none;
+    }
+    .nav-actions {
+      display: none;
+    }
+    .mobile-menu {
+      display: block;
+    }
+    .hero-inner {
+      grid-template-columns: 1fr;
+      gap: 20px;
+      padding: 56px 0 24px;
+    }
+    .hero-visual {
+      min-height: auto;
+      margin-top: 10px;
+    }
+    .moveboard {
+      transform: none;
+    }
+    .spell {
+      flex-direction: column;
+    }
+    .pain-grid,
+    .position-grid,
+    .teacher-grid {
+      grid-template-columns: 1fr;
+    }
+    .experience {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .same-class {
+      grid-template-columns: 1fr;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .schedule-wrap {
+      overflow-x: auto;
+    }
+    .schedule-table {
+      min-width: 920px;
+    }
+    .course-explorer {
+      grid-template-columns: 1fr;
+    }
+    .course-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      align-content: start;
+    }
+    .course-list-label,
+    .course-list-note {
+      grid-column: 1 / -1;
+    }
+    .course-detail-top {
+      grid-template-columns: 1fr;
+    }
+    .course-target {
+      max-width: 260px;
+    }
+    .course-info-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .course-features {
+      grid-template-columns: 1fr;
+    }
+    .commitment {
+      grid-template-columns: 1fr;
+    }
+    .proof,
+    .feedback-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .proof-item {
+      border-right: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 12px 4px;
+    }
+    .demo-grid {
+      grid-template-columns: 1fr;
+    }
+    .foundation-swatches {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 650px) {
+    .container {
+      width: min(var(--max), calc(100% - 26px));
+    }
+    .nav {
+      height: 66px;
+    }
+    .hero h1 {
+      font-size: 38px;
+      letter-spacing: -1.6px;
+    }
+    .hero p {
+      font-size: 14.5px;
+    }
+    .section {
+      padding: 70px 0;
+    }
+    .section h2 {
+      font-size: 30px;
+    }
+    .section-head {
+      margin-bottom: 32px;
+    }
+    .schedule-head-row,
+    .course-heading {
+      display: block;
+    }
+    .schedule-head-row > *:last-child,
+    .course-heading > .btn {
+      margin-top: 14px;
+    }
+    .faq,
+    .proof-stats {
+      grid-template-columns: 1fr;
+    }
+    .cmate {
+      padding: 28px 20px;
+    }
+    .commitment {
+      padding: 26px;
+    }
+    .final-cta {
+      padding: 44px 22px;
+    }
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+    .footer-bottom {
+      flex-direction: column;
+      gap: 8px;
+    }
+    .feedback-grid {
+      grid-template-columns: 1fr;
+    }
+    .feedback-card {
+      height: 380px;
+      min-height: 380px;
+    }
+    .mb-skills {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .clock-box b {
+      font-size: 23px;
+    }
+    .course-detail {
+      padding: 20px;
+    }
+    .course-detail-top h3 {
+      font-size: 24px;
+    }
+    .course-info-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+    .course-bottom {
+      display: block;
+    }
+    .course-bottom > div {
+      margin-top: 14px;
+      flex-wrap: wrap;
+    }
+    .course-bottom .btn {
+      flex: 1;
+    }
+    .contact-form .grid2 {
+      grid-template-columns: 1fr;
+    }
+    .foundation-swatches {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
