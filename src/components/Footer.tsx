@@ -1,6 +1,6 @@
 "use client"
 
-import logo from "../assets/logo.png"
+import logo from "../assets/logo_checkmate_white.png"
 import { useLocation } from "react-router"
 import { useDialog } from "@/contexts/DialogContext"
 
