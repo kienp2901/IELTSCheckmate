@@ -1,24 +1,40 @@
+"use client"
+
+import { motion, useInView } from "framer-motion"
+import { useRef } from "react"
 import CheckmateButton from "./CheckmateButton"
 import SectionContainer from "./SectionContainer"
 import SectionHead from "./SectionHead"
+import { FadeUp, usePrefersReducedMotion } from "./motion"
 
 export default function AIDemoSection() {
+  const reduced = usePrefersReducedMotion()
+  const ref = useRef<HTMLDivElement | null>(null)
+  const inView = useInView(ref, { once: true, amount: 0.3 })
+
   return (
     <SectionContainer mint>
-      <SectionHead
-        kicker="IELTS Checkmate in action"
-        title={
-          <>
-            AI nhìn thấy gì.
-            <br />
-            <span className="mark-coral">Giảng viên làm gì.</span>
-          </>
-        }
-        description="AI cung cấp dữ liệu và phản hồi. Giảng viên vẫn là người quyết định cách dạy."
-      />
+      <FadeUp>
+        <SectionHead
+          kicker="IELTS Checkmate in action"
+          title={
+            <>
+              AI nhìn thấy gì.
+              <br />
+              <span className="mark-coral">Giảng viên làm gì.</span>
+            </>
+          }
+          description="AI cung cấp dữ liệu và phản hồi. Giảng viên vẫn là người quyết định cách dạy."
+        />
+      </FadeUp>
 
-      <div className="demo-grid">
-        <div className="demo-panel">
+      <div className="demo-grid" ref={ref}>
+        <motion.div
+          className="demo-panel"
+          initial={reduced ? false : { opacity: 0, x: -28 }}
+          animate={inView ? { opacity: 1, x: 0 } : undefined}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
           <h3>Xu hướng kỹ năng</h3>
           <div className="metric">
             <span>Listening</span>
@@ -44,9 +60,14 @@ export default function AIDemoSection() {
               <li>Lỗi lặp lại trong cấu trúc bài</li>
             </ul>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="demo-panel">
+        <motion.div
+          className="demo-panel"
+          initial={reduced ? false : { opacity: 0, x: 28 }}
+          animate={inView ? { opacity: 1, x: 0 } : undefined}
+          transition={{ duration: 0.5, delay: reduced ? 0 : 0.1, ease: [0.22, 1, 0.36, 1] }}
+        >
           <div style={{ display: "flex", justifyContent: "space-between", gap: 20, alignItems: "center" }}>
             <h3>Giảng viên điều chỉnh</h3>
             <span className="badge live">Dữ liệu tuần 5</span>
@@ -58,7 +79,12 @@ export default function AIDemoSection() {
               <b>5.0 → 6.0</b>
             </div>
             <div className="progress-bar">
-              <i style={{ width: "72%" }} />
+              <motion.i
+                initial={reduced ? false : { width: 0 }}
+                animate={inView ? { width: "72%" } : { width: 0 }}
+                transition={{ duration: 0.9, delay: reduced ? 0 : 0.35, ease: [0.22, 1, 0.36, 1] }}
+                style={{ display: "block" }}
+              />
             </div>
           </div>
 
@@ -72,7 +98,7 @@ export default function AIDemoSection() {
           <CheckmateButton variant="primary" href="#platform" className="demo-cta-btn">
             Xem nền tảng học tập →
           </CheckmateButton>
-        </div>
+        </motion.div>
       </div>
     </SectionContainer>
   )

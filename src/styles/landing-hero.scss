@@ -1,4 +1,14 @@
 .landing-page {
+  .type-cursor {
+    display: inline-block;
+    width: 0.08em;
+    height: 0.9em;
+    margin-left: 3px;
+    vertical-align: -0.08em;
+    background: var(--coral);
+    animation: typeBlink 0.85s steps(1) infinite;
+  }
+
   .hero {
     position: relative;
     overflow: hidden;
@@ -83,6 +93,23 @@
     margin: 24px 0 20px;
     max-width: 640px;
     font-weight: 900;
+  }
+
+  .hero h1.hero-title {
+    position: relative;
+  }
+
+  .hero-title-sizer {
+    visibility: hidden;
+    display: block;
+    pointer-events: none;
+  }
+
+  .hero-title-typed {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
   }
 
   .hero h1 span.line2 {
@@ -216,9 +243,21 @@
     font-size: 30px;
     font-weight: 700;
     line-height: 1;
+    color: #fff;
   }
 
-  .clock-box span {
+  .clock-box b span {
+    display: inline;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    letter-spacing: normal;
+    text-transform: none;
+    color: inherit;
+    margin-top: 0;
+  }
+
+  .clock-box > span {
     display: block;
     font-size: 9px;
     letter-spacing: 1.2px;

@@ -1,5 +1,7 @@
+import { AnimatePresence, motion } from "framer-motion"
 import { useState } from "react"
 import { useDialog } from "@/contexts/DialogContext"
+import { FadeUp, usePrefersReducedMotion } from "./motion"
 
 const FILTERS = [
   { label: "Tất cả", value: "all" },
@@ -22,6 +24,7 @@ const SCHEDULE_DATA = [
 export default function ScheduleSection() {
   const [activeFilter, setActiveFilter] = useState("all")
   const { openDialog } = useDialog()
+  const reduced = usePrefersReducedMotion()
 
   const filteredRows = SCHEDULE_DATA.filter((row) => {
     if (activeFilter === "all") return true
@@ -32,66 +35,79 @@ export default function ScheduleSection() {
   return (
     <section className="section" id="schedule">
       <div className="container">
-        <div className="schedule-head-row">
-          <div>
-            <div className="kicker">Live class</div>
-            <h2>Lịch khai giảng sắp tới</h2>
-            <p>Chọn theo trình độ và lịch phù hợp. Tất cả lớp đều học live qua nền tảng IELTS Checkmate.</p>
+        <FadeUp>
+          <div className="schedule-head-row">
+            <div>
+              <div className="kicker">Live class</div>
+              <h2>Lịch khai giảng sắp tới</h2>
+              <p>Chọn theo trình độ và lịch phù hợp. Tất cả lớp đều học live qua nền tảng IELTS Checkmate.</p>
+            </div>
           </div>
-        </div>
+        </FadeUp>
 
-        <div className="schedule-wrap">
-          <div className="schedule-toolbar">
-            {FILTERS.map((f) => (
-              <button
-                key={f.value}
-                className={`filter${activeFilter === f.value ? " active" : ""}`}
-                onClick={() => setActiveFilter(f.value)}
-              >
-                {f.label}
-              </button>
-            ))}
-          </div>
-
-          <table className="schedule-table">
-            <thead>
-              <tr>
-                <th>Khóa học</th>
-                <th>Khai giảng</th>
-                <th>Buổi</th>
-                <th>Ca học</th>
-                <th>Hình thức học</th>
-                <th>Size lớp</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredRows.map((row, idx) => (
-                <tr key={idx}>
-                  <td>
-                    <b>{row.name}</b>
-                  </td>
-                  <td>{row.date}</td>
-                  <td>
-                    <b>{row.sessionsPerWeek} buổi/tuần</b>
-                    <br />
-                    {row.days}
-                  </td>
-                  <td>{row.time}</td>
-                  <td>
-                    <span className="badge live">● Học live qua nền tảng</span>
-                  </td>
-                  <td>{row.size}</td>
-                </tr>
+        <FadeUp delay={0.08}>
+          <div className="schedule-wrap">
+            <div className="schedule-toolbar">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.value}
+                  className={`filter${activeFilter === f.value ? " active" : ""}`}
+                  onClick={() => setActiveFilter(f.value)}
+                >
+                  {f.label}
+                </button>
               ))}
-            </tbody>
-          </table>
+            </div>
 
-          <div className="schedule-more">
-            <button className="btn btn-outline" type="button" onClick={openDialog}>
-              Xem tất cả lịch khai giảng →
-            </button>
+            <table className="schedule-table">
+              <thead>
+                <tr>
+                  <th>Khóa học</th>
+                  <th>Khai giảng</th>
+                  <th>Buổi</th>
+                  <th>Ca học</th>
+                  <th>Hình thức học</th>
+                  <th>Size lớp</th>
+                </tr>
+              </thead>
+              <tbody>
+                <AnimatePresence mode="popLayout">
+                  {filteredRows.map((row) => (
+                    <motion.tr
+                      key={`${activeFilter}-${row.name}-${row.date}-${row.time}`}
+                      layout={!reduced}
+                      initial={reduced ? false : { opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={reduced ? undefined : { opacity: 0, y: -6 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <td>
+                        <b>{row.name}</b>
+                      </td>
+                      <td>{row.date}</td>
+                      <td>
+                        <b>{row.sessionsPerWeek} buổi/tuần</b>
+                        <br />
+                        {row.days}
+                      </td>
+                      <td>{row.time}</td>
+                      <td>
+                        <span className="badge live">● Học live qua nền tảng</span>
+                      </td>
+                      <td>{row.size}</td>
+                    </motion.tr>
+                  ))}
+                </AnimatePresence>
+              </tbody>
+            </table>
+
+            <div className="schedule-more">
+              <button className="btn btn-outline" type="button" onClick={openDialog}>
+                Xem tất cả lịch khai giảng →
+              </button>
+            </div>
           </div>
-        </div>
+        </FadeUp>
       </div>
     </section>
   )

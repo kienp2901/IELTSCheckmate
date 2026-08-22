@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { api } from "@/api/api"
+import { FadeUp, RevealItem, StaggerChildren } from "./motion"
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -49,51 +50,67 @@ export default function ContactSection() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
+  const idlePulse = !isSubmitting && !submitted
+
   return (
     <section className="section section-mint" style={{ paddingTop: 20 }}>
       <div className="container">
-        <div className="section-head">
-          <div className="kicker">Tư vấn lộ trình</div>
-          <h2>Bắt đầu bằng một cuộc trò chuyện đúng vấn đề.</h2>
-          <p>Để lại thông tin. Đội ngũ Checkmate sẽ tư vấn band hiện tại, mục tiêu và lớp phù hợp.</p>
-        </div>
-        <form className="contact-form" onSubmit={handleSubmit}>
-          <div className="grid2">
-            <input name="name" value={formData.name} onChange={handleChange} required placeholder="Họ và tên" />
-            <input name="phone" value={formData.phone} onChange={handleChange} required placeholder="Số điện thoại" />
-            <select name="currentBand" value={formData.currentBand} onChange={handleChange} required>
-              <option value="" disabled>Band hiện tại</option>
-              <option>Chưa biết</option>
-              <option>0–2.5</option>
-              <option>2.5–3.5</option>
-              <option>3.5–4.5</option>
-              <option>4.5–5.5</option>
-              <option>5.5+</option>
-            </select>
-            <select name="target" value={formData.target} onChange={handleChange} required>
-              <option value="" disabled>Mục tiêu</option>
-              <option>5.5</option>
-              <option>6.0</option>
-              <option>6.5</option>
-              <option>7.0+</option>
-            </select>
+        <FadeUp>
+          <div className="section-head">
+            <div className="kicker">Tư vấn lộ trình</div>
+            <h2>Bắt đầu bằng một cuộc trò chuyện đúng vấn đề.</h2>
+            <p>Để lại thông tin. Đội ngũ Checkmate sẽ tư vấn band hiện tại, mục tiêu và lớp phù hợp.</p>
           </div>
-          <textarea
-            name="message"
-            value={formData.message}
-            onChange={handleChange}
-            placeholder="Bạn đang gặp khó khăn gì?"
-            rows={4}
-          />
-          <button
-            className="btn btn-primary"
-            type="submit"
-            disabled={isSubmitting || submitted}
-            style={isSubmitting || submitted ? { opacity: 0.75 } : undefined}
-          >
-            {isSubmitting ? "Đang gửi..." : submitted ? "Đã nhận thông tin ✓" : "Nhận tư vấn lộ trình →"}
-          </button>
-        </form>
+        </FadeUp>
+        <FadeUp delay={0.08}>
+          <form className="contact-form" onSubmit={handleSubmit}>
+            <StaggerChildren className="grid2" stagger={0.06} delayChildren={0.04}>
+              <RevealItem>
+                <input name="name" value={formData.name} onChange={handleChange} required placeholder="Họ và tên" />
+              </RevealItem>
+              <RevealItem>
+                <input name="phone" value={formData.phone} onChange={handleChange} required placeholder="Số điện thoại" />
+              </RevealItem>
+              <RevealItem>
+                <select name="currentBand" value={formData.currentBand} onChange={handleChange} required>
+                  <option value="" disabled>Band hiện tại</option>
+                  <option>Chưa biết</option>
+                  <option>0–2.5</option>
+                  <option>2.5–3.5</option>
+                  <option>3.5–4.5</option>
+                  <option>4.5–5.5</option>
+                  <option>5.5+</option>
+                </select>
+              </RevealItem>
+              <RevealItem>
+                <select name="target" value={formData.target} onChange={handleChange} required>
+                  <option value="" disabled>Mục tiêu</option>
+                  <option>5.5</option>
+                  <option>6.0</option>
+                  <option>6.5</option>
+                  <option>7.0+</option>
+                </select>
+              </RevealItem>
+            </StaggerChildren>
+            <FadeUp delay={0.2}>
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Bạn đang gặp khó khăn gì?"
+                rows={4}
+              />
+              <button
+                className={`btn btn-primary${idlePulse ? " btn-idle-pulse" : ""}`}
+                type="submit"
+                disabled={isSubmitting || submitted}
+                style={isSubmitting || submitted ? { opacity: 0.75 } : undefined}
+              >
+                {isSubmitting ? "Đang gửi..." : submitted ? "Đã nhận thông tin ✓" : "Nhận tư vấn lộ trình →"}
+              </button>
+            </FadeUp>
+          </form>
+        </FadeUp>
       </div>
     </section>
   )

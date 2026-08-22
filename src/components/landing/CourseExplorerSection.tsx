@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useDialog } from "@/contexts/DialogContext"
+import { FadeUp, RevealItem, StaggerChildren } from "./motion"
 
 const COURSES = [
   {
@@ -92,116 +93,123 @@ export default function CourseExplorerSection() {
   return (
     <section className="section section-mint" id="courses">
       <div className="container">
-        <div className="course-heading">
-          <div>
-            <div className="kicker">Chương trình học</div>
-            <h2>
-              Chọn đúng khóa học
-              <br />
-              <span className="mark-jade">cho band tiếp theo.</span>
-            </h2>
-            <p>
-              IELTS Checkmate thiết kế lộ trình theo từng mốc band, kết hợp lớp học live và hệ thống luyện tập trên nền
-              tảng.
-            </p>
-          </div>
-          <a href="#schedule" className="btn btn-outline">
-            Xem lịch khai giảng →
-          </a>
-        </div>
-
-        <div className="course-explorer">
-          <aside className="course-list">
-            <div className="course-list-label">IELTS Checkmate</div>
-            {COURSES.map((c) => (
-              <button
-                key={c.id}
-                type="button"
-                className={`course-tab${activeTab === c.id ? " active" : ""}`}
-                aria-pressed={activeTab === c.id}
-                onClick={(event) => {
-                  setActiveTab(c.id)
-                  event.currentTarget.closest(".course-list")?.querySelectorAll(".course-tab").forEach((tab) => {
-                    ;(tab as HTMLButtonElement).blur()
-                  })
-                }}
-              >
-                <span className={`course-dot ${c.dot}`} />
-                <span>
-                  <b>{c.tabName}</b>
-                  <small>{c.tabSub}</small>
-                </span>
-                <span className="course-arrow">→</span>
-              </button>
-            ))}
-            <div className="course-list-note">
-              <strong>Chưa biết mình phù hợp band nào?</strong>
-              <span>Làm bài test đầu vào để được tư vấn khóa học phù hợp.</span>
-              <a href="#test">Test đầu vào miễn phí →</a>
+        <FadeUp>
+          <div className="course-heading">
+            <div>
+              <div className="kicker">Chương trình học</div>
+              <h2>
+                Chọn đúng khóa học
+                <br />
+                <span className="mark-jade">cho band tiếp theo.</span>
+              </h2>
+              <p>
+                IELTS Checkmate thiết kế lộ trình theo từng mốc band, kết hợp lớp học live và hệ thống luyện tập trên nền
+                tảng.
+              </p>
             </div>
-          </aside>
-
-          <div className="course-detail">
-            <article key={activeTab} className="course-panel active">
-              <div className="course-detail-top">
-                <div>
-                  <span className="course-eyebrow">{activeCourse.eyebrow}</span>
-                  <h3>{activeCourse.title}</h3>
-                  <p>{activeCourse.desc}</p>
-                </div>
-                <div className="course-target">
-                  <small>Đầu ra</small>
-                  <strong>{activeCourse.target}</strong>
-                </div>
-              </div>
-
-              <div className="course-info-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
-                <div>
-                  <span>Thời lượng</span>
-                  <b>10 tuần / khóa</b>
-                  <small>{activeCourse.sessionsPerWeek} buổi / tuần</small>
-                </div>
-                <div>
-                  <span>Phòng tự học</span>
-                  <b>1 năm</b>
-                  <small>Truy cập nền tảng</small>
-                </div>
-                <div>
-                  <span>Hình thức</span>
-                  <b>Live qua nền tảng</b>
-                  <small>Giảng viên đồng hành</small>
-                </div>
-              </div>
-
-              <div className="course-features">
-                {activeCourse.features.map((f, i) => (
-                  <div key={i}>
-                    <b>{f.label}</b>
-                    <span>{f.text}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="course-bottom">
-                <div className="class-size-highlight">
-                  <span className="class-size-icon">10</span>
-                  <span>
-                    <small>QUY MÔ LỚP</small>
-                    <strong>10 học viên / lớp</strong>
-                  </span>
-                </div>
-                <div>
-                  <button className="btn btn-primary" type="button" onClick={openDialog}>
-                    Đăng ký khóa học →
-                  </button>
-                  <button className="btn btn-outline" type="button" onClick={openDialog}>
-                    Tư vấn khóa học
-                  </button>
-                </div>
-              </div>
-            </article>
+            <a href="#schedule" className="btn btn-outline">
+              Xem lịch khai giảng →
+            </a>
           </div>
-        </div>
+        </FadeUp>
+
+        <FadeUp delay={0.08}>
+          <div className="course-explorer">
+            <aside className="course-list">
+              <div className="course-list-label">IELTS Checkmate</div>
+              <StaggerChildren className="course-tab-stack" stagger={0.06} delayChildren={0.05}>
+                {COURSES.map((c) => (
+                  <RevealItem key={c.id}>
+                    <button
+                      type="button"
+                      className={`course-tab${activeTab === c.id ? " active" : ""}`}
+                      aria-pressed={activeTab === c.id}
+                      onClick={(event) => {
+                        setActiveTab(c.id)
+                        event.currentTarget.closest(".course-list")?.querySelectorAll(".course-tab").forEach((tab) => {
+                          ;(tab as HTMLButtonElement).blur()
+                        })
+                      }}
+                    >
+                      <span className={`course-dot ${c.dot}`} />
+                      <span>
+                        <b>{c.tabName}</b>
+                        <small>{c.tabSub}</small>
+                      </span>
+                      <span className="course-arrow">→</span>
+                    </button>
+                  </RevealItem>
+                ))}
+              </StaggerChildren>
+              <div className="course-list-note">
+                <strong>Chưa biết mình phù hợp band nào?</strong>
+                <span>Làm bài test đầu vào để được tư vấn khóa học phù hợp.</span>
+                <a href="#test">Test đầu vào miễn phí →</a>
+              </div>
+            </aside>
+
+            <div className="course-detail">
+              <article key={activeTab} className="course-panel active">
+                <div className="course-detail-top">
+                  <div>
+                    <span className="course-eyebrow">{activeCourse.eyebrow}</span>
+                    <h3>{activeCourse.title}</h3>
+                    <p>{activeCourse.desc}</p>
+                  </div>
+                  <div className="course-target">
+                    <small>Đầu ra</small>
+                    <strong>{activeCourse.target}</strong>
+                  </div>
+                </div>
+
+                <div className="course-info-grid" style={{ gridTemplateColumns: "repeat(3, 1fr)" }}>
+                  <div>
+                    <span>Thời lượng</span>
+                    <b>10 tuần / khóa</b>
+                    <small>{activeCourse.sessionsPerWeek} buổi / tuần</small>
+                  </div>
+                  <div>
+                    <span>Phòng tự học</span>
+                    <b>1 năm</b>
+                    <small>Truy cập nền tảng</small>
+                  </div>
+                  <div>
+                    <span>Hình thức</span>
+                    <b>Live qua nền tảng</b>
+                    <small>Giảng viên đồng hành</small>
+                  </div>
+                </div>
+
+                <div className="course-features">
+                  {activeCourse.features.map((f, i) => (
+                    <div key={i}>
+                      <b>{f.label}</b>
+                      <span>{f.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="course-bottom">
+                  <div className="class-size-highlight">
+                    <span className="class-size-icon">10</span>
+                    <span>
+                      <small>QUY MÔ LỚP</small>
+                      <strong>10 học viên / lớp</strong>
+                    </span>
+                  </div>
+                  <div>
+                    <button className="btn btn-primary" type="button" onClick={openDialog}>
+                      Đăng ký khóa học →
+                    </button>
+                    <button className="btn btn-outline" type="button" onClick={openDialog}>
+                      Tư vấn khóa học
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </FadeUp>
       </div>
     </section>
   )

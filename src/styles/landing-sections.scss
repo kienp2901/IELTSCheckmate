@@ -448,6 +448,16 @@
     gap: 7px;
   }
 
+  .course-tab-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .course-tab-stack > * {
+    width: 100%;
+  }
+
   .course-list-label {
     font-family: var(--mono);
     font-size: 10px;
@@ -1181,6 +1191,17 @@
     background-size: 50px 50px;
     background-position: 0 0, 0 25px, 25px -25px, -25px 0;
     mask-image: radial-gradient(circle at 20% 20%, black, transparent 65%);
+    animation: checkerPulse 4.5s ease-in-out infinite;
+  }
+
+  @keyframes checkerPulse {
+    0%,
+    100% {
+      opacity: 0.42;
+    }
+    50% {
+      opacity: 0.58;
+    }
   }
 
   .final-cta > * {
@@ -1233,6 +1254,15 @@
     gap: 14px;
   }
 
+  .contact-form .grid2 > * {
+    min-width: 0;
+  }
+
+  .contact-form .grid2 input,
+  .contact-form .grid2 select {
+    width: 100%;
+  }
+
   .contact-form input,
   .contact-form select,
   .contact-form textarea {
@@ -1268,6 +1298,22 @@
     margin-top: 14px;
   }
 
+  .contact-form .btn-idle-pulse {
+    animation: contactBtnPulse 2.8s ease-in-out infinite;
+  }
+
+  @keyframes contactBtnPulse {
+    0%,
+    100% {
+      box-shadow: 0 10px 24px rgba(15, 118, 110, 0.18);
+      transform: translateY(0);
+    }
+    50% {
+      box-shadow: 0 14px 28px rgba(15, 118, 110, 0.28);
+      transform: translateY(-1px);
+    }
+  }
+
   /* ---------- faq ---------- */
   .faq {
     display: grid;
@@ -1275,44 +1321,53 @@
     gap: 11px;
   }
 
-  .faq details {
+  .faq > * {
+    min-width: 0;
+  }
+
+  .faq-item {
     background: #fff;
     border: 1px solid var(--line);
     border-radius: 15px;
     padding: 17px 18px;
+    height: 100%;
+    transition: border-color 0.22s ease;
   }
 
-  .faq details[open] {
+  .faq-item.open {
     border-color: var(--jade-2);
   }
 
-  .faq summary {
+  .faq-trigger {
+    width: 100%;
     cursor: pointer;
+    font: inherit;
     font-size: 13.5px;
     font-weight: 700;
-    list-style: none;
+    color: inherit;
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
     display: flex;
     justify-content: space-between;
     gap: 10px;
     align-items: center;
   }
 
-  .faq summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .faq summary:after {
-    content: "+";
+  .faq-icon {
     font-size: 19px;
+    line-height: 1;
     color: var(--coral);
     flex: 0 0 auto;
+    font-weight: 600;
   }
 
-  .faq details[open] summary:after {
-    content: "–";
+  .faq-answer {
+    overflow: hidden;
   }
 
-  .faq p {
+  .faq-answer p {
     font-size: 11.5px;
     color: var(--muted);
     line-height: 1.75;

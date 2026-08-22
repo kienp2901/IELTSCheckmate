@@ -29,6 +29,32 @@ html {
   }
 }
 
+@keyframes typeBlink {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-page {
+    .type-cursor {
+      display: none;
+    }
+
+    .hero-bg .blob1,
+    .hero-bg .blob2,
+    .final-cta .checker-fade,
+    .contact-form .btn-idle-pulse {
+      animation: none !important;
+    }
+  }
+}
+
 .landing-page {
   @media (max-width: 1050px) {
     .nav-links {

@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react"
 import { useSwipeable } from "react-swipeable"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import { FadeUp } from "./motion"
 import MsLienImage from "../../assets/Ms-Lien.jpg"
 import MrBachImage from "../../assets/Mr-Bach.jpg"
 import MsThaoImage from "../../assets/Ms-Thao.jpg"
@@ -145,18 +146,20 @@ export default function TeachersSection() {
   return (
     <section className="section section-mint" id="teachers">
       <div className="container">
-        <div className="section-head">
-          <div className="kicker">Teacher-led</div>
-          <h2>
-            Công nghệ giúp giáo viên
-            <br />
-            nhìn thấy nhiều hơn.
-          </h2>
-          <p>
-            Đội ngũ giảng viên là người chịu trách nhiệm đọc dữ liệu, điều chỉnh ưu tiên và dẫn học viên tới band
-            tiếp theo.
-          </p>
-        </div>
+        <FadeUp>
+          <div className="section-head">
+            <div className="kicker">Teacher-led</div>
+            <h2>
+              Công nghệ giúp giáo viên
+              <br />
+              nhìn thấy nhiều hơn.
+            </h2>
+            <p>
+              Đội ngũ giảng viên là người chịu trách nhiệm đọc dữ liệu, điều chỉnh ưu tiên và dẫn học viên tới band
+              tiếp theo.
+            </p>
+          </div>
+        </FadeUp>
       </div>
 
       {/* Slide area uses wider MUI Container to match original AcademicCouncil */}

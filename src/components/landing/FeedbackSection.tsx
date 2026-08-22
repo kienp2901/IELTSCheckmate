@@ -5,6 +5,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "@mui/icons-material"
 import { useEffect, useMemo, useState } from "react"
 import { useSwipeable } from "react-swipeable"
+import { FadeUp } from "./motion"
 import boonImage from "../../assets/boon.png"
 import maiImage from "../../assets/mai-tran.png"
 import aliImage from "../../assets/ali.png"
@@ -157,15 +158,17 @@ export default function FeedbackSection() {
   return (
     <section className="section" id="feedback">
       <div className="container">
-        <div className="section-head">
-          <div className="kicker">User feedback</div>
-          <h2>
-            Học viên nói gì về
-            <br />
-            <span className="mark-coral">IELTS Checkmate?</span>
-          </h2>
-          <p>Những phản hồi đi cùng kết quả thực tế: học viên học khóa nào và đạt band bao nhiêu trong kỳ thi.</p>
-        </div>
+        <FadeUp>
+          <div className="section-head">
+            <div className="kicker">User feedback</div>
+            <h2>
+              Học viên nói gì về
+              <br />
+              <span className="mark-coral">IELTS Checkmate?</span>
+            </h2>
+            <p>Những phản hồi đi cùng kết quả thực tế: học viên học khóa nào và đạt band bao nhiêu trong kỳ thi.</p>
+          </div>
+        </FadeUp>
 
         <Box
           {...handlers}
