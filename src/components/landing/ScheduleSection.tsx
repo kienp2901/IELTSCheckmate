@@ -14,8 +14,8 @@ const FILTERS = [
 ]
 
 const SCHEDULE_DATA = [
-  { level: "2.5", format: "online", name: "Foundation", date: "25/8/2026", days: "Thứ 3,6", sessionsPerWeek: 2, time: "20:00 - 22:00", size: "10" },
-  { level: "3.5", format: "online", name: "IELTS Level 3.5", date: "3/9/2026", days: "Thứ 2,5", sessionsPerWeek: 2, time: "20:00 - 22:00", size: "10" },
+  { level: "2.5", format: "online", name: "Foundation", date: "8/9/2026", days: "Thứ 3,6", sessionsPerWeek: 2, time: "20:00 - 22:00", size: "10" },
+  { level: "3.5", format: "online", name: "IELTS Level 3.5", date: "7/9/2026", days: "Thứ 2,5", sessionsPerWeek: 2, time: "20:00 - 22:00", size: "10" },
   { level: "4.5", format: "online", name: "IELTS Level 4.5", date: "15/9/2025", days: "Thứ 2,5", sessionsPerWeek: 2, time: "19:30 - 21:30", size: "10" },
   { level: "5.5", format: "online", name: "IELTS Level 5.5", date: "16/9/2025", days: "Thứ 3,5,6", sessionsPerWeek: 3, time: "19:30 - 21:30", size: "10" },
   { level: "6.5+", format: "online", name: "IELTS Level 6.5+", date: "15/9/2025", days: "Thứ 2,4,6", sessionsPerWeek: 3, time: "20:00 - 22:00", size: "10" },
