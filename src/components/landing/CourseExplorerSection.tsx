@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { useDialog } from "@/contexts/DialogContext"
 import { FadeUp, RevealItem, StaggerChildren } from "./motion"
 
@@ -85,10 +85,30 @@ const COURSES = [
   },
 ]
 
+const MOBILE_COURSE_MQ = "(max-width: 1050px)"
+
 export default function CourseExplorerSection() {
   const [activeTab, setActiveTab] = useState("foundation")
   const { openDialog } = useDialog()
   const activeCourse = COURSES.find((c) => c.id === activeTab)!
+  const detailRef = useRef<HTMLDivElement | null>(null)
+
+  const selectCourse = (id: string, tabEl: HTMLButtonElement) => {
+    setActiveTab(id)
+    tabEl.blur()
+
+    const isMobile = typeof window !== "undefined" && window.matchMedia(MOBILE_COURSE_MQ).matches
+    if (!isMobile) return
+
+    tabEl.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" })
+
+    const detail = detailRef.current
+    if (!detail) return
+    const rect = detail.getBoundingClientRect()
+    if (rect.top > window.innerHeight * 0.55 || rect.bottom < 120) {
+      detail.scrollIntoView({ behavior: "smooth", block: "nearest" })
+    }
+  }
 
   return (
     <section className="section section-mint" id="courses">
@@ -115,40 +135,39 @@ export default function CourseExplorerSection() {
 
         <FadeUp delay={0.08}>
           <div className="course-explorer">
-            <aside className="course-list">
-              <div className="course-list-label">IELTS Checkmate</div>
-              <StaggerChildren className="course-tab-stack" stagger={0.06} delayChildren={0.05}>
-                {COURSES.map((c) => (
-                  <RevealItem key={c.id}>
-                    <button
-                      type="button"
-                      className={`course-tab${activeTab === c.id ? " active" : ""}`}
-                      aria-pressed={activeTab === c.id}
-                      onClick={(event) => {
-                        setActiveTab(c.id)
-                        event.currentTarget.closest(".course-list")?.querySelectorAll(".course-tab").forEach((tab) => {
-                          ;(tab as HTMLButtonElement).blur()
-                        })
-                      }}
-                    >
-                      <span className={`course-dot ${c.dot}`} />
-                      <span>
-                        <b>{c.tabName}</b>
-                        <small>{c.tabSub}</small>
-                      </span>
-                      <span className="course-arrow">→</span>
-                    </button>
-                  </RevealItem>
-                ))}
-              </StaggerChildren>
+            <div className="course-sidebar">
+              <aside className="course-list">
+                <div className="course-list-label">IELTS Checkmate</div>
+                <div className="course-tab-scroll">
+                  <StaggerChildren className="course-tab-stack" stagger={0.06} delayChildren={0.05}>
+                    {COURSES.map((c) => (
+                      <RevealItem key={c.id}>
+                        <button
+                          type="button"
+                          className={`course-tab${activeTab === c.id ? " active" : ""}`}
+                          aria-pressed={activeTab === c.id}
+                          onClick={(event) => selectCourse(c.id, event.currentTarget)}
+                        >
+                          <span className={`course-dot ${c.dot}`} />
+                          <span>
+                            <b>{c.tabName}</b>
+                            <small>{c.tabSub}</small>
+                          </span>
+                          <span className="course-arrow">→</span>
+                        </button>
+                      </RevealItem>
+                    ))}
+                  </StaggerChildren>
+                </div>
+              </aside>
               <div className="course-list-note">
                 <strong>Chưa biết mình phù hợp band nào?</strong>
                 <span>Làm bài test đầu vào để được tư vấn khóa học phù hợp.</span>
                 <a href="#test">Test đầu vào miễn phí →</a>
               </div>
-            </aside>
+            </div>
 
-            <div className="course-detail">
+            <div className="course-detail" ref={detailRef}>
               <article key={activeTab} className="course-panel active">
                 <div className="course-detail-top">
                   <div>
