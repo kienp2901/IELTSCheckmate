@@ -20,6 +20,14 @@
   gap: 10px;
 }
 
+/* Hide floating chat while mobile nav drawer / MUI modal is open */
+body:has(.MuiDrawer-root.MuiModal-open) .chat-buttons-container,
+body:has(.MuiModal-root.MuiModal-open) .chat-buttons-container {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
 /* Text bubble phía trên */
 .chat-bubble-text {
   background-color: #ffffff;

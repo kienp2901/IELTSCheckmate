@@ -81,10 +81,12 @@ export default function Header() {
         onClose={closeDrawer}
         className="nav-mobile-drawer-root"
         sx={{
+          zIndex: 10000,
           "& .MuiDrawer-paper": {
             width: "min(320px, 100vw - 32px)",
             border: 0,
             boxShadow: "0 24px 64px rgba(6, 45, 35, 0.18)",
+            zIndex: 10001,
           },
         }}
       >
