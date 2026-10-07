@@ -70,17 +70,16 @@ export default function ScheduleSection() {
                   <th>Size lớp</th>
                 </tr>
               </thead>
-              <tbody>
-                <AnimatePresence mode="popLayout">
+              <AnimatePresence mode="wait">
+                <motion.tbody
+                  key={activeFilter}
+                  initial={reduced ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reduced ? undefined : { opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
                   {filteredRows.map((row) => (
-                    <motion.tr
-                      key={`${activeFilter}-${row.name}-${row.date}-${row.time}`}
-                      layout={!reduced}
-                      initial={reduced ? false : { opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduced ? undefined : { opacity: 0, y: -6 }}
-                      transition={{ duration: 0.25 }}
-                    >
+                    <tr key={`${row.name}-${row.date}-${row.time}`}>
                       <td>
                         <b>{row.name}</b>
                       </td>
@@ -95,10 +94,10 @@ export default function ScheduleSection() {
                         <span className="badge live">● Học live qua nền tảng</span>
                       </td>
                       <td>{row.size}</td>
-                    </motion.tr>
+                    </tr>
                   ))}
-                </AnimatePresence>
-              </tbody>
+                </motion.tbody>
+              </AnimatePresence>
             </table>
 
             <div className="schedule-more">
