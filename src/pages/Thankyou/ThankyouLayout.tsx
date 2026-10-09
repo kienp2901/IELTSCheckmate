@@ -274,6 +274,7 @@ const ThankyouLayout = () => {
     <>
       <CustomBreadcrumbProvider>
         <Box
+          className="landing-page"
           sx={{
             backgroundColor: "#F9F9F9",
             display: "flex",
