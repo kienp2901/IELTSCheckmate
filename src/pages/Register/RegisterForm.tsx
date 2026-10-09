@@ -27,30 +27,38 @@ import { portalApi, type IPackageData, type IDiscountCheckData } from "@/api/por
 
 // Custom styled components
 const OrderPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(3),
+  padding: theme.spacing(4),
   borderRadius: 16,
   height: "100%",
   border: "1px solid #E5E7EB",
   boxShadow: "none",
+  [theme.breakpoints.down("sm")]: {
+    padding: theme.spacing(2.5),
+  },
 }));
 
 const PromotionBox = styled(Box)(({ theme }) => ({
   backgroundColor: "#FFF9F0",
   borderRadius: 12,
-  padding: theme.spacing(2),
+  padding: theme.spacing(2.5),
   marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
+  marginBottom: theme.spacing(3),
 }));
 
 const CourseItem = styled(Box)(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: theme.spacing(2),
-  padding: theme.spacing(2),
+  alignItems: "flex-start",
+  gap: theme.spacing(3),
+  padding: theme.spacing(2.5),
   backgroundColor: "#fff",
   borderRadius: 12,
   border: "1px solid #E5E7EB",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    gap: theme.spacing(1.5),
+    padding: theme.spacing(2),
+  },
 }));
 
 const PriceText = styled(Typography)(({ theme }) => ({
@@ -306,7 +314,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <Box sx={{ p: 4 }}>
+    <Box sx={{ py: { xs: 3, md: 6 }, px: 4 }}>
       <Container
         maxWidth="lg"
         sx={{
@@ -328,7 +336,7 @@ export default function RegisterForm() {
             <Grid item xs={12}>
             <OrderPaper elevation={0} variant="outlined">
               <Box
-                sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}
+                sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 2, mb: 2.5 }}
               >
                 <Typography variant="h6" fontWeight="bold">
                   Thông tin đơn hàng
@@ -339,18 +347,18 @@ export default function RegisterForm() {
               </Box>
 
               <CourseItem>
-                <Box>
-                  <Typography variant="subtitle1" fontWeight="medium">
+                <Box sx={{ minWidth: 0 }}>
+                  <Typography variant="subtitle1" fontWeight="medium" sx={{ mb: 0.5 }}>
                     {packageData?.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
+                  <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
                     {packageData?.description}
                   </Typography>
                   <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 1 }}>
                     Thời gian: {packageData?.timeStart && formatDate(packageData.timeStart)} - {packageData?.timeEnd && formatDate(packageData.timeEnd)}
                   </Typography>
                 </Box>
-                <PriceText sx={{ fontWeight: 600 }}>
+                <PriceText sx={{ fontWeight: 600, whiteSpace: "nowrap", flexShrink: 0 }}>
                   {packageData?.amount && formatPrice(packageData.amount)}
                 </PriceText>
               </CourseItem>
@@ -358,7 +366,7 @@ export default function RegisterForm() {
               <Divider sx={{ my: 3, borderStyle: "dashed" }} />
 
               <Box
-                sx={{ display: "flex", justifyContent: "space-between", mb: 2 }}
+                sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
               >
                 <Typography variant="subtitle1" fontWeight="600">
                   Tổng học phí
@@ -370,11 +378,11 @@ export default function RegisterForm() {
 
               {/* Discount Code Section */}
               <PromotionBox>
-                <Typography variant="subtitle1" fontWeight="600" sx={{ mb: 2 }}>
+                <Typography variant="subtitle1" fontWeight="600" sx={{ mb: 1.5 }}>
                   Mã giảm giá
                 </Typography>
                 
-                <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+                <Box sx={{ display: "flex", gap: 1.5, alignItems: "stretch" }}>
                   <TextField
                     fullWidth
                     size="small"
@@ -397,9 +405,15 @@ export default function RegisterForm() {
                     onClick={handleCheckDiscount}
                     disabled={isCheckingDiscount || !discountCode.trim()}
                     sx={{
-                      minWidth: "100px",
+                      minWidth: "112px",
+                      height: 40,
+                      px: 2.5,
+                      flexShrink: 0,
+                      whiteSpace: "nowrap",
                       borderRadius: "8px",
                       textTransform: "none",
+                      fontWeight: 600,
+                      boxShadow: "none",
                       backgroundImage: "linear-gradient(90deg, #0E9F97 -5.95%, #63D0BD 100%)",
                       "&:hover": {
                         backgroundImage: "linear-gradient(90deg, #0C8C87 -5.95%, #57C0AD 100%)",
@@ -415,7 +429,7 @@ export default function RegisterForm() {
                 </Box>
 
                 {discountError && (
-                  <Typography variant="caption" color="error" sx={{ display: 'block', mb: 1 }}>
+                  <Typography variant="caption" color="error" sx={{ display: 'block', mt: 1 }}>
                     {discountError}
                   </Typography>
                 )}
@@ -427,6 +441,7 @@ export default function RegisterForm() {
                       bgcolor: '#E8F5F3', 
                       borderRadius: 2,
                       border: '1px solid #0E9F97',
+                      mt: 2,
                       mb: 2 
                     }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
@@ -447,7 +462,7 @@ export default function RegisterForm() {
                       sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        mb: 1,
+                        alignItems: "center",
                       }}
                     >
                       <Typography variant="body2">Giá được giảm</Typography>
@@ -460,7 +475,7 @@ export default function RegisterForm() {
               </PromotionBox>
 
               <Box
-                sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
+                sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}
               >
                 <Typography variant="subtitle1" fontWeight="600">
                   Tổng thanh toán
@@ -470,9 +485,9 @@ export default function RegisterForm() {
                 </Typography>
               </Box>
 
-              <Divider sx={{ my: 2 }} />
+              <Divider sx={{ my: 3 }} />
 
-              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 3 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Button
                   variant="contained"
                   onClick={handleSubmit}
