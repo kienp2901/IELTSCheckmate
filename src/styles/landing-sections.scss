@@ -53,7 +53,7 @@
   }
 
   .position-card strong {
-    font-size: 13px;
+    font-size: 14px;
     color: var(--jade-dark);
     font-weight: 700;
   }
@@ -61,7 +61,7 @@
   .position-card p {
     margin-top: 10px;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 14.5px;
     line-height: 1.75;
   }
 
@@ -169,7 +169,7 @@
   }
 
   .spell-sq span {
-    font-size: 11.5px;
+    font-size: 13px;
     line-height: 1.6;
     color: rgba(255, 255, 255, 0.65);
   }
@@ -182,7 +182,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 14px;
     padding: 15px 18px;
-    font-size: 13px;
+    font-size: 14px;
     color: rgba(255, 255, 255, 0.75);
     display: flex;
     align-items: center;
@@ -224,7 +224,7 @@
     justify-content: space-between;
     padding: 14px 0;
     border-bottom: 1px solid var(--line);
-    font-size: 13.5px;
+    font-size: 14.5px;
   }
 
   .metric:last-of-type {
@@ -247,13 +247,13 @@
   }
 
   .adjust b {
-    font-size: 13px;
+    font-size: 14px;
   }
   .adjust ul {
     margin: 8px 0 0;
     padding-left: 17px;
     color: #7a4128;
-    font-size: 12px;
+    font-size: 13.5px;
     line-height: 1.85;
   }
 
@@ -267,7 +267,7 @@
   .teach-box .row {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 13.5px;
     color: var(--muted);
   }
 
@@ -342,7 +342,7 @@
     border-radius: 999px;
     background: #fff;
     color: #5c6f68;
-    font-size: 11.5px;
+    font-size: 13px;
     font-weight: 700;
     cursor: pointer;
     transition: 0.15s;
@@ -364,14 +364,14 @@
     padding: 15px;
     border-bottom: 1px solid #edf3ef;
     text-align: left;
-    font-size: 12.5px;
+    font-size: 14px;
     vertical-align: middle;
   }
 
   .schedule-table th {
     background: #fafcfb;
     color: #7a8a83;
-    font-size: 10px;
+    font-size: 11.5px;
     text-transform: uppercase;
     letter-spacing: 0.6px;
   }
@@ -472,7 +472,7 @@
 
   .course-list-label {
     font-family: var(--mono);
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.6px;
     color: #7f938a;
@@ -523,14 +523,14 @@
 
   .course-tab b {
     display: block;
-    font-size: 12.5px;
+    font-size: 14px;
     font-weight: 700;
   }
 
   .course-tab small {
     display: block;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 11.5px;
     margin-top: 2px;
     font-family: var(--mono);
   }
@@ -586,20 +586,20 @@
 
   .course-list-note strong {
     display: block;
-    font-size: 11.5px;
+    font-size: 13.5px;
     line-height: 1.45;
   }
 
   .course-list-note span {
     display: block;
     color: var(--muted);
-    font-size: 10.5px;
+    font-size: 12.5px;
     line-height: 1.6;
     margin: 6px 0 9px;
   }
 
   .course-list-note a {
-    font-size: 10.5px;
+    font-size: 12.5px;
     color: var(--coral);
     font-weight: 800;
   }
@@ -637,7 +637,7 @@
     background: var(--jade-pale);
     color: var(--jade-dark);
     border-radius: 999px;
-    font-size: 10.5px;
+    font-size: 12px;
     font-weight: 800;
   }
 
@@ -651,7 +651,7 @@
   }
 
   .course-detail-top p {
-    font-size: 13.5px;
+    font-size: 15px;
     line-height: 1.75;
     color: var(--muted);
     max-width: 650px;
@@ -668,7 +668,7 @@
   .course-target small {
     display: block;
     color: rgba(255, 255, 255, 0.55);
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     font-weight: 700;
@@ -699,7 +699,7 @@
   .course-info-grid span {
     display: block;
     color: var(--muted-2);
-    font-size: 9.5px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.7px;
     font-weight: 700;
@@ -707,14 +707,14 @@
 
   .course-info-grid b {
     display: block;
-    font-size: 13.5px;
+    font-size: 15px;
     margin-top: 7px;
   }
 
   .course-info-grid small {
     display: block;
     color: var(--muted);
-    font-size: 9.5px;
+    font-size: 12px;
     margin-top: 3px;
   }
 
@@ -735,14 +735,14 @@
   .course-features b {
     display: block;
     color: var(--jade-dark);
-    font-size: 11.5px;
+    font-size: 13.5px;
     margin-bottom: 5px;
   }
 
   .course-features span {
     display: block;
     color: var(--muted);
-    font-size: 10.5px;
+    font-size: 13px;
     line-height: 1.65;
   }
 
@@ -764,7 +764,7 @@
 
   .course-bottom .btn {
     padding: 12px 17px;
-    font-size: 11.5px;
+    font-size: 13px;
   }
 
   .class-size-highlight {
@@ -793,7 +793,7 @@
 
   .class-size-highlight small {
     display: block;
-    font-size: 8.5px;
+    font-size: 10.5px;
     letter-spacing: 0.8px;
     color: #8a6a2a;
     font-weight: 800;
@@ -801,7 +801,7 @@
 
   .class-size-highlight strong {
     display: block;
-    font-size: 12.5px;
+    font-size: 14px;
     color: #5c451c;
     margin-top: 2px;
   }
@@ -832,7 +832,7 @@
   }
 
   .exp-card p {
-    font-size: 12px;
+    font-size: 13.5px;
     color: var(--muted);
     margin: 0;
     line-height: 1.75;
@@ -863,7 +863,7 @@
   }
 
   .student span {
-    font-size: 11px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.62);
     font-family: var(--mono);
   }
@@ -884,7 +884,7 @@
   }
 
   .student small {
-    font-size: 10.5px;
+    font-size: 12px;
     color: rgba(255, 255, 255, 0.55);
   }
 
@@ -918,7 +918,7 @@
   }
 
   .proof-item span {
-    font-size: 11px;
+    font-size: 12.5px;
     color: var(--muted);
   }
 
@@ -943,7 +943,7 @@
   }
 
   .proof-stats span {
-    font-size: 12px;
+    font-size: 13.5px;
     color: var(--muted);
   }
 
@@ -1014,7 +1014,7 @@
 
   .feedback-top span {
     display: block;
-    font-size: 10.5px;
+    font-size: 12px;
     color: var(--muted);
     margin-top: 2px;
   }
@@ -1022,13 +1022,13 @@
   .stars {
     color: var(--sun);
     letter-spacing: 2px;
-    font-size: 12px;
+    font-size: 14px;
     margin: 18px 0 10px;
     filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.1));
   }
 
   .feedback-card p {
-    font-size: 12.5px;
+    font-size: 13.5px;
     line-height: 1.8;
     color: #455a52;
     margin: 0;
@@ -1056,7 +1056,7 @@
 
   .feedback-result span {
     display: block;
-    font-size: 8.5px;
+    font-size: 10.5px;
     line-height: 1.4;
     letter-spacing: 0.6px;
     color: var(--muted-2);
@@ -1075,7 +1075,7 @@
   .feedback-result strong {
     display: block;
     color: var(--ink);
-    font-size: 11px;
+    font-size: 12.5px;
     line-height: 1.4;
     margin-top: 6px;
   }
@@ -1087,7 +1087,7 @@
     flex-wrap: wrap;
     margin-top: 22px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 12.5px;
     font-weight: 600;
   }
 
@@ -1132,7 +1132,7 @@
 
   .teacher p {
     margin: 0;
-    font-size: 11.5px;
+    font-size: 13px;
     color: var(--muted);
   }
 
@@ -1163,14 +1163,14 @@
   }
 
   .commitment p {
-    font-size: 13.5px;
+    font-size: 15px;
     color: rgba(255, 255, 255, 0.68);
     max-width: 700px;
     margin: 0;
   }
 
   .commitment ul {
-    font-size: 11.5px;
+    font-size: 13.5px;
     color: rgba(255, 255, 255, 0.6);
     line-height: 1.95;
     margin: 15px 0 0;
@@ -1178,7 +1178,7 @@
   }
 
   .foot-star {
-    font-size: 11px;
+    font-size: 12.5px;
     color: rgba(255, 255, 255, 0.5);
     margin: 15px 4px 0;
   }
@@ -1358,7 +1358,7 @@
     width: 100%;
     cursor: pointer;
     font: inherit;
-    font-size: 13.5px;
+    font-size: 15px;
     font-weight: 700;
     color: inherit;
     background: none;
@@ -1383,8 +1383,18 @@
     overflow: hidden;
   }
 
+  .faq-trigger:focus {
+    outline: none;
+  }
+
+  .faq-trigger:focus-visible {
+    outline: 2px solid var(--jade-2);
+    outline-offset: 4px;
+    border-radius: 6px;
+  }
+
   .faq-answer p {
-    font-size: 11.5px;
+    font-size: 14px;
     color: var(--muted);
     line-height: 1.75;
     margin: 11px 0 0;

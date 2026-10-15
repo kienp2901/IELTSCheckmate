@@ -17,9 +17,14 @@ export default function Footer() {
             <a className="logo" href={sectionHref("#top")} aria-label="IELTS Checkmate">
               <img src={logo} alt="IELTS Checkmate" style={{ height: "48px", width: "auto", display: "block" }} />
             </a>
-            <p style={{ marginTop: "16px", maxWidth: "340px" }}>
-              Học có người dẫn. Luyện có AI. Lộ trình thay đổi theo chính bạn.
-            </p>
+            <div className="footer-tagline">
+              <p>Học thông minh hơn. Tiến xa hơn.</p>
+              <p>Học có người dẫn. Luyện cùng AI. Lộ trình dành riêng cho bạn.</p>
+            </div>
+            <div className="footer-company">
+              <strong>CÔNG TY TNHH CÔNG NGHỆ GIÁO DỤC MICROGEM</strong>
+              <p>Giấy chứng nhận số: 0110742445</p>
+            </div>
           </div>
           <div>
             <h4>Sản phẩm</h4>
